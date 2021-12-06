@@ -1,0 +1,445 @@
+<html lang="us">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <!--<link href="style.css" rel="stylesheet">-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <style type="text/css">
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #ffffff;
+            background-color: #2d2d2d;
+        }
+
+        /* STRUCTURE */
+
+        .wrapper {
+            padding: 5px;
+            max-width: 960px;
+            width: 95%;
+            margin: 20px auto;
+        }
+
+        header {
+            padding: 0 15px;
+        }
+        input,select {
+            background-color: #2d2d2d;
+        }
+        .columns {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            margin: 5px 0;
+        }
+
+        .column {
+            flex: 1;
+            border: 1px solid gray;
+            margin: 2px;
+            padding: 10px;
+            background-color: #232323;
+        }
+
+        .column2 {
+            flex: 2;
+            border: 1px solid gray;
+            margin: 2px;
+            padding: 10px;
+            background-color: #232323;
+        }
+
+        footer {
+            padding: 0 15px;
+        }
+
+        .columns label {
+            display: block;
+            margin: 1em 0 0.3em 0;
+            font-weight: bold;
+        }
+        .columns h2{
+            text-align: center;
+        }
+
+        .ui-slider {
+            margin-top: 0.7em;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+            ul li {
+                margin-bottom: 0.6em;
+                display: grid;
+            }
+
+                ul li span:first-child {
+                    display: block;
+                    margin-bottom: 0.2em;
+                }
+
+                    ul li span:first-child::after {
+                        content: ':';
+                    }
+
+                ul li span:last-child {
+                    font-weight: bold;
+                    padding-left: 1.5em;
+                }
+
+
+       /* @media screen and (max-width: 980px) {
+            .columns .column {
+                margin-bottom: 5px;
+                flex-basis: 40%;
+                &:nth-last-child(2)
+
+        {
+            margin-right: 0;
+        }
+
+        &:last-child {
+            flex-basis: 100%;
+            margin: 0;
+        }
+
+        }
+        }*/
+
+        @media screen and (max-width: 680px) {
+            .columns .column {
+                flex-basis: 100%;
+                margin: 0 0 5px 0;
+            }
+        }
+    </style>
+    <script  type="text/javascript">
+        var allGames = {
+            'hfov': {
+                "hFov": {
+                    decimals: 0,
+                    factor: 1
+                },
+                "vFov": {
+                    decimals: 0,
+                    factor: 1
+                },
+                "Project CARS 1/2": {
+                    min: 35,
+                    max: 180,
+                    decimals: 0,
+                    factor: 1
+                },
+                // "European & American Truck Simulator": {
+                //     min: 35,
+                //     max: 180,
+                //     decimals: 0,
+                //     factor: 1
+                // }
+            },
+            // 'hfovrad': {
+            //     "Richard Burns Rally": {
+            //         min: 10,
+            //         max: 180,
+            //         decimals: 6,
+            //         factor: 1
+            //     }
+            // },
+            'hfov_base_step': {
+                "F1 2020/2021/+": { // https://www.reddit.com/r/F1Game/comments/7x0of9/codemasters_f1_20162017_fov_slider/
+                    min: -1,
+                    max: +1,
+                    decimals: 2,
+                    factor: 1,
+                    base: 77, // Base values for other cameras: T-Cam + Nose: 82, T-Cam with offset: 85
+                    increment: 2,
+                    step: 0.05, // slider step
+                }
+            },
+            'vfov': {
+                "Assetto Corsa, Assetto Corsa Competizione": {
+                    min: 10,
+                    max: 120,
+                    decimals: 1,
+                    factor: 1
+                },
+                "rFactor 1 & 2, GSC, GSCE, SCE, AMS": {
+                    min: 10,
+                    max: 100,
+                    decimals: 0,
+                    factor: 1
+                },
+                // "DiRT Rally 1/2, GRID Autosport": {
+                //     min: 10,
+                //     max: 115,
+                //     decimals: 0,
+                //     factor: 2
+                // }
+            },
+            'vfovx': {
+                "RaceRoom Racing Experience": {
+                    min: 0.5,
+                    max: 1.5,
+                    decimals: 1,
+                    factor: 1,
+                    baseSingle: 58,
+                    baseTriple: 40
+                },
+                // "GTR2": {
+                //     min: 0.5,
+                //     max: 1.5,
+                //     decimals: 1,
+                //     factor: 1,
+                //     baseSingle: 58,
+                //     baseTriple: 58
+                // },
+                // "Race07": {
+                //     min: 0.4,
+                //     max: 1.5,
+                //     decimals: 1,
+                //     factor: 1,
+                //     baseSingle: 58,
+                //     baseTriple: 58
+                // }
+            },
+            'tangle': {
+                "Triple Screen Angle": {
+                    min: 10,
+                    max: 180,
+                    decimals: 2,
+                    factor: 1
+                }
+            }
+        };
+
+        $(document).ready(function () {
+            $("select").selectmenu({
+                change: function (event, data) {
+                    calculateFOV();
+                }
+            });
+
+            var screensizeHandle = $('#screensize-handle');
+            var distanceHandle = $('#distance-handle');
+            var bezelHandle = $('#bezel-handle');
+
+            $("#screensizeSlider").slider({
+                range: false,
+                value: 31,
+                min: 20,
+                max: 80,
+                create: function () {
+                    screensizeHandle.text($(this).slider("value") + '\'\'');
+                    $("#screensize").val($(this).slider("value"));
+                },
+                slide: function (event, ui) {
+                    screensizeHandle.text(ui.value + '\'\'');
+                    $("#screensize").val(ui.value);
+                    calculateFOV();
+                }
+            });
+
+            $("#distanceSlider").slider({
+                range: false,
+                value: 60,
+                min: 30,
+                max: 200,
+                step: 1,
+                create: function () {
+                    distanceHandle.text($(this).slider("value"));
+                    $("#distance").val($(this).slider("value"));
+                },
+                slide: function (event, ui) {
+                    distanceHandle.text(ui.value);
+                    $("#distance").val(ui.value);
+                    calculateFOV();
+                }
+            });
+
+            $("#bezelSlider").slider({
+                range: false,
+                value: 0,
+                min: 0,
+                max: 100,
+                create: function () {
+                    bezelHandle.text($(this).slider("value"));
+                    $("#bezel").val($(this).slider("value"));
+                },
+                slide: function (event, ui) {
+                    bezelHandle.text(ui.value);
+                    $("#bezel").val(ui.value);
+                    calculateFOV();
+                }
+            });
+
+            calculateFOV();
+        });
+
+        function calculateFOV() {
+
+            var screenRatio = $('#screenRatio').val();
+            var x = parseFloat(screenRatio.substring(0, screenRatio.indexOf('_')));
+            var y = parseFloat(screenRatio.substring(screenRatio.indexOf('_') + 1));
+
+            var screens = parseInt($('#screens').val());
+            var screensizeDiagonal = parseFloat($('#screensize').val()) * 2.54;
+            var distanceToScreenInCm = parseFloat($('#distance').val());
+            var bezelThickness = parseFloat($('#bezel').val()) / 10 * 2;
+
+            var height = Math.sin(Math.atan(y / x)) * screensizeDiagonal;
+            var width = Math.cos(Math.atan(y / x)) * screensizeDiagonal + (screens > 1 ? bezelThickness : 0);
+
+            var hAngle = _calcAngle(width, distanceToScreenInCm);
+            var vAngle = _calcAngle(height, distanceToScreenInCm);
+            var arcConstant = (180 / Math.PI);
+            //console.log(allGames);
+            var array = [];
+            for (var calcGroup in allGames) {
+                for (var gameName in allGames[calcGroup]) {
+                    var game = allGames[calcGroup][gameName];
+
+                    // Calculate game.
+                    var value = '';
+                    var unit;
+                    if (calcGroup == 'hfov' || calcGroup == 'hfov_base_step') {
+                        value = arcConstant * (hAngle * screens);
+                        unit = '°';
+                    } else if (calcGroup == 'vfov' || calcGroup == 'vfovx') {
+                        value = arcConstant * vAngle;
+                        unit = '°';
+                    } else if (calcGroup == 'hfovrad') {
+                        value = arcConstant * _calcAngle(width / x * y / 3 * 4, distanceToScreenInCm);
+                        unit = 'rad';
+                    } else if (calcGroup == 'tangle') {
+                        value = arcConstant * hAngle;
+                        unit = '°';
+                    }
+
+                    // Factor.
+                    value *= game.factor;
+
+                    // Further calculations.
+                    if (calcGroup == 'vfovx') {
+                        value /= (screens == 1 ? game.baseSingle : game.baseTriple);
+                        unit = 'x';
+                    }
+
+                    if (calcGroup == 'hfov_base_step') {
+                        // ((target - base) / increemnt) * step
+                        value = Math.round((value - game.base) / game.increment) * game.step;
+                        unit = '';
+                    }
+
+                    // Check min/max.
+                    value = game.min ? Math.max(value, game.min) : value;
+                    value = game.max ? Math.min(value, game.max) : value;
+
+                    // Final calculations.
+                    if (calcGroup.indexOf('hfovrad') != -1) {
+                        value *= (Math.PI / 180);
+                    }
+
+                    // Output.
+                    var base = Math.pow(10, game.decimals);
+                    html = '<li>';
+                    html += '<span>' + gameName + '</span>';
+                    html += '<span>' + (Math.round(value * base) / base).toFixed(game.decimals) + unit + '</span>';
+                    html += '</li>';
+                    array.push(html);
+                }
+            }
+            //console.log(array)
+            var sizeone = Math.floor(array.length / 2);
+            var html = '<ul>';
+            for (var i = 0; i < sizeone; i++) {
+                html += array[i];
+            }
+            html += '</ul>';
+            var html1 = '<ul>';
+            for (var j = (sizeone); j < array.length; j++) {
+                //alert(array[j]);
+                html1 += array[j];
+            }
+            html1 += '</ul>';
+
+            $('#fov1').html(html);
+            $('#fov2').html(html1);
+        }
+
+        function _calcAngle(baseInCm, distanceToMonitorInCm) {
+            return Math.atan(baseInCm / 2 / distanceToMonitorInCm) * 2;
+            return angle * (180 / Math.PI);
+        }
+
+    </script>
+</head>
+<body>
+    <div>
+        <section class="columns">
+            <div class="column">
+                <h2>Select Inputs</h2>
+                <label for="screenRatio">Screen Ratio</label>
+                <select name="screenRatio" id="screenRatio">
+                    <option value="16_9">16:9</option>
+                    <option value="16_10">16:10</option>
+                    <option value="21_9">21:9</option>
+                    <option value="24_10">24:10</option>
+                    <option value="32_9">32:9</option>
+                    <option value="32_10">32:10</option>
+                    <option value="5_4">5:4</option>
+                    <option value="4_3">4:3</option>
+                </select>
+
+                <label for="screensizeSlider">Screen Size (inch)</label>
+                <div id="screensizeSlider">
+                    <div id="screensize-handle" class="ui-slider-handle myhandle"></div>
+                </div>
+                <input type="hidden" id="screensize" />
+
+                <label for="distanceSlider">Distance to Screen (cm)</label>
+                <div id="distanceSlider">
+                    <div id="distance-handle" class="ui-slider-handle myhandle"></div>
+                </div>
+                <input type="hidden" id="distance" />
+
+                <label for="screens">Screens</label>
+                <select name="screens" id="screens">
+                    <option value="1">Single Screen</option>
+                    <option value="3">Triple Screens</option>
+                </select>
+
+                <label for="bezelSlider">Bezel Thickness for Triple Screen (mm)</label>
+                <div id="bezelSlider">
+                    <div id="bezel-handle" class="ui-slider-handle myhandle"></div>
+                </div>
+                <input type="hidden" id="bezel" />
+
+            </div>
+            <div class="column2">
+                <h2>FOV Results</h2>
+                <section class="columns">
+                    <div class="column">
+                        <div id="fov1"></div>
+                    </div>
+                    <div class="column">
+                        <div id="fov2"></div>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
