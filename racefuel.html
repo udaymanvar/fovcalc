@@ -1,0 +1,279 @@
+<html lang="us">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+    <!--<link href="style.css" rel="stylesheet">-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+    <style type="text/css">
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: #ffffff;
+            background-color: #2d2d2d;
+            align-content: center;
+        }
+
+        .elementor-widget-container {
+            font-size: 1.2em;
+            max-width: 700px;
+            margin: auto;
+        }
+        /* STRUCTURE */
+        .wrapper {
+            padding: 5px;
+            max-width: 960px;
+            width: 95%;
+            margin: 20px auto;
+        }
+
+        header {
+            padding: 0 15px;
+        }
+
+        input, select, button {
+            background-color: #2d2d2d;
+            color: white;
+            line-height: 30px;
+            padding: 5px 10px;
+            text-align:center;
+        }
+
+        button {
+            min-width: 100px;
+        }
+
+        .srfchelp {
+            font-size: 0.8em;
+            color: lightblue;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #txtRace, #txtLaps {
+            min-width: 210px;
+        }
+
+        .form-group1 {
+            margin: 10px;
+        }
+
+        .laps {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: #9a9a9a;
+            display: inline-block;
+            padding-left: 25px;
+            padding-right: 25px;
+            border-top: double #ec242c 6px;
+            min-width: 200px;
+        }
+
+        .error {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: #9a9a9a;
+            display: inline-block;
+            padding-left: 25px;
+            padding-right: 25px;
+            border-top: double #ec242c 6px;
+            min-width: 200px;
+        }
+
+        .warning {
+            background: rgba(0,0,0,0.5);
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: solid #ec242c 1px;
+            border-radius: 3px;
+            color: #ec242c;
+        }
+
+        .success {
+            background: rgba(0,0,0,0.7);
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-bottom: solid #ec242c 1px;
+            color: #ec242c;
+            transition: all 0.2s ease-in-out;
+            border-radius: 3px !important;
+        }
+    </style>
+    <script type="text/javascript">
+        var ResetForm = function (e) {
+            $("#txtRace").val('');
+            $("#txtLaps").val('');
+            $("#lapMinutes").val('1');
+            $("#lapSeconds").val('0');
+            $("#lapMilliseconds").val('0');
+            $("#fuelPerLap").val('0');
+            $("#totalLaps").html('0');
+            $("#minimumTotalToTake").html('0');
+            $("#conservativeTotalToTake").html('1');
+            $("#totalToTake").html('0');
+        };
+
+        var selectedTab = 'laps';
+
+        var calculate = function () {
+            var lapMinutes = parseInt($("#lapMinutes").val());
+            var lapSeconds = parseInt($("#lapSeconds").val());
+            var lapMilliseconds = parseInt($("#lapMilliseconds").val());
+            var raceMinutes = parseInt($("#txtRace").val());
+            var lapsasTaken = parseInt($("#txtLaps").val());
+            var fuelPerLap = parseFloat($("#fuelPerLap").val());
+            var minimumFuel = 0.0;
+            var secondsPerLap = 0.0;
+            var startingFuel = 0.0;
+
+            secondsPerLap = lapMinutes * 60 + parseFloat(lapSeconds + "." + lapMilliseconds);
+            if (selectedTab == 'laps') {
+                totalLaps = Math.ceil(raceMinutes * 60 / secondsPerLap);
+            }
+            else if (selectedTab == 'time') {
+                totalLaps = Math.ceil(((lapsasTaken * secondsPerLap) / 60));
+            }
+            if (isNaN(totalLaps))
+                totalLaps = 0;
+
+            // minimum fuel
+            if (selectedTab == 'laps') {
+                $("#totalLaps").html(totalLaps);
+                minimumFuel = parseFloat(totalLaps) * fuelPerLap;
+                $("#minimumTotalToTake").html((minimumFuel - startingFuel).toFixed(0));
+            }
+            else if (selectedTab == 'time') {
+                $("#totalLaps").html(totalLaps + "'");
+                minimumFuel = parseFloat(lapsasTaken) * fuelPerLap;
+                $("#minimumTotalToTake").html((minimumFuel - startingFuel).toFixed(0));
+            }
+
+            // total fuel
+            if (selectedTab == 'laps') {
+                totalFuel = parseFloat(totalLaps + 1.2) * fuelPerLap;
+                $("#totalToTake").html((totalFuel - startingFuel).toFixed(0));
+            }
+            else if (selectedTab == 'time') {
+                totalFuel = parseFloat(lapsasTaken + 1.2) * fuelPerLap;
+                $("#totalToTake").html((totalFuel - startingFuel).toFixed(0));
+            }
+            // conservative total fuel
+            if (selectedTab == 'laps') {
+                conservativeTotalFuel = parseFloat(totalLaps + 2) * (fuelPerLap);
+                $("#conservativeTotalToTake").html((conservativeTotalFuel - startingFuel + 1).toFixed(0));
+            }
+            else if (selectedTab == 'time') {
+                conservativeTotalFuel = parseFloat(lapsasTaken + 2) * (fuelPerLap);
+                $("#conservativeTotalToTake").html((conservativeTotalFuel - startingFuel + 1).toFixed(0));
+            }
+        };
+
+        $(document).ready(function () {
+            ResetForm();
+            calculate();
+
+            $("#btnTime").on("click", function (e) {
+                $("#btnTime").css("background-color", "#ec242c");
+                $("#btnLaps").css("background-color", "rgba(0,0,0,0.5)");
+                $("#lblRace").removeClass("hide");
+                $("#txtRace").removeClass("hide");
+                $("#lblLaps").addClass("hide");
+                $("#txtLaps").addClass("hide");
+                $("#lblTotalLaps").removeClass("hide");
+                $("#lblTotalRaceLength").addClass("hide");
+                selectedTab = 'laps';
+                ResetForm();
+            });
+            $("#btnLaps").on("click", function (e) {
+                $("#btnLaps").css("background-color", "#ec242c");
+                $("#btnTime").css("background-color", "rgba(0,0,0,0.5)");
+                $("#lblRace").addClass("hide");
+                $("#txtRace").addClass("hide");
+                $("#lblLaps").removeClass("hide");
+                $("#txtLaps").removeClass("hide");
+                $("#lblTotalLaps").addClass("hide");
+                $("#lblTotalRaceLength").removeClass("hide");
+                selectedTab = 'time';
+                ResetForm();
+            });
+
+            $("select").selectmenu({
+                change: function (event, data) {
+                    calculateFOV();
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div class="elementor-widget-container">
+        <center>
+            <div ng-app="app" class="ng-scope">
+                <div ng-controller="appController" class="ng-scope">
+                    <div class="row" style="margin-bottom: 20px;">
+                        <button id="btnTime" class="switch" style="background-color: #ec242c">Time</button>
+                        <button id="btnLaps" class="switch" style="background-color: rgba(0, 0, 0, 0.5);">Laps</button>
+                        <div class="srfchelp">Is your race based on time duration or on number of laps?</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group1">
+                                <label id="lblRace" class="">Race length (in minutes)</label>
+                                <label id="lblLaps" class="hide">Laps</label>
+                                <br />
+                                <input id="txtRace" type="number" min="0" placeholder="Race length in min. (e.g. 20)" class="form-control" onchange="calculate()">
+                                <input id="txtLaps" type="number" min="0" placeholder="Number of laps (e.g. 12)" class="form-control hide" onchange="calculate()">
+                            </div>
+                            <div class="form-group1">
+                                <label>Lap time</label>
+
+                                <br />
+                                <div class="form-inline">
+                                    <input type="number" min="0" placeholder="Min" class="form-control ng-valid ng-not-empty ng-dirty ng-touched" id="lapMinutes" onchange="calculate()"> .
+                                    <input type="number" min="0" placeholder="Sec" class="form-control ng-valid ng-not-empty ng-dirty ng-touched" id="lapSeconds" onchange="calculate()"> :
+                                    <input type="number" min="0" placeholder="Ms" class="form-control ng-valid ng-not-empty ng-dirty ng-touched" id="lapMilliseconds" onchange="calculate()">
+                                </div>
+                                <div class="srfchelp"><strong>Min : Sec : Ms </strong>- *No need to fill milliseconds.</div>
+                            </div>
+                            <div class="form-group1">
+                                <label>Fuel per lap</label>
+                                <br />
+                                <input type="number" min="0" step="0.1" placeholder="Fuel consumption per lap (e.g. 3.7)" style="min-width:250px;" class="form-control ng-valid ng-not-empty ng-dirty ng-touched" id="fuelPerLap" onchange="calculate()">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group1 laps">
+                                <label id="lblTotalLaps" class="">Total Laps</label>
+                                <label id="lblTotalRaceLength" class="hide">Race Length</label><br />
+                                <span class="form-control ng-binding" disabled="" id="totalLaps">0</span>
+                            </div>
+                            <div class="form-group1 error">
+                                <label class="control-label">Minimum Fuel</label><br />
+                                <span class="form-control ng-binding" disabled="" id="minimumTotalToTake">0</span>
+                            </div>
+                            <div class="form-group1 warning">
+                                <label class="control-label">Safe (Full formation lap)</label><br />
+                                <span class="form-control ng-binding" id="conservativeTotalToTake">1</span>
+                            </div>
+                            <div class="form-group1 success">
+                                <label class="control-label">Recommended Fuel</label><br />
+                                <span class="form-control ng-binding" id="totalToTake">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </center>
+    </div>
+</body>
+</html>
