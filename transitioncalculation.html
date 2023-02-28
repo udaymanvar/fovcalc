@@ -1,0 +1,270 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Bereken je transitievergoeding 2023
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: #19a7b1;
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        fieldset {
+            background-color: #eeeeee;
+        }
+
+        legend {
+            background-color: #868e96 !important;
+            color: white;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <h5 class="heading display-5 pb-3">Bereken je transitievergoeding 2023</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="">
+                                Datum in dienst
+                            </label>
+                            <div class="input-group">
+                                <input type="text"
+                                       class="form-control dateinput"
+                                       id="txtStartDate" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Datum uit dienst</label>
+                            <div class="input-group">
+                                <input type="text"
+                                       class="form-control dateinput"
+                                       id="txtEndDate" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">Bruto maandinkomen</label>
+                            <div class="input-group">
+                                <span class="input-group-addon">€</span>
+                                <input type="number" class="form-control" id="txtMonthlyIncome" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="">&nbsp;</label>
+                            <div class="input-group">
+                                <button type="button" class="btn button" id="btnCalculate">Bereken jouw Transitievergoeding</button>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="">&nbsp;</label>
+                            <div class="input-group">
+                                <button type="button" class="btn button" id="btnPrint">Printen of opslaan</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="divPrintable">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <h5 class="heading display-5 pb-3">
+                        Dit is jouw transitievergoeding:
+                    </h5>
+                    <div class="container-fluid d-none" id="divResult">
+                        <fieldset>
+                            <legend>Gegevens werknemer</legend>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-4 col-form-label text-right">Datum in dienst</label>
+                                <label class="col-sm-8 col-form-label" id="lblStartDate">1 januari 1990</label>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-4 col-form-label text-right">Datum uit dienst</label>
+                                <label class="col-sm-8 col-form-label" id="lblEndDate">1 januari 1990</label>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-4 col-form-label text-right">Bruto maandinkomen</label>
+                                <label class="col-sm-8 col-form-label" id="lblMonthlyIncome">€ 100,00</label>
+                            </div>
+                        </fieldset>
+                        <br />
+                        <fieldset>
+                            <legend>Duur dienstverband</legend>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-4 col-form-label text-right">Duur dienstverband</label>
+                                <label class="col-sm-8 col-form-label" id="lblLength"></label>
+                            </div>
+                        </fieldset>
+                        <br />
+                        <fieldset>
+                            <legend>Berekening transitievergoeding</legend>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-4 col-form-label text-right" id="lblyear">0 x € 100,00 x 1/3</label>
+                                <label class="col-sm-8 col-form-label" id="lblyearAmount">€ 0,00</label>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-4 col-form-label text-right" id="lblmonth">2 x € 100,00 x 1/3 x 1/12</label>
+                                <label class="col-sm-8 col-form-label" id="lblmonthAmount">€ 5,56</label>
+                            </div>
+                            <div class="mb-3 row">
+                                <label for="staticEmail" class="col-sm-4 col-form-label text-right" id="lblday">1 x € 100,00 x 1/3 x 1/365</label>
+                                <label class="col-sm-8 col-form-label" id="lbldayAmount">€ 0,09</label>
+                            </div>
+                            <div class="mb-3 row bg-secondary text-white">
+                                <label for="staticEmail" class="col-sm-4 col-form-label text-right " id="lblTotal">Transitievergoeding</label>
+                                <label class="col-sm-8 col-form-label" id="lbltotalAmount">€ 5,65</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"
+            integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.nl.min.js"
+            integrity="sha512-wu9KQfee2uV8RE+AhP6OasxHAeRX+HTTg5MeyKwmzhCv1keCegwJ2DxQSk4bcUUUnVEejzT9jkrm0+HdNUNOsw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.js'></script>
+
+    <script src='https://doersguild.github.io/jQuery.print/jQuery.print.js'></script>
+
+    <script type="text/JavaScript">
+
+        $('.dateinput').each(function () {
+            $(this).datepicker({
+                language: 'nl',
+                formate: 'DD-MM-YYYY',
+            });
+        });
+
+        $("#btnPrint").on('click', function () {
+            $("#divPrintable").print();
+        });
+
+
+        Date.prototype.addDays = function (days) {
+            var date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+
+        $("#btnCalculate").on('click', function () {
+            $("#divOutput").html("");
+
+            var startDate = $("#txtStartDate").val();
+            var endDate = $("#txtEndDate").val();
+            var monthlyIncome = parseFloat($("#txtMonthlyIncome").val());
+
+            var dtStartDate = moment(startDate, "DD-MM-YYYY").toDate();
+            var dtEndDate = moment(endDate, "DD-MM-YYYY").toDate().addDays(1);
+			var dtEndDate1 = moment(endDate, "DD-MM-YYYY").toDate();
+
+
+            var diffHuman = moment.preciseDiff(dtStartDate, dtEndDate, true);
+            console.log(diffHuman);
+			
+			moment.updateLocale('nl', {
+			  longDateFormat: {
+				LL : "DD MMMM YYYY'", // Oct 6th, 4:27 PM
+			  }
+			});
+
+            $("#lblStartDate").html(dtStartDate.toLocaleString("nl-NL",{dateStyle: "long"}));
+			$("#lblEndDate").html(dtEndDate1.toLocaleString("nl-NL",{dateStyle: "long"}));
+			
+            $("#lblMonthlyIncome").html("€ " + monthlyIncome.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+            $("#lblLength").html(diffHuman.years + " jaren, " + diffHuman.months + " maanden, " + diffHuman.days + " dag");
+
+            $("#lblyear").html(diffHuman.years + " x € " + monthlyIncome.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " x 1/3");
+            $("#lblmonth").html(diffHuman.months + " x € " + monthlyIncome.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " x 1/3 x 1/12");
+            $("#lblday").html(diffHuman.days + " x € " + monthlyIncome.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " x 1/3 x 1/365");
+
+            $("#divResult").removeClass("d-none");
+
+            var yearAmt = diffHuman.years * monthlyIncome * (1 / 3);
+            var monthAmt = diffHuman.months * monthlyIncome * (1 / 3) * (1 / 12);
+            var dayAmt = diffHuman.days * monthlyIncome * (1 / 3) * (1 / 365);
+
+            var total = yearAmt + monthAmt + dayAmt;
+            $("#lblyearAmount").html("€ " + yearAmt.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            $("#lblmonthAmount").html("€ " + monthAmt.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            $("#lbldayAmount").html("€ " + dayAmt.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+            $("#lbltotalAmount").html("€ " + total.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+
+        });
+
+
+    </script>
+</body>
+</html>
