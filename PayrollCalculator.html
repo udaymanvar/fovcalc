@@ -76,6 +76,12 @@
             padding-left: 5px;
         }
     </style>
+    <script type="text/javascript">
+function resize() {
+  var height = document.getElementsByTagName("html")[0].scrollHeight;
+  window.parent.postMessage(["setHeight", height], "*"); 
+}
+</script>
 </head>
 <body class="bg-light">
     <div class="container">
