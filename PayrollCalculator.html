@@ -1,0 +1,1287 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Payroll Calculator</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <style>
+        h4,h5, h6 {
+            padding: 5px 10px;
+            color: #f7f8f9;
+            width: 100%;
+            background-color: midnightblue;
+        }
+         h6 {
+            padding: 5px 10px;
+            color: #000000;
+            width: 100%;
+            background-color: #b5b2b2;
+            text-align: center;
+        }
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        input[type=checkbox] {
+            max-width: 25px;
+        }
+        
+        input.bold {
+            font-weight:bold;
+        }
+
+        input[readonly="readonly"] {
+            text-align:right;
+        }
+        .form-control{
+            padding: 0.1rem 0.2rem;
+        }
+
+        .col-2 {
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <h4 class="heading display-5 pb-3">Input your employee details here</h4>
+                    <form>
+                        <div class="form-group row">
+                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Employee's annual gross salary:</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="txtAnualGrossSalary" placeholder="" >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtReadline" class="col-sm-4 col-form-label">National Insurance Category Letter:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="txtInsCategory">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="F">F</option>
+                                    <option value="H">H</option>
+                                    <option value="I">I</option>
+                                    <option value="J">J</option>
+                                    <option value="L">L</option>
+                                    <option value="M">M</option>
+                                    <option value="S">S</option>
+                                    <option value="V">V</option>
+                                    <option value="Z">Z</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label><i>A is the most common letter</i> </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtFinance" class="col-sm-4 col-form-label">Student Loan:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="txtSTloan">
+                                    <option value="Plan 1">Plan 1</option>
+                                    <option value="Plan 2">Plan 2</option>
+                                    <option value="Plan 4">Plan 4</option>
+                                    <option value="Postgraduate">Postgraduate</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtPPW" class="col-sm-4 col-form-label">Employee Pension contribution (%):</label>
+                            <div class="col-sm-2">
+                                <input type="number" min="0" class="form-control" id="txtEmployeePC" placeholder="" value="5">
+                            </div>
+                            <div class="col-sm-6">
+                                <label><i> If no pension, input 0%</i> </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtPPW" class="col-sm-4 col-form-label">Employer Pension contribution (%):</label>
+                            <div class="col-sm-2">
+                                <input type="number" min="0" class="form-control" id="txtEmployerPC" placeholder="" value="3">
+                            </div>
+                            <div class="col-sm-6">
+                                <label><i> 3% is the minimum employer contribution for eligible jobholders pension and non-eligible jobholders who opted-in </i> </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="row">
+                                    <input type="button" class="col-5 btn mb-3 mr-2" id="btnCalculate" value="Calculate" />
+                                    <input type="button" class="col-5 btn mb-3 mr-2" id="btnReset" value="Reset" />
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="heading display-5 pb-3">Salary calculator</h4>
+                        <h6>Take-home Pay Calculator</h6>
+                        <div class="form-group">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>Yearly</b></label>
+                                    <label class="col-2 col-form-label"><b>Monthly</b></label>
+                                    <label class="col-2 col-form-label"><b>Weekly</b></label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">Gross Salary</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="b18" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="c18" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="d18" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">Adjusted personal allowance</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="b19" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="c19" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="d19" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">Taxable income</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b20" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c20" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d20" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>PAYE tax split</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">PAYE basic rate taxable income</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b23" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c23" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d23" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">PAYE higher tax rate</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b24" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c24" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d24" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE additional tax rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b25" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c25" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d25" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>PAYE deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE charged at basic rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b28" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c28" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d28" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE charged at higher rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b29" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c29" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d29" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE charged at additional rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b30" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c30" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d30" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Total PAYE deducted
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b31" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c31" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d31" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>NIC deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                NIC taxed at PT to LEL
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b34" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c34" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d34" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                NIC taxed above UEL
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b35" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c35" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d35" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Employee NIC deducted
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b36" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c36" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d36" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>Student Loan Deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Plan 1
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b39" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c39" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d39" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Plan 2
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b40" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c40" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d40" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Plan 4
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b41" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c41" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d41" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Postgraduate loan
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b42" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c42" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d42" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Total loan deductions
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b43" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c43" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d43" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>Pension deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Pensionable earnings
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b46" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c46" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d46" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Employee pension contributions
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b47" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c47" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d47" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row bg-light">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                <b>Take Home Pay</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b49" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c49" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d49" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <h6>Cost to Employer calculator</h6>
+                        <div class="form-group">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>Yearly</b></label>
+                                    <label class="col-2 col-form-label"><b>Monthly</b></label>
+                                    <label class="col-2 col-form-label"><b>Weekly</b></label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">Gross Salary</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="g18" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="h18" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="i18" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Employer Pension contributions
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="g19" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="h19" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="i19" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Employer NIC
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="g20" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="h20" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="i20" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row bg-light">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                <b>Total Cost to Employer</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="g21" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="h21" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="i21" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+    <script type="text/JavaScript">
+
+        var calculate = function () {
+            var AnualGS = parseFloat($("#txtAnualGrossSalary").val());
+            var b7 = $("#txtInsCategory").val();
+            var b8 = $("#txtSTloan").val();
+            var b9 = parseFloat($("#txtEmployeePC").val());
+            var b10 = parseFloat($("#txtEmployerPC").val());
+
+            var b18 = AnualGS;
+            var c18 = Math.ceil(b18 / 12);
+            var d18 = Math.ceil(b18 / 52);
+
+            var b19 = 12570.0;
+            
+            if (b18 > 100000)
+                b19 = b19 - Math.min(b18, (100000 + (2 * b19)) - 100000) / 2;
+            else
+                b19 = b19 - 0;
+
+            var c19 = Math.ceil(b19 / 12);
+            var d19 = Math.ceil(b19 / 52);
+
+            var b23 = 0;
+            if (b18 < b19)
+                b23 = 0;
+            else {
+                if (b18 > 50270.0)
+                    b23 = 50270.0 - 12570.0;
+                else
+                    b23 = b18 - 12570.0;
+            }
+
+            // Pension deductions
+
+            var HMRCb33 = 6240;
+            var HMRCb34 = 50270;
+            var HMRCb35 = b10 / 100.00;
+            var HMRCb36 = b9 / 100.00;
+
+            var b46 = 0;
+            if (b18 > HMRCb34)
+                b46 = HMRCb34 - HMRCb33;
+            else {
+                if (b18 < HMRCb33)
+                    b46 = 0;
+                else
+                    b46 = b18 - HMRCb33;
+            }
+                
+
+            var b47 = b46 * HMRCb36;
+
+            var c46 = b46 / 12;
+            var c47 = b47 / 12;
+
+            var d46 = b46 / 52;
+            var d47 = b47 / 52;
+
+            var b20 = b18 - b19 - b47;
+            var c20 = c18 - c19 - c47;
+            var d20 = d18 - d19 - d47;
+
+            //PAYE
+            var b24 = 0;
+            if (b18 < 50270.0)
+                b24 = 0;
+            else {
+                if (b18 > 150000.0)
+                    b24 = 150000.0 - b23;
+                else
+                    b24 = b20 - b23;
+            }
+
+            var b25 = 0;
+            if (b18 < 150000.0)
+                b25 = 0;
+            else {
+                if (b18 > 150000.0)
+                    b25 = b18 - 150000.0;
+                else
+                    b25 = 0;
+            }
+
+            c23 = Math.ceil(b23 / 12);
+            c24 = Math.ceil(b24 / 12);
+            c25 = Math.ceil(b25 / 12);
+
+            d23 = Math.ceil(b23 / 52);
+            d24 = Math.ceil(b24 / 52);
+            d25 = Math.ceil(b25 / 52);
+
+            var b28 = b23 * 0.20;
+            var b29 = b24 * 0.40;
+            var b30 = b25 * 0.45;
+
+
+            var c28 = Math.ceil(b28 / 12);
+            var c29 = Math.ceil(b29 / 12);
+            var c30 = Math.ceil(b30 / 12);
+            
+            var d28 = Math.ceil(b28 / 52);
+            var d29 = Math.ceil(b29 / 52);
+            var d30 = Math.ceil(b30 / 52);
+
+            var b31 = b28 + b29 + b30;
+            var c31 = c28 + c29 + c30;
+            var d31 = d28 + d29 + d30;
+
+            var HMRCb17 = 6396;
+            var HMRCb18 = 12570;
+            var HMRCb19 = 9100;
+            var HMRCb20 = 25000;
+            var HMRCb21 = 50270;
+            var HMRCb22 = 50270;
+            var HMRCb23 = 50270;
+            var HMRCb24 = 50270;
+
+            var HMRCb28 = 0.12;
+            var HMRCc28 = 0.0585;
+            var HMRCd28 = 0.00;
+            var HMRCe28 = 0.12;
+            var HMRCf28 = 0.12;
+            var HMRCg28 = 0.0585;
+            var HMRCh28 = 0.02;
+            var HMRCi28 = 0.02;
+            var HMRCj28 = 0.12;
+            var HMRCk28 = 0.0;
+            var HMRCl28 = 0.12;
+            var HMRCm28 = 0.02;
+
+            var HMRCb29 = 0.02;
+            var HMRCc29 = 0.02;
+            var HMRCd29 = 0.00;
+            var HMRCe29 = 0.02;
+            var HMRCf29 = 0.02;
+            var HMRCg29 = 0.02;
+            var HMRCh29 = 0.02;
+            var HMRCi29 = 0.02;
+            var HMRCj29 = 0.02;
+            var HMRCk29 = 0.00;
+            var HMRCl29 = 0.02;
+            var HMRCm29 = 0.02;
+
+            var b34 = 0
+            if (b7 == "A") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCb28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCb28;
+            }
+            else if (b7 == "B") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCc28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCc28;
+            }
+            else if (b7 == "C") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCd28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCd28;
+            }
+            else if (b7 == "F") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCe28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCe28;
+            }
+            else if (b7 == "H") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCf28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCf28;
+            }
+            else if (b7 == "I") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCg28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCg28;
+            }
+            else if (b7 == "J") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCh28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCh28;
+            }
+            else if (b7 == "L") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCi28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCi28;
+            }
+            else if (b7 == "M") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCj28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCj28;
+            }
+            else if (b7 == "S") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRCk28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCk28;
+            }
+            else if (b7 == "V") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRl28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCl28;
+            }
+            else if (b7 == "Z") {
+                if (b18 < HMRCb18)
+                    b34 = 0;
+                else if (b18 > HMRCb24)
+                    b34 = (HMRCb24 - HMRCb18) * HMRm28;
+                else
+                    b34 = (b18 - HMRCb18) * HMRCm28;
+            }
+
+            b35 = 0;
+            if (b7 == "A") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCb29;
+            }
+            if (b7 == "B") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCc29;
+            }
+            if (b7 == "C") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCd29;
+            }
+            if (b7 == "F") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRe29;
+            }
+            if (b7 == "H") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCf29;
+            }
+            if (b7 == "I") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCg29;
+            }
+            if (b7 == "J") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCh29;
+            }
+            if (b7 == "L") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCi29;
+            }
+            if (b7 == "M") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCj29;
+            }
+            if (b7 == "S") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCk29;
+            }
+            if (b7 == "V") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCl29;
+            }
+            if (b7 == "Z") {
+                if (b18 < HMRCb24)
+                    b35 = 0;
+                else
+                    b35 = (b18 - HMRCb24) * HMRCm29;
+            }
+
+            var b36 = b34 + b35;
+
+            var c34 = b34 / 12;
+            var c35 = b35 / 12;
+            var c36 = b36 / 12;
+
+            var d34 = b34 / 52;
+            var d35 = b35 / 52;
+            var d36 = b36 / 52;
+
+            //Student Loan
+            var HMRCb52 = 20195;
+            var HMRCb53 = 27295;
+            var HMRCb54 = 25375;
+            var HMRCb55 = 21000;
+
+            var HMRCb57 = 0.09;
+            var HMRCb58 = 0.06;
+
+            var b39 = 0;
+            if (b8 == "Plan 1") {
+                if (b18 > HMRCb52)
+                    b39 = (b18 - HMRCb52) * HMRCb57; 
+            }
+
+            var b40 = 0;
+            if (b8 == "Plan 2") {
+                if (b18 > HMRCb53)
+                    b40 = (b18 - HMRCb53) * HMRCb57;
+            }
+
+            var b41 = 0;
+            if (b8 == "Plan 4") {
+                if (b18 > HMRCb54)
+                    b41 = (b18 - HMRCb54) * HMRCb57;
+            }
+
+            var b42 = 0;
+            if (b8 == "Postgraduate") {
+                if (b18 > HMRCb55)
+                    b42 = (b18 - HMRCb55) * HMRCb58;
+            }
+
+            var b43 = b39 + b40 + b41 + b42;
+            var c39 = b39 / 12;
+            var c40 = b40 / 12;
+            var c41 = b41 / 12;
+            var c42 = b42 / 12;
+            var c43 = c39 + c40 + c41 + c42;
+            var d39 = b39 / 52;
+            var d40 = b40 / 52;
+            var d41 = b41 / 52;
+            var d42 = b42 / 52;
+            var d43 = d39 + d40 + d41 + d42;
+
+
+            $("#b18").val(b18.toFixed(1));
+            $("#c18").val(c18.toFixed(1));
+            $("#d18").val(d18.toFixed(1));
+
+            $("#b19").val(b19.toFixed(1));
+            $("#c19").val(c19.toFixed(1));
+            $("#d19").val(d19.toFixed(1));
+
+            $("#b20").val(b20.toFixed(1));
+            $("#c20").val(c20.toFixed(1));
+            $("#d20").val(d20.toFixed(1));
+                            
+            $("#b23").val(b23.toFixed(1));
+            $("#c23").val(c23.toFixed(1));
+            $("#d23").val(d23.toFixed(1));
+            $("#b24").val(b24.toFixed(1));
+            $("#c24").val(c24.toFixed(1));
+            $("#d24").val(d24.toFixed(1));
+            $("#b25").val(b25.toFixed(1));
+            $("#c25").val(c25.toFixed(1));
+            $("#d25").val(d25.toFixed(1));
+            $("#b28").val(b28.toFixed(1));
+            $("#c28").val(c28.toFixed(1));
+            $("#d28").val(d28.toFixed(1));
+            $("#b29").val(b29.toFixed(1));
+            $("#c29").val(c29.toFixed(1));
+            $("#d29").val(d29.toFixed(1));
+            $("#b30").val(b30.toFixed(1));
+            $("#c30").val(c30.toFixed(1));
+            $("#d30").val(d30.toFixed(1));
+            $("#b31").val(b31.toFixed(1));
+            $("#c31").val(c31.toFixed(1));
+            $("#d31").val(d31.toFixed(1));
+            $("#b34").val(b34.toFixed(1));
+            $("#b35").val(b35.toFixed(1));
+            $("#b36").val(b36.toFixed(1));
+            $("#c34").val(c34.toFixed(1));
+            $("#c35").val(c35.toFixed(1));
+            $("#c36").val(c36.toFixed(1));
+            $("#d34").val(d34.toFixed(1));
+            $("#d35").val(d35.toFixed(1));
+            $("#d36").val(d36.toFixed(1));
+            $("#b39").val(b39.toFixed(1));
+            $("#b40").val(b40.toFixed(1));
+            $("#b41").val(b41.toFixed(1));
+            $("#b42").val(b42.toFixed(1));
+            $("#b43").val(b43.toFixed(1));
+            $("#c39").val(c39.toFixed(1));
+            $("#c40").val(c40.toFixed(1));
+            $("#c41").val(c41.toFixed(1));
+            $("#c42").val(c42.toFixed(1));
+            $("#c43").val(c43.toFixed(1));
+            $("#d39").val(d39.toFixed(1));
+            $("#d40").val(d40.toFixed(1));
+            $("#d41").val(d41.toFixed(1));
+            $("#d42").val(d42.toFixed(1));
+            $("#d43").val(d43.toFixed(1));
+            $("#b46").val(b46.toFixed(1));
+            $("#b47").val(b47.toFixed(1));
+            $("#c46").val(c46.toFixed(1));
+            $("#c47").val(c47.toFixed(1));
+            $("#d46").val(d46.toFixed(1));
+            $("#d47").val(d47.toFixed(1));
+
+            var b49 = b18 - b31 - b36 - b47 - b43;
+            var c49 = b49 / 12;
+            var d49 = b49 / 52;
+
+            $("#b49").val(b49.toFixed(1));
+            $("#c49").val(c49.toFixed(1));
+            $("#d49").val(d49.toFixed(1));
+            var HMRCb30 = 0.138;
+            var g18 = AnualGS
+            var g19 = b46 * HMRCb35;
+            var g20 = 0
+            if (g18 < HMRCb19)
+                g20 = 0;
+            else
+                g20 = (g18 - HMRCb19) * HMRCb30;
+
+            var g21 = g18 + g19 + g20;
+
+            var h18 = g18 / 12.0;
+            var h19 = g19 / 12.0;
+            var h20 = g20 / 12.0;
+            var h21 = g21 / 12.0;
+
+            var i18 = g18 / 52.0;
+            var i19 = g19 / 52.0;
+            var i20 = g20 / 52.0;
+            var i21 = g21 / 52.0;
+
+            $("#g18").val(g18.toFixed(1));
+            $("#g19").val(g19.toFixed(1));
+            $("#g20").val(g20.toFixed(1));
+            $("#g21").val(g21.toFixed(1));
+            $("#h18").val(h18.toFixed(1));
+            $("#h19").val(h19.toFixed(1));
+            $("#h20").val(h20.toFixed(1));
+            $("#h21").val(h21.toFixed(1));
+            $("#i18").val(i18.toFixed(1));
+            $("#i19").val(i19.toFixed(1));
+            $("#i20").val(i20.toFixed(1));
+            $("#i21").val(i21.toFixed(1));
+            
+        };
+
+        $("#txtAnualGrossSalary").on('change', calculate);
+        $("#txtInsCategory").on('change', calculate);
+        $("#txtSTloan").on('change', calculate);
+        $("#txtEmployeePC").on('change', calculate);
+        $("#txtEmployerPC").on('change', calculate);
+        $("#btnCalculate").on('click', calculate);
+
+        $("#btnReset").on("click", function (e) {
+            $("#txtAnualGrossSalary").val('');
+            $("#txtInsCategory").val('A');
+            $("#txtSTloan").val('Plan 1');
+            $("#txtEmployeePC").val('5');
+            $("#txtEmployerPC").val('3');
+
+            $("#g18").val('');
+            $("#g19").val('');
+            $("#g20").val('');
+            $("#g21").val('');
+            $("#h18").val('');
+            $("#h19").val('');
+            $("#h20").val('');
+            $("#h21").val('');
+            $("#i18").val('');
+            $("#i19").val('');
+            $("#i20").val('');
+            $("#i21").val('');
+            $("#b18").val('');
+            $("#c18").val('');
+            $("#d18").val('');
+            $("#b19").val('');
+            $("#c19").val('');
+            $("#d19").val('');
+            $("#b20").val('');
+            $("#c20").val('');
+            $("#d20").val('');
+            $("#b23").val('');
+            $("#c23").val('');
+            $("#d23").val('');
+            $("#b24").val('');
+            $("#c24").val('');
+            $("#d24").val('');
+            $("#b25").val('');
+            $("#c25").val('');
+            $("#d25").val('');
+            $("#b28").val('');
+            $("#c28").val('');
+            $("#d28").val('');
+            $("#b29").val('');
+            $("#c29").val('');
+            $("#d29").val('');
+            $("#b30").val('');
+            $("#c30").val('');
+            $("#d30").val('');
+            $("#b31").val('');
+            $("#c31").val('');
+            $("#d31").val('');
+            $("#b34").val('');
+            $("#b35").val('');
+            $("#b36").val('');
+            $("#c34").val('');
+            $("#c35").val('');
+            $("#c36").val('');
+            $("#d34").val('');
+            $("#d35").val('');
+            $("#d36").val('');
+            $("#b39").val('');
+            $("#b40").val('');
+            $("#b41").val('');
+            $("#b42").val('');
+            $("#b43").val('');
+            $("#c39").val('');
+            $("#c40").val('');
+            $("#c41").val('');
+            $("#c42").val('');
+            $("#c43").val('');
+            $("#d39").val('');
+            $("#d40").val('');
+            $("#d41").val('');
+            $("#d42").val('');
+            $("#d43").val('');
+            $("#b46").val('');
+            $("#b47").val('');
+            $("#c46").val('');
+            $("#c47").val('');
+            $("#d46").val('');
+            $("#d47").val('');
+            $("#b49").val('');
+            $("#c49").val('');
+            $("#d49").val('');
+
+        });
+
+    </script>
+</body>
+</html>
