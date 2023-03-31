@@ -76,12 +76,6 @@
             padding-left: 5px;
         }
     </style>
-    <script type="text/javascript">
-function resize() {
-  var height = document.getElementsByTagName("html")[0].scrollHeight;
-  window.parent.postMessage(["setHeight", height], "*"); 
-}
-</script>
 </head>
 <body class="bg-light">
     <div class="container">
@@ -946,7 +940,7 @@ function resize() {
                 if (b18 < HMRCb18)
                     b34 = 0;
                 else if (b18 > HMRCb24)
-                    b34 = (HMRCb24 - HMRCb18) * HMRl28;
+                    b34 = (HMRCb24 - HMRCb18) * HMRCl28;
                 else
                     b34 = (b18 - HMRCb18) * HMRCl28;
             }
@@ -954,7 +948,7 @@ function resize() {
                 if (b18 < HMRCb18)
                     b34 = 0;
                 else if (b18 > HMRCb24)
-                    b34 = (HMRCb24 - HMRCb18) * HMRm28;
+                    b34 = (HMRCb24 - HMRCb18) * HMRCm28;
                 else
                     b34 = (b18 - HMRCb18) * HMRCm28;
             }
@@ -982,7 +976,7 @@ function resize() {
                 if (b18 < HMRCb24)
                     b35 = 0;
                 else
-                    b35 = (b18 - HMRCb24) * HMRe29;
+                    b35 = (b18 - HMRCb24) * HMRCe29;
             }
             if (b7 == "H") {
                 if (b18 < HMRCb24)
