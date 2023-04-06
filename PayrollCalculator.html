@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Payroll Calculator</title>
@@ -15,9 +15,11 @@
         * {
             font-family: Asistant, Arial, Helvetica
         }
-        body{
-            width: 96%;
+
+        body {
+            width: 98%;
         }
+
         h4, h5, h6 {
             padding: 5px 10px;
             width: 100%;
@@ -98,703 +100,708 @@
         .form-check-input {
             margin-left: 0px;
         }
+
+        .container2 {
+            width: 97%;
+        }
     </style>
 </head>
 <body>
-    <div class="row">
-        <div class="col-md-12 mx-auto">
-            <div class="card card-body text-left mt-5">
-                <h4 class="heading display-5 pb-3">Input your employee details here</h4>
-                <form>
-                    <div class="form-group row">
-                        <div class="form-check col-sm-4">
-                            <input class="form-check-input" type="checkbox" id="IsScotland">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Resident of Scotland
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="txtSystemSize" class="col-sm-4 col-form-label">Employee's annual gross salary:</label>
-                        <div class="col-sm-2">
-                            <input type="number" class="form-control" id="txtAnualGrossSalary" placeholder="">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="txtReadline" class="col-sm-4 col-form-label">National Insurance Category Letter:</label>
-                        <div class="col-sm-2">
-                            <select class="form-control" id="txtInsCategory">
-                                <option value="A">A</option>
-                                <option value="B">B</option>
-                                <option value="C">C</option>
-                                <option value="F">F</option>
-                                <option value="H">H</option>
-                                <option value="I">I</option>
-                                <option value="J">J</option>
-                                <option value="L">L</option>
-                                <option value="M">M</option>
-                                <option value="S">S</option>
-                                <option value="V">V</option>
-                                <option value="Z">Z</option>
-                            </select>
-                        </div>
-                        <div class="col-sm-6">
-                            <label><i>A is the most common letter</i> </label>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="txtFinance" class="col-sm-4 col-form-label">Student Loan:</label>
-                        <div class="col-sm-2">
-                            <select class="form-control" id="txtSTloan">
-                                <option value="Plan 1">Plan 1</option>
-                                <option value="Plan 2">Plan 2</option>
-                                <option value="Plan 4">Plan 4</option>
-                                <option value="Postgraduate">Postgraduate</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="txtPPW" class="col-sm-4 col-form-label">Employee Pension contribution (%):</label>
-                        <div class="col-sm-2">
-                            <input type="number" min="0" class="form-control" id="txtEmployeePC" placeholder="" value="5">
-                        </div>
-                        <div class="col-sm-6">
-                            <label><i> If no pension, input 0%</i> </label>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="txtPPW" class="col-sm-4 col-form-label">Employer Pension contribution (%):</label>
-                        <div class="col-sm-2">
-                            <input type="number" min="0" class="form-control" id="txtEmployerPC" placeholder="" value="3">
-                        </div>
-                        <div class="col-sm-6">
-                            <label><i> 3% is the minimum employer contribution for eligible jobholders pension and non-eligible jobholders who opted-in </i> </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="buttons">
-                                <input type="button" class="col-3 btn mb-3 mr-2" id="btnCalculate" value="Calculate" />
-                                <input type="button" class="col-3 btn mb-3 mr-2" id="btnReset" value="Reset" />
+    <div class="container2">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <h4 class="heading display-5 pb-3">Input your employee details here</h4>
+                    <form>
+                        <div class="form-group row">
+                            <div class="form-check col-sm-4">
+                                <input class="form-check-input" type="checkbox" id="IsScotland">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Resident of Scotland
+                                </label>
                             </div>
                         </div>
-                    </div>
-                    <h4 class="heading display-5 pb-3">Salary calculator</h4>
-                    <h6>Take-home Pay Calculator</h6>
-                    <div class="form-group">
-                        <div class="col-12">
-                            <div class="row">
-                                <label class="col-6 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>Yearly</b></label>
-                                <label class="col-2 col-form-label"><b>Monthly</b></label>
-                                <label class="col-2 col-form-label"><b>Weekly</b></label>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">Gross Salary</label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="b18" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="c18" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="d18" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">Adjusted personal allowance</label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="b19" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="c19" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="d19" placeholder="" readonly="readonly">
-                                </div>
+                        <div class="form-group row">
+                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Employee's annual gross salary:</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="txtAnualGrossSalary" placeholder="">
                             </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">Taxable income</label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="b20" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="c20" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="d20" placeholder="" readonly="readonly">
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtReadline" class="col-sm-4 col-form-label">National Insurance Category Letter:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="txtInsCategory">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="C">C</option>
+                                    <option value="F">F</option>
+                                    <option value="H">H</option>
+                                    <option value="I">I</option>
+                                    <option value="J">J</option>
+                                    <option value="L">L</option>
+                                    <option value="M">M</option>
+                                    <option value="S">S</option>
+                                    <option value="V">V</option>
+                                    <option value="Z">Z</option>
+                                </select>
                             </div>
-
-                            <div class="row">
-                                <label class="col-12">&nbsp;</label>
+                            <div class="col-sm-6">
+                                <label><i>A is the most common letter</i> </label>
                             </div>
-                            <div class="row">
-                                <label class="col-6 col-form-label"><b>PAYE tax split</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtFinance" class="col-sm-4 col-form-label">Student Loan:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="txtSTloan">
+                                    <option value="Plan 1">Plan 1</option>
+                                    <option value="Plan 2">Plan 2</option>
+                                    <option value="Plan 4">Plan 4</option>
+                                    <option value="Postgraduate">Postgraduate</option>
+                                    <option value="No">No</option>
+                                </select>
                             </div>
-                            <div class="row scotland">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">PAYE starter rate taxable income</label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b231" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c231" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d231" placeholder="" readonly="readonly">
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtPPW" class="col-sm-4 col-form-label">Employee Pension contribution (%):</label>
+                            <div class="col-sm-2">
+                                <input type="number" min="0" class="form-control" id="txtEmployeePC" placeholder="" value="5">
                             </div>
-                            <div class="row ">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">PAYE basic rate taxable income</label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b23" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c23" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d23" placeholder="" readonly="readonly">
-                                </div>
+                            <div class="col-sm-6">
+                                <label><i> If no pension, input 0%</i> </label>
                             </div>
-                            <div class="row scotland">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-12 col-form-label">PAYE intermediate rate taxable income</label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b232" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c232" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d232" placeholder="" readonly="readonly">
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="txtPPW" class="col-sm-4 col-form-label">Employer Pension contribution (%):</label>
+                            <div class="col-sm-2">
+                                <input type="number" min="0" class="form-control" id="txtEmployerPC" placeholder="" value="3">
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">PAYE higher tax rate</label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b24" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c24" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d24" placeholder="" readonly="readonly">
-                                </div>
+                            <div class="col-sm-6">
+                                <label><i> 3% is the minimum employer contribution for eligible jobholders pension and non-eligible jobholders who opted-in </i> </label>
                             </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            PAYE additional tax rate
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b25" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c25" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d25" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label class="col-12">&nbsp;</label>
-                            </div>
-                            <div class="row">
-                                <label class="col-6 col-form-label"><b>PAYE deductions</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                            </div>
-
-                            <div class="row scotland">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            PAYE charged at starter rate
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b281" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c281" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d281" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            PAYE charged at basic rate
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b28" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c28" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d28" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row scotland">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            PAYE charged at intermediate rate
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b282" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c282" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d282" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            PAYE charged at higher rate
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b29" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c29" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d29" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            PAYE charged at additional rate
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b30" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c30" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d30" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Total PAYE deducted
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="b31" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="c31" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="d31" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label class="col-12">&nbsp;</label>
-                            </div>
-                            <div class="row">
-                                <label class="col-6 col-form-label"><b>NIC deductions</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            NIC taxed at PT to LEL
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b34" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c34" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d34" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            NIC taxed above UEL
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b35" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c35" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d35" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Employee NIC deducted
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="b36" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="c36" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="d36" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label class="col-12">&nbsp;</label>
-                            </div>
-                            <div class="row">
-                                <label class="col-6 col-form-label"><b>Student Loan Deductions</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Plan 1
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b39" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c39" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d39" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Plan 2
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b40" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c40" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d40" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Plan 4
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b41" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c41" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d41" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Postgraduate loan
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b42" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c42" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d42" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Total loan deductions
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="b43" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="c43" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="d43" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label class="col-12">&nbsp;</label>
-                            </div>
-                            <div class="row">
-                                <label class="col-6 col-form-label"><b>Pension deductions</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Pensionable earnings
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b46" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c46" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d46" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Employee pension contributions
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="b47" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="c47" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control " id="d47" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <label class="col-12">&nbsp;</label>
-                            </div>
-                            <div class="row bg-light">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            <b>Take Home Pay</b>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="b49" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="c49" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="d49" placeholder="" readonly="readonly">
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="buttons">
+                                    <input type="button" class="col-3 btn mb-3 mr-2" id="btnCalculate" value="Calculate" />
+                                    <input type="button" class="col-3 btn mb-3 mr-2" id="btnReset" value="Reset" />
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <h6>Cost to Employer calculator</h6>
-                    <div class="form-group">
-                        <div class="col-12">
-                            <div class="row">
-                                <label class="col-6 col-form-label"><b>&nbsp;</b></label>
-                                <label class="col-2 col-form-label"><b>Yearly</b></label>
-                                <label class="col-2 col-form-label"><b>Monthly</b></label>
-                                <label class="col-2 col-form-label"><b>Weekly</b></label>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">Gross Salary</label>
+                        <h4 class="heading display-5 pb-3">Salary calculator</h4>
+                        <h6>Take-home Pay Calculator</h6>
+                        <div class="form-group">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>Yearly</b></label>
+                                    <label class="col-2 col-form-label"><b>Monthly</b></label>
+                                    <label class="col-2 col-form-label"><b>Weekly</b></label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">Gross Salary</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="b18" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="c18" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="d18" placeholder="" readonly="readonly">
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="g18" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="h18" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="i18" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Employer Pension contributions
-                                        </label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">Adjusted personal allowance</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="b19" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="c19" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="d19" placeholder="" readonly="readonly">
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="g19" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="h19" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="i19" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            Employer NIC
-                                        </label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">Taxable income</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b20" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c20" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d20" placeholder="" readonly="readonly">
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="g20" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="h20" placeholder="" readonly="readonly">
-                                </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control" id="i20" placeholder="" readonly="readonly">
-                                </div>
-                            </div>
 
-                            <div class="row bg-light">
-                                <div class="col-6">
-                                    <div class="row">
-                                        <label for="txtAdders" class="col-10 col-form-label">
-                                            <b>Total Cost to Employer</b>
-                                        </label>
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>PAYE tax split</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+                                <div class="row scotland">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">PAYE starter rate taxable income</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b231" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c231" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d231" placeholder="" readonly="readonly">
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="g21" placeholder="" readonly="readonly">
+                                <div class="row ">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">PAYE basic rate taxable income</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b23" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c23" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d23" placeholder="" readonly="readonly">
+                                    </div>
                                 </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="h21" placeholder="" readonly="readonly">
+                                <div class="row scotland">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-12 col-form-label">PAYE intermediate rate taxable income</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b232" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c232" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d232" placeholder="" readonly="readonly">
+                                    </div>
                                 </div>
-                                <div class="col-2">
-                                    <input type="number" min="0" class="form-control bold" id="i21" placeholder="" readonly="readonly">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">PAYE higher tax rate</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b24" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c24" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d24" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE additional tax rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b25" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c25" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d25" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>PAYE deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row scotland">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE charged at starter rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b281" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c281" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d281" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE charged at basic rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b28" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c28" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d28" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row scotland">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE charged at intermediate rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b282" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c282" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d282" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE charged at higher rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b29" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c29" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d29" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                PAYE charged at additional rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b30" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c30" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d30" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Total PAYE deducted
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b31" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c31" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d31" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>NIC deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                NIC taxed at PT to LEL
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b34" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c34" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d34" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                NIC taxed above UEL
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b35" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c35" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d35" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Employee NIC deducted
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b36" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c36" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d36" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>Student Loan Deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Plan 1
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b39" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c39" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d39" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Plan 2
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b40" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c40" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d40" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Plan 4
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b41" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c41" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d41" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Postgraduate loan
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b42" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c42" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d42" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Total loan deductions
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b43" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c43" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d43" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>Pension deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Pensionable earnings
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b46" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c46" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d46" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Employee pension contributions
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="b47" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="c47" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="d47" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row bg-light">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                <b>Take Home Pay</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="b49" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="c49" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="d49" placeholder="" readonly="readonly">
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+
+
+                        <h6>Cost to Employer calculator</h6>
+                        <div class="form-group">
+                            <div class="col-12">
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>Yearly</b></label>
+                                    <label class="col-2 col-form-label"><b>Monthly</b></label>
+                                    <label class="col-2 col-form-label"><b>Weekly</b></label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">Gross Salary</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="g18" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="h18" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="i18" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Employer Pension contributions
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="g19" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="h19" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="i19" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Employer NIC
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="g20" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="h20" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control" id="i20" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row bg-light">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                <b>Total Cost to Employer</b>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="g21" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="h21" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="i21" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row">&nbsp;</div>
             </div>
-            <div class="row">&nbsp;</div>
         </div>
     </div>
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
