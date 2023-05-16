@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Age  Calculator</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: #19a7b1;
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+        .fc-day-grid-event .fc-content{
+            white-space: pre-wrap;
+        }
+
+        input[type=number] {
+            text-align: right;
+        }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">Date of Birth</label>
+                            <div class="input-group">
+                                <input type="date" class="form-control" id="txtAge" />
+                            </div>
+                        </div>
+                            <div class="col-md-12">
+                                <label for="">Age at the Date of</label>
+                                <div class="input-group">
+                                    <input type="date" class="form-control" id="txtNage" />
+                                </div>
+                            </div>
+                            
+                        <div class="col-md-3">
+                            <label for="">&nbsp;</label>
+                            <div class="input-group">
+                                <button type="button" class="btn button" id="btnReset" ><i class="fa fa-refresh" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <span id="resultType"></span>
+                        </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+                    integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+                    crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+            <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+            </script>
+        <script src="https://unpkg.com/chartjs-plugin-datalabels@0.7.0/dist/chartjs-plugin-datalabels.js"></script>
+
+    <script type="text/JavaScript">
+
+       var Calculation = function (){
+        var date1 =  new Date(document.getElementById("txtAge").value);
+        var date2 = new Date(document.getElementById("txtNage").value);
+        
+        var diffTime = Math.abs(date2 - date1);
+        var diffSec = Math.abs(diffTime/1000);
+        var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+        var diffmon = Math.floor(diffDays/30.417);
+        var diffwee = Math.floor(diffDays/7);
+        var diffhou = Math.abs(diffDays*24);
+        var diffhmin = Math.abs(diffhou*60);
+        var diffmonday = Math.floor(diffDays-(diffmon*30.417));
+        var diffweeday = Math.abs(diffDays-(diffwee*7));
+        var diffyear = Math.floor(diffDays/365);
+        var diffyeard = Math.floor(diffDays-(diffyear*365));
+        var diffyeardm = Math.floor(diffyeard/31);
+        var diffyeardmd = Math.floor(diffyeard-(diffyeardm*31));
+
+
+        
+       //var ms = (diffTime );
+        document.getElementById("resultType").innerHTML = "<br><b> "+diffyear+"year"+diffyeardm+"&nbsp month &nbsp"+diffyeardmd+"&nbsp rdays &nbsp</b>"
+                                                        + "<br><b> "+diffmon+" month "+diffmonday+"&nbsp days &nbsp</b>"
+
+                                                        + "<br/><b>or&nbsp"+diffwee+" weeks "+diffweeday+"&nbspdays&nbsp</b>"
+                                                        + "<br/><b>or&nbsp"+diffDays+" Days &nbsp</b>"
+                                                        + "<br/><b>or&nbsp"+diffhou+" hours  &nbsp</b>"
+                                                        + "<br/><b>or&nbsp"+diffhmin+" minutes &nbsp</b>"
+                                                        + "<br/><b>or&nbsp"+diffSec+" seconds &nbsp</b>"
+                                                        + "<br/><b>or&nbsp"+diffTime+"milliseconds &nbsp</b>"
+                                                        ; 
+
+                }
+        //diffyeard+" rdays "
+       $("#txtAge").on('change', Calculation);
+       $("#txtNage").on('change', Calculation);
+       
+       
+       
+       $("#btnReset").on('click', function(){
+        document.getElementById("txtAge").value ="";
+        document.getElementById("txtNage").value ="";
+        document.getElementById("resultType").innerHTML ="";
+
+        
+       });
+    </script>
+</body>
+</html>
