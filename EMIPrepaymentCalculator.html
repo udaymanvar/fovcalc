@@ -243,6 +243,16 @@
         $("#txtTenure").on('change', Calculation);
         $("#txtextraEMI").on('change', Calculation);
         
+        
+       $("#btnReset").on('click', function(){
+        document.getElementById("txtLoanAmount").value ="";
+        document.getElementById("txtRateofInterest").value ="";
+        document.getElementById("txtTenure").value ="";
+        document.getElementById("txtextraEMI").value ="";
+        $('#emitable tbody').empty().value="";
+    
+        });
+  
     </script>
 </body>
 </html>
