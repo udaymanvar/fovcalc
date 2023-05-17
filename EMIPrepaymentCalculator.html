@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="col-md-12">
-                            <label for="">Tenure</label>
+                            <label for="">Tenure(year)</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="txtTenure"  />
                             </div>
@@ -86,13 +86,6 @@
                             <label for="">EMI</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" id="txtEMI" readonly/>
-                                <span class="input-group-addon">$</span>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <label for="">Interest Paid</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="txtInterestPaid" readonly/>
                                 <span class="input-group-addon">$</span>
                             </div>
                         </div>
@@ -248,7 +241,6 @@
         $("#txtLoanAmount").on('change', Calculation);
         $("#txtRateofInterest").on('change', Calculation);
         $("#txtTenure").on('change', Calculation);
-        $("#txtInterestPaid").on('change', Calculation);
         $("#txtextraEMI").on('change', Calculation);
         
     </script>
