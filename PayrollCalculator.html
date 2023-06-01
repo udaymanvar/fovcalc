@@ -114,18 +114,79 @@
                     <h4 class="heading display-5 pb-3">Input your employee details here</h4>
                     <form>
                         <div class="form-group row">
-                            <div class="form-check col-sm-4">
+                            <div class="form-check col-sm-3">
                                 <input class="form-check-input" type="checkbox" id="IsScotland">
-                                <label class="form-check-label" for="flexCheckDefault">
+                                <label class="form-check-label" for="IsScotland">
                                     Resident of Scotland
                                 </label>
                             </div>
                         </div>
 
                         <div class="form-group row">
+                            <div class="form-check col-sm-3">
+                                <input class="form-check-input" type="radio" id="IsNormal" name="type" checked="checked">
+                                <label class="form-check-label" for="IsNormal">
+                                    Employee and Yearly Gross Salary
+                                </label>
+                            </div>
+                            <div class="form-check col-sm-3">
+                                <input class="form-check-input" type="radio" id="IsHourlyRate" name="type">
+                                <label class="form-check-label" for="IsHourlyRate">
+                                    Salary based on hourly rate
+                                </label>
+                            </div>
+                            <div class="form-check col-sm-3">
+                                <input class="form-check-input" type="radio" id="IsDirector" name="type">
+                                <label class="form-check-label" for="IsDirector">
+                                    I'm a director
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row hourly">
+                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Hourly rate:</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="txtHourlyRate" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row hourly">
+                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Number of hours worked per day:</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="txtHoursDay" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row hourly">
+                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Number of days worked per week:</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="txtDaysWeek" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row director">
+                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Director's annual gross salary:</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="txtDirGrossSalary" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row director">
+                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Dividends:</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="txtDirDividend" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group row director">
+                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Calculation method:</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" id="txtCalculationMethod">
+                                    <option value="Annually">Annually</option>
+                                    <option value="Monthly">Monthly</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row normal">
                             <label for="txtSystemSize" class="col-sm-4 col-form-label">Employee's annual gross salary:</label>
                             <div class="col-sm-2">
                                 <input type="number" class="form-control" id="txtAnualGrossSalary" placeholder="">
+
                             </div>
                         </div>
                         <div class="form-group row">
@@ -533,6 +594,160 @@
                                     </div>
                                 </div>
 
+                                <div class="row director">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row director">
+                                    <label class="col-6 col-form-label"><b>Tax split Dividends</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row director">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Basic rate taxable income
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="db41" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dc41" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dd41" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row director">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Higher rate taxable income
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="db42" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dc42" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dd42" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row director">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Additional rate taxable income
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="db43" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dc43" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dd43" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+
+                                <div class="row director">
+                                    <label class="col-12">&nbsp;</label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-6 col-form-label"><b>Dividends deductions</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
+                                </div>
+
+                                <div class="row director">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Dividends taxed at basic rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="db46" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dc46" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dd46" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row director">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Dividends taxed at higher rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="db47" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dc47" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dd47" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row director">
+                                    <div class="col-6">
+                                        <div class="row">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Dividends taxed at additional rate
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="db48" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dc48" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control " id="dd48" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
+                                <div class="row director">
+                                    <div class="col-6">
+                                        <div class="row ">
+                                            <label for="txtAdders" class="col-10 col-form-label">
+                                                Tax deducted
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="db49" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="dc49" placeholder="" readonly="readonly">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="number" min="0" class="form-control bold" id="dd49" placeholder="" readonly="readonly">
+                                    </div>
+                                </div>
+
                                 <div class="row">
                                     <label class="col-12">&nbsp;</label>
                                 </div>
@@ -813,6 +1028,8 @@
             integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
             crossorigin="anonymous"></script>
     <script type="text/JavaScript">
+        $(".director").hide();
+        $(".hourly").hide();
 
         var calculate = function () {
             var AnualGS = parseFloat($("#txtAnualGrossSalary").val());
@@ -820,14 +1037,28 @@
             var b8 = $("#txtSTloan").val();
             var b9 = parseFloat($("#txtEmployeePC").val());
             var b10 = parseFloat($("#txtEmployerPC").val());
+            var DD = parseFloat($("#txtDirDividend").val());
+            var IsHourlyRate = $("#IsHourlyRate").is(":checked");
+            var IsDirector = $("#IsDirector").is(":checked");
+            if (IsHourlyRate) {
+                var HR = parseFloat($("#txtHourlyRate").val());
+                var HD = parseFloat($("#txtHoursDay").val());
+                var DW = parseFloat($("#txtDaysWeek").val());
+                AnualGS = HR * HD * DW * 52;
+            }
+            if (IsDirector) {
+                var DGS = parseFloat($("#txtDirGrossSalary").val());
+                AnualGS = DGS;
+            }
 
             var b18 = AnualGS;
             var c18 = Math.ceil(b18 / 12);
             var d18 = Math.ceil(b18 / 52);
 
             var isscotland = $("#IsScotland").is(":checked");
-            if (!isscotland) {
-
+            if (!isscotland)    // Non Scotland 
+            {
+                
                 var b19 = 12570.0;
 
                 if (b18 > 100000)
@@ -868,6 +1099,9 @@
                 var b20 = b18 - b19 - b47;
                 var c20 = c18 - c19 - c47;
                 var d20 = d18 - d19 - d47;
+                if (IsDirector) {
+                    b20 = (b18 + DD)- b19 - b47;
+                }
 
                 if (b20 < 0)
                     b20 = 0;
@@ -885,6 +1119,28 @@
                     else
                         b23 = (b18 - b47) - 12570.0;
                 }
+                if (IsHourlyRate) {
+                    b23 = 0;
+                    if (b18 < b19)
+                        b23 = 0;
+                    else {
+                        if (b18 > 50270)
+                            b23 = 50270 - 12570;
+                        else
+                            b23 = b18 - 12570;
+                    }
+                }
+                if (IsDirector) {
+                    b23 = 0;
+                    if (b18 < b19)
+                        b23 = 0;
+                    else {
+                        if (b18 > 50270)
+                            b23 = 50270 - 12570;
+                        else
+                            b23 = b18 - 12570;
+                    }
+                }
 
                 //PAYE
                 var b24 = 0;
@@ -896,6 +1152,28 @@
                     else
                         b24 = b20 - b23;
                 }
+                if (IsHourlyRate) {
+                    b24 = 0;
+                    if (b18 < 50270)
+                        b24 = 0;
+                    else {
+                        if (b18 > 150000.0)
+                            b24 = 150000.0 - b23;
+                        else
+                            b24 = b20 - b23;
+                    }
+                }
+                if (IsDirector) {
+                    b24 = 0;
+                    if (b18 < 50270)
+                        b24 = 0;
+                    else {
+                        if (b18 > 150000.0)
+                            b24 = 150000.0 - b23;
+                        else
+                            b24 = b20 - b23;
+                    }
+                }
 
                 var b25 = 0;
                 if (b18 < 150000.0)
@@ -905,6 +1183,28 @@
                         b25 = b18 - 150000.0;
                     else
                         b25 = 0;
+                }
+                if (IsHourlyRate) {
+                    b25 = 0;
+                    if (b18 < 150000)
+                        b25 = 0;
+                    else {
+                        if (b18 > 150000)
+                            b25 = b18 - 150000;
+                        else
+                            b25 = 0;
+                    }
+                }
+                if (IsDirector) {
+                    b25 = 0;
+                    if (b18 < 150000)
+                        b25 = 0;
+                    else {
+                        if (b18 > 150000)
+                            b25 = b18 - 150000;
+                        else
+                            b25 = 0;
+                    }
                 }
 
                 c23 = Math.ceil(b23 / 12);
@@ -966,6 +1266,58 @@
                 var HMRCk29 = 0.00;
                 var HMRCl29 = 0.02;
                 var HMRCm29 = 0.02;
+
+                var HMRCb46 = 0.1453;
+                var HMRCc46 = 0.1453;
+                var HMRCd46 = 0.1453;
+                var HMRCe46 = 0.1453;
+                var HMRCf46 = 0.0;
+                var HMRCg46 = 0.1453;
+                var HMRCh46 = 0.1453;
+                var HMRCi46 = 0.1453;
+                var HMRCj46 = 0.0;
+                var HMRCk46 = 0.1453;
+                var HMRCl46 = 0.0;
+                var HMRCm46 = 0.0;
+
+                var HMRCb47 = 0.1453;
+                var HMRCc47 = 0.1453;
+                var HMRCd47 = 0.1453;
+                var HMRCe47 = 0.1453;
+                var HMRCf47 = 0.1453;
+                var HMRCg47 = 0.1453;
+                var HMRCh47 = 0.1453;
+                var HMRCi47 = 0.1453;
+                var HMRCj47 = 0.1453;
+                var HMRCk47 = 0.1453;
+                var HMRCl47 = 0.1453;
+                var HMRCm47 = 0.1453;
+
+                var HMRCb40 = 0.1273;
+                var HMRCc40 = 0.0658;
+                var HMRCd40 = 0.0;
+                var HMRCe40 = 0.1273;
+                var HMRCf40 = 0.1273;
+                var HMRCg40 = 0.0658;
+                var HMRCh40 = 0.0273;
+                var HMRCi40 = 0.0273;
+                var HMRCj40 = 0.1273;
+                var HMRCk40 = 0.0;
+                var HMRCl40 = 0.1273;
+                var HMRCm40 = 0.0273;
+
+                var HMRCb41 = 0.0273;
+                var HMRCc41 = 0.0273;
+                var HMRCd41 = 0.00;
+                var HMRCe41 = 0.0273;
+                var HMRCf41 = 0.0273;
+                var HMRCg41 = 0.0273;
+                var HMRCh41 = 0.0273;
+                var HMRCi41 = 0.0273;
+                var HMRCj41 = 0.0273;
+                var HMRCk41 = 0.00;
+                var HMRCl41 = 0.0273;
+                var HMRCm41 = 0.0273;
 
                 var b34 = 0
                 if (b7 == "A") {
@@ -1139,6 +1491,401 @@
                         b35 = (b18 - HMRCb24) * HMRCm29;
                 }
 
+                if (IsDirector) {
+                    var calculationMode = $("#txtCalculationMethod").val();
+                    if (calculationMode == "Annually") {
+                        if (b7 == "A") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCb46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCb46;
+                        }
+                        else if (b7 == "B") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCc46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCc46;
+                        }
+                        else if (b7 == "C") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCd46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCd46;
+                        }
+                        else if (b7 == "F") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCe46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCe46;
+                        }
+                        else if (b7 == "H") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCf46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCf46;
+                        }
+                        else if (b7 == "I") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCg46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCg46;
+                        }
+                        else if (b7 == "J") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCh46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCh46;
+                        }
+                        else if (b7 == "L") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCi46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCi46;
+                        }
+                        else if (b7 == "M") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCj46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCj46;
+                        }
+                        else if (b7 == "S") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCk46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCk46;
+                        }
+                        else if (b7 == "V") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRl46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCl46;
+                        }
+                        else if (b7 == "Z") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRm46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCm46;
+                        }
+                    } else {
+                        if (b7 == "A") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCb40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCb40;
+                        }
+                        else if (b7 == "B") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCc40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCc40;
+                        }
+                        else if (b7 == "C") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCd40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCd40;
+                        }
+                        else if (b7 == "F") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCe40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCe40;
+                        }
+                        else if (b7 == "H") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCf40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCf40;
+                        }
+                        else if (b7 == "I") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCg40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCg40;
+                        }
+                        else if (b7 == "J") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCh40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCh40;
+                        }
+                        else if (b7 == "L") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCi40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCi40;
+                        }
+                        else if (b7 == "M") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCj40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCj40;
+                        }
+                        else if (b7 == "S") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCk40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCk40;
+                        }
+                        else if (b7 == "V") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRl40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCl40;
+                        }
+                        else if (b7 == "Z") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRm40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCm40;
+                        }
+                    }
+                    b35 = 0;
+                    if (calculationMode == "Annually") {
+                        if (b7 == "A") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCb47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCb47;
+                        }
+                        else if (b7 == "B") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCc47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCc47;
+                        }
+                        else if (b7 == "C") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCd47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCd47;
+                        }
+                        else if (b7 == "F") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCe47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCe47;
+                        }
+                        else if (b7 == "H") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCf47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCf47;
+                        }
+                        else if (b7 == "I") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCg47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCg47;
+                        }
+                        else if (b7 == "J") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCh47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCh47;
+                        }
+                        else if (b7 == "L") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCi47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCi47;
+                        }
+                        else if (b7 == "M") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCj47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCj47;
+                        }
+                        else if (b7 == "S") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCk47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCk47;
+                        }
+                        else if (b7 == "V") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRl47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCl47;
+                        }
+                        else if (b7 == "Z") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRm47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCm47;
+                        }
+                    } else {
+                        if (b7 == "A") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCb41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCb41;
+                        }
+                        else if (b7 == "B") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCc41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCc41;
+                        }
+                        else if (b7 == "C") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCd41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCd41;
+                        }
+                        else if (b7 == "F") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCe41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCe41;
+                        }
+                        else if (b7 == "H") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCf41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCf41;
+                        }
+                        else if (b7 == "I") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCg41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCg41;
+                        }
+                        else if (b7 == "J") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCh41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCh41;
+                        }
+                        else if (b7 == "L") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCi41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCi41;
+                        }
+                        else if (b7 == "M") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCj41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCj41;
+                        }
+                        else if (b7 == "S") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCk41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCk41;
+                        }
+                        else if (b7 == "V") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRl41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCl41;
+                        }
+                        else if (b7 == "Z") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRm41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCm41;
+                        }
+                    }
+                }
+
                 var b36 = b34 + b35;
 
                 var c34 = b34 / 12;
@@ -1148,6 +1895,96 @@
                 var d34 = b34 / 52;
                 var d35 = b35 / 52;
                 var d36 = b36 / 52;
+
+                var HMRCb64 = 13571;
+                var HMRCb65 = 50271;
+                var HMRCb66 = 125140;
+
+                var HMRCb60 = 0.0875;
+                var HMRCb61 = 0.3375;
+                var HMRCb62 = 0.3995;
+                var db49 = 0;
+                var dc49 = 0;
+                var dd49 = 0;
+                if (IsDirector) {
+                    var db41 = 0;
+                    if ((b18 + DD) < b19)
+                        db41 = 0;
+                    else if (DD > HMRCb65)
+                        db41 = HMRCb65 - HMRCb64;
+                    else
+                        db41 = Math.max((DD - 1000), 0)
+
+                    var db42 = 0;
+                    if ((DD) < HMRCb65)
+                        db42 = 0;
+                    else if (DD > HMRCb66)
+                        db42 = HMRCb66 - HMRCb65;
+                    else
+                        db42 = Math.max((DD - HMRCb65), 0)
+
+                    var db43 = 0;
+                    if ((DD) < HMRCb66)
+                        db43 = 0;
+                    else if (DD > HMRCb66)
+                        db43 = DD - HMRCb66;
+                    else
+                        db43 = 0;
+
+                    var dc41 = db41 / 12.0;
+                    var dc42 = db42 / 12.0;
+                    var dc43 = db43 / 12.0;
+
+                    var dd41 = db41 / 52.0;
+                    var dd42 = db42 / 52.0;
+                    var dd43 = db43 / 52.0;
+
+                    $("#db41").val(db41.toFixed(1));
+                    $("#db42").val(db42.toFixed(1));
+                    $("#db43").val(db43.toFixed(1));
+
+                    $("#dc41").val(dc41.toFixed(1));
+                    $("#dc42").val(dc42.toFixed(1));
+                    $("#dc43").val(dc43.toFixed(1));
+
+                    $("#dd41").val(dd41.toFixed(1));
+                    $("#dd42").val(dd42.toFixed(1));
+                    $("#dd43").val(dd43.toFixed(1));
+
+                    var db46 = db41 * HMRCb60;
+                    var db47 = db42 * HMRCb61;
+                    var db48 = db43 * HMRCb62;
+                    db49 = db46 + db47 + db48;
+
+                    var dc46 = db46 / 12.0;
+                    var dc47 = db47 / 12.0;
+                    var dc48 = db48 / 12.0;
+                    dc49 = db49 / 12.0;
+
+                    var dd46 = db46 / 12.0;
+                    var dd47 = db47 / 12.0;
+                    var dd48 = db48 / 12.0;
+                    dd49 = db49 / 12.0;
+
+                    $("#db46").val(db46.toFixed(1));
+                    $("#db47").val(db47.toFixed(1));
+                    $("#db48").val(db48.toFixed(1));
+                    $("#db49").val(db49.toFixed(1));
+
+                    $("#dc46").val(dc46.toFixed(1));
+                    $("#dc47").val(dc47.toFixed(1));
+                    $("#dc48").val(dc48.toFixed(1));
+                    $("#dc49").val(dc49.toFixed(1));
+
+                    $("#dd46").val(dd46.toFixed(1));
+                    $("#dd47").val(dd47.toFixed(1));
+                    $("#dd48").val(dd48.toFixed(1));
+                    $("#dd49").val(dd49.toFixed(1));
+                }
+                else {
+                    DD = 0;
+                }
+
 
                 //Student Loan
                 var HMRCb52 = 20195;
@@ -1259,7 +2096,7 @@
                 $("#d46").val(d46.toFixed(1));
                 $("#d47").val(d47.toFixed(1));
 
-                var b49 = b18 - b31 - b36 - b47 - b43;
+                var b49 = b18 + DD - b31 - b36 - b47 - b43 - db49;
                 var c49 = b49 / 12;
                 var d49 = b49 / 52;
 
@@ -1367,6 +2204,19 @@
                     else
                         b231 = (b18 - b47) - HMRCb6;
                 }
+                if (IsHourlyRate) {
+                    b231 = 0;
+                    if (b18 < b19)
+                        b231 = 0;
+                    else {
+                        if ((b18 - b47) > HMRCb7)
+                            b231 = HMRCb7 - HMRCb6;
+                        else
+                            b231 = (b18 - b47) - HMRCb6;
+                    }
+                }
+                if (b231 < 0)
+                    b231 = 0;
 
                 var b23 = 0;
                 if (b18 < HMRCb7)
@@ -1376,6 +2226,17 @@
                         b23 = HMRCb8 - HMRCb7;
                     else
                         b23 = (b20 - b231);
+                }
+                if (IsHourlyRate) {
+                    b23 = 0;
+                    if (b18 < HMRCb7)
+                        b23 = 0;
+                    else {
+                        if (b18 > HMRCb8)
+                            b23 = HMRCb8 - HMRCb7;
+                        else
+                            b23 = b20 - b231;
+                    }
                 }
                 if (b23 < 0)
                     b23 = 0;
@@ -1388,6 +2249,17 @@
                         b232 = HMRCb9 - HMRCb8;
                     else
                         b232 = (b18 - b47) - HMRCb8;
+                }
+                if (IsHourlyRate) {
+                    b232 = 0;
+                    if (b18 < HMRCb8)
+                        b232 = 0;
+                    else {
+                        if ((b18 - b47) > HMRCb9)
+                            b232 = HMRCb9 - HMRCb8;
+                        else
+                            b232 = (b18 - b47) - HMRCb8;
+                    }
                 }
                 if (b232 < 0)
                     b232 = 0;
@@ -1402,6 +2274,17 @@
                     else
                         b24 = (b18 - b47) - HMRCb9;
                 }
+                if (IsHourlyRate) {
+                    b24 = 0;
+                    if (b18 < HMRCb9)
+                        b24 = 0;
+                    else {
+                        if ((b18 - b47) > HMRCb10)
+                            b24 = HMRCb10 - HMRCb9;
+                        else
+                            b24 = (b18 - b47) - HMRCb9;
+                    }
+                }
                 if (b24 < 0)
                     b24 = 0;
 
@@ -1413,6 +2296,17 @@
                         b25 = (b18 - HMRCb10);
                     else
                         b25 = b18 - b47 - HMRCb10;
+                }
+                if (IsHourlyRate) {
+                    b25 = 0;
+                    if (b18 < HMRCb10)
+                        b25 = 0;
+                    else {
+                        if ((b18 - b47) > HMRCb10)
+                            b25 = (b18 - HMRCb10);
+                        else
+                            b25 = b18 - b47 - HMRCb10;
+                    }
                 }
                 if (b25 < 0)
                     b25 = 0;
@@ -1487,6 +2381,58 @@
                 var HMRCk29 = 0.00;
                 var HMRCl29 = 0.02;
                 var HMRCm29 = 0.02;
+
+                var HMRCb46 = 0.1453;
+                var HMRCc46 = 0.1453;
+                var HMRCd46 = 0.1453;
+                var HMRCe46 = 0.1453;
+                var HMRCf46 = 0.0;
+                var HMRCg46 = 0.1453;
+                var HMRCh46 = 0.1453;
+                var HMRCi46 = 0.1453;
+                var HMRCj46 = 0.0;
+                var HMRCk46 = 0.1453;
+                var HMRCl46 = 0.0;
+                var HMRCm46 = 0.0;
+
+                var HMRCb47 = 0.1453;
+                var HMRCc47 = 0.1453;
+                var HMRCd47 = 0.1453;
+                var HMRCe47 = 0.1453;
+                var HMRCf47 = 0.1453;
+                var HMRCg47 = 0.1453;
+                var HMRCh47 = 0.1453;
+                var HMRCi47 = 0.1453;
+                var HMRCj47 = 0.1453;
+                var HMRCk47 = 0.1453;
+                var HMRCl47 = 0.1453;
+                var HMRCm47 = 0.1453;
+
+                var HMRCb40 = 0.1273;
+                var HMRCc40 = 0.0658;
+                var HMRCd40 = 0.0;
+                var HMRCe40 = 0.1273;
+                var HMRCf40 = 0.1273;
+                var HMRCg40 = 0.0658;
+                var HMRCh40 = 0.0273;
+                var HMRCi40 = 0.0273;
+                var HMRCj40 = 0.1273;
+                var HMRCk40 = 0.0;
+                var HMRCl40 = 0.1273;
+                var HMRCm40 = 0.0273;
+
+                var HMRCb41 = 0.0273;
+                var HMRCc41 = 0.0273;
+                var HMRCd41 = 0.00;
+                var HMRCe41 = 0.0273;
+                var HMRCf41 = 0.0273;
+                var HMRCg41 = 0.0273;
+                var HMRCh41 = 0.0273;
+                var HMRCi41 = 0.0273;
+                var HMRCj41 = 0.0273;
+                var HMRCk41 = 0.00;
+                var HMRCl41 = 0.0273;
+                var HMRCm41 = 0.0273;
 
                 var b34 = 0
                 if (b7 == "A") {
@@ -1660,6 +2606,401 @@
                         b35 = (b18 - HMRCb24) * HMRCm29;
                 }
 
+                if (IsDirector) {
+                    var calculationMode = $("#txtCalculationMethod").val();
+                    if (calculationMode == "Annually") {
+                        if (b7 == "A") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCb46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCb46;
+                        }
+                        else if (b7 == "B") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCc46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCc46;
+                        }
+                        else if (b7 == "C") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCd46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCd46;
+                        }
+                        else if (b7 == "F") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCe46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCe46;
+                        }
+                        else if (b7 == "H") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCf46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCf46;
+                        }
+                        else if (b7 == "I") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCg46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCg46;
+                        }
+                        else if (b7 == "J") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCh46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCh46;
+                        }
+                        else if (b7 == "L") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCi46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCi46;
+                        }
+                        else if (b7 == "M") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCj46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCj46;
+                        }
+                        else if (b7 == "S") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCk46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCk46;
+                        }
+                        else if (b7 == "V") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRl46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCl46;
+                        }
+                        else if (b7 == "Z") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRm46;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCm46;
+                        }
+                    } else {
+                        if (b7 == "A") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCb40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCb40;
+                        }
+                        else if (b7 == "B") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCc40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCc40;
+                        }
+                        else if (b7 == "C") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCd40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCd40;
+                        }
+                        else if (b7 == "F") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCe40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCe40;
+                        }
+                        else if (b7 == "H") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCf40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCf40;
+                        }
+                        else if (b7 == "I") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCg40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCg40;
+                        }
+                        else if (b7 == "J") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCh40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCh40;
+                        }
+                        else if (b7 == "L") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCi40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCi40;
+                        }
+                        else if (b7 == "M") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCj40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCj40;
+                        }
+                        else if (b7 == "S") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRCk40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCk40;
+                        }
+                        else if (b7 == "V") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRl40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCl40;
+                        }
+                        else if (b7 == "Z") {
+                            if (b18 < HMRCb18)
+                                b34 = 0;
+                            else if (b18 > HMRCb24)
+                                b34 = (HMRCb24 - HMRCb18) * HMRm40;
+                            else
+                                b34 = (b18 - HMRCb18) * HMRCm40;
+                        }
+                    }
+                    b35 = 0;
+                    if (calculationMode == "Annually") {
+                        if (b7 == "A") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCb47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCb47;
+                        }
+                        else if (b7 == "B") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCc47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCc47;
+                        }
+                        else if (b7 == "C") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCd47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCd47;
+                        }
+                        else if (b7 == "F") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCe47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCe47;
+                        }
+                        else if (b7 == "H") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCf47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCf47;
+                        }
+                        else if (b7 == "I") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCg47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCg47;
+                        }
+                        else if (b7 == "J") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCh47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCh47;
+                        }
+                        else if (b7 == "L") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCi47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCi47;
+                        }
+                        else if (b7 == "M") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCj47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCj47;
+                        }
+                        else if (b7 == "S") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCk47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCk47;
+                        }
+                        else if (b7 == "V") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRl47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCl47;
+                        }
+                        else if (b7 == "Z") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRm47;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCm47;
+                        }
+                    } else {
+                        if (b7 == "A") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCb41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCb41;
+                        }
+                        else if (b7 == "B") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCc41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCc41;
+                        }
+                        else if (b7 == "C") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCd41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCd41;
+                        }
+                        else if (b7 == "F") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCe41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCe41;
+                        }
+                        else if (b7 == "H") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCf41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCf41;
+                        }
+                        else if (b7 == "I") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCg41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCg41;
+                        }
+                        else if (b7 == "J") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCh41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCh41;
+                        }
+                        else if (b7 == "L") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCi41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCi41;
+                        }
+                        else if (b7 == "M") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCj41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCj41;
+                        }
+                        else if (b7 == "S") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRCk41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCk41;
+                        }
+                        else if (b7 == "V") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRl41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCl41;
+                        }
+                        else if (b7 == "Z") {
+                            if (b18 < HMRCb18)
+                                b35 = 0;
+                            else if (b18 > HMRCb24)
+                                b35 = (HMRCb24 - HMRCb18) * HMRm41;
+                            else
+                                b35 = (b18 - HMRCb18) * HMRCm41;
+                        }
+                    }
+                }
+
                 var b36 = b34 + b35;
 
                 var c34 = b34 / 12;
@@ -1669,6 +3010,97 @@
                 var d34 = b34 / 52;
                 var d35 = b35 / 52;
                 var d36 = b36 / 52;
+
+                var HMRCb64 = 13571;
+                var HMRCb65 = 50271;
+                var HMRCb66 = 125140;
+
+                var HMRCb60 = 0.0875;
+                var HMRCb61 = 0.3375;
+                var HMRCb62 = 0.3995;
+
+                var db49 = 0;
+                var dc49 = 0;
+                var dd49 = 0;
+
+                if (IsDirector) {
+                    var db41 = 0;
+                    if ((b18 + DD) < b19)
+                        db41 = 0;
+                    else if (DD > HMRCb65)
+                        db41 = HMRCb65 - HMRCb64;
+                    else
+                        db41 = Math.max((DD - 1000), 0)
+
+                    var db42 = 0;
+                    if ((DD) < HMRCb65)
+                        db42 = 0;
+                    else if (DD > HMRCb66)
+                        db42 = HMRCb66 - HMRCb65;
+                    else
+                        db42 = Math.max((DD - HMRCb65), 0)
+
+                    var db43 = 0;
+                    if ((DD) < HMRCb66)
+                        db43 = 0;
+                    else if (DD > HMRCb66)
+                        db43 = DD - HMRCb66;
+                    else
+                        db43 = 0;
+
+                    var dc41 = db41 / 12.0;
+                    var dc42 = db42 / 12.0;
+                    var dc43 = db43 / 12.0;
+
+                    var dd41 = db41 / 52.0;
+                    var dd42 = db42 / 52.0;
+                    var dd43 = db43 / 52.0;
+
+                    $("#db41").val(db41.toFixed(1));
+                    $("#db42").val(db42.toFixed(1));
+                    $("#db43").val(db43.toFixed(1));
+
+                    $("#dc41").val(dc41.toFixed(1));
+                    $("#dc42").val(dc42.toFixed(1));
+                    $("#dc43").val(dc43.toFixed(1));
+
+                    $("#dd41").val(dd41.toFixed(1));
+                    $("#dd42").val(dd42.toFixed(1));
+                    $("#dd43").val(dd43.toFixed(1));
+
+                    var db46 = db41 * HMRCb60;
+                    var db47 = db42 * HMRCb61;
+                    var db48 = db43 * HMRCb62;
+                    db49 = db46 + db47 + db48;
+
+                    var dc46 = db46 / 12.0;
+                    var dc47 = db47 / 12.0;
+                    var dc48 = db48 / 12.0;
+                    dc49 = db49 / 12.0;
+
+                    var dd46 = db46 / 12.0;
+                    var dd47 = db47 / 12.0;
+                    var dd48 = db48 / 12.0;
+                    dd49 = db49 / 12.0;
+
+                    $("#db46").val(db46.toFixed(1));
+                    $("#db47").val(db47.toFixed(1));
+                    $("#db48").val(db48.toFixed(1));
+                    $("#db49").val(db49.toFixed(1));
+
+                    $("#dc46").val(dc46.toFixed(1));
+                    $("#dc47").val(dc47.toFixed(1));
+                    $("#dc48").val(dc48.toFixed(1));
+                    $("#dc49").val(dc49.toFixed(1));
+
+                    $("#dd46").val(dd46.toFixed(1));
+                    $("#dd47").val(dd47.toFixed(1));
+                    $("#dd48").val(dd48.toFixed(1));
+                    $("#dd49").val(dd49.toFixed(1));
+                }
+                else {
+                    DD = 0;
+                }
 
                 //Student Loan
                 var HMRCb52 = 20195;
@@ -1792,7 +3224,7 @@
                 $("#d46").val(d46.toFixed(1));
                 $("#d47").val(d47.toFixed(1));
 
-                var b49 = b18 - b31 - b36 - b47 - b43;
+                var b49 = b18 + DD - b31 - b36 - b47 - b43 - db49;
                 var c49 = b49 / 12;
                 var d49 = b49 / 52;
 
@@ -1841,6 +3273,12 @@
         $("#txtSTloan").on('change', calculate);
         $("#txtEmployeePC").on('change', calculate);
         $("#txtEmployerPC").on('change', calculate);
+        $("#txtHourlyRate").on('change', calculate);
+        $("#txtHoursDay").on('change', calculate);
+        $("#txtDaysWeek").on('change', calculate);
+        $("#txtDirGrossSalary").on('change', calculate);
+        $("#txtDirDividend").on('change', calculate);
+
         $("#btnCalculate").on('click', calculate);
         $("#IsScotland").change(function () {
             var isscotland = this.checked;
@@ -1939,6 +3377,41 @@
 
         });
 
+        $("#IsNormal").change(function () {
+            var isNormal = this.checked;
+            if (isNormal) {
+                $(".normal").show();
+                $(".director").hide();
+                $(".hourly").hide();
+            } else {
+                $(".normal").hide();
+            }
+            calculate();
+        });
+
+        $("#IsHourlyRate").change(function () {
+            var IsHourlyRate = this.checked;
+            if (IsHourlyRate) {
+                $(".normal").hide();
+                $(".director").hide();
+                $(".hourly").show();
+            } else {
+                $(".hourly").hide();
+            }
+            calculate();
+        });
+
+        $("#IsDirector").change(function () {
+            var IsDirector = this.checked;
+            if (IsDirector) {
+                $(".normal").hide();
+                $(".director").show();
+                $(".hourly").hide();
+            } else {
+                $(".normal").hide();
+            }
+            calculate();
+        });
     </script>
 </body>
 </html>
