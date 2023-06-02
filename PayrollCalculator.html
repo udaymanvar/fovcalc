@@ -1,1034 +1,1112 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Payroll Calculator</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
-          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
-          crossorigin="anonymous" />
-    <style>
-        * {
-            font-family: Asistant, Arial, Helvetica
-        }
+  <title>Payroll Calculator</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous" />
+  <style>
+    * {
+      font-family: Asistant, Arial, Helvetica
+    }
 
-        body {
-            width: 98%;
-        }
+    html {
+      margin: 0;
+      overflow-x: hidden;
+    }
 
-        h4, h5, h6 {
-            padding: 5px -5px;
-            width: 100%;
-        }
+    body {
+      width: 100%;
+      overflow-x: hidden;
+      padding: 0 24px;
+    }
 
-        h4 {
-            font-size: 56px;
-        }
+    h4,
+    h5,
+    h6 {
+      padding: 5px -5px;
+      width: 100%;
+    }
 
-        h6 {
-            padding: 5px 10px;
-            width: 100%;
-            text-align: center;
-            font-size: 24px;
-        }
+    h4 {
+      font-size: 56px;
+    }
 
-        .card-header {
-            background-color: #2d3e4f;
-            border-color: #2d3e4f;
-            color: #f7f8f9;
-        }
+    h6 {
+      padding: 5px 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 24px;
+    }
 
-        ul.summary li {
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
+    .card-header {
+      background-color: #2d3e4f;
+      border-color: #2d3e4f;
+      color: #f7f8f9;
+    }
 
-        ul.summary.currency li i::before {
-            content: "€ ";
-        }
+    ul.summary li {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
 
-        ul.summary.currency li i.percentage::before {
-            content: "";
-        }
+    ul.summary.currency li i::before {
+      content: "€ ";
+    }
 
-        ul.summary.currency li i.percentage::after {
-            content: " \%";
-        }
+    ul.summary.currency li i.percentage::before {
+      content: "";
+    }
 
-        .d-done {
-            display: none;
-        }
+    ul.summary.currency li i.percentage::after {
+      content: " \%";
+    }
 
-        .fc-day-grid-event .fc-content {
-            white-space: pre-wrap;
-        }
+    .d-done {
+      display: none;
+    }
 
-        input[type=checkbox] {
-            max-width: 25px;
-        }
+    .fc-day-grid-event .fc-content {
+      white-space: pre-wrap;
+    }
 
-        input.bold {
-            font-weight: bold;
-        }
+    input[type=checkbox] {
+      max-width: 25px;
+    }
 
-        input[readonly="readonly"] {
-            text-align: right;
-        }
+    input.bold {
+      font-weight: bold;
+    }
 
-        .form-control {
-            padding: 0.1rem 0.2rem;
-        }
+    input[readonly="readonly"] {
+      text-align: right;
+    }
 
-        .col-2 {
-            padding-right: 5px;
-            padding-left: 5px;
-        }
+    .form-control {
+      padding: 0.1rem 0.2rem;
+    }
 
-        .buttons {
-            text-align: center;
-        }
+    .col-8 col-md-4 col-lg-2 {
+      padding-right: 5px;
+      padding-left: 5px;
+    }
 
-        .buttons input {
-            border-radius: 15px;
-            background-color: lightgray;
-        }
+    .buttons {
+      text-align: center;
+    }
 
-        .form-check-input {
-            margin-left: 0px;
-        }
+    .buttons input {
+      border-radius: 3px;
+      background-color: lightgray;
+      border: 1px solid lightgray;
+      color: #000;
+      min-height: 42px;
+      transition: 0.5s;
+      cursor: pointer;
+    }
 
-        .container2 {
-            width: 97%;
-        }
-    </style>
+    .form-control {
+      min-height: 42px;
+      outline: none !important;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px !important;
+      border-color: #ccc !important;
+      padding: 5px 10px;
+    }
+
+    .buttons input:hover {
+      background: transparent;
+    }
+
+    .form-check-input {
+      margin-left: 0px;
+    }
+
+    .container2 {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .site-form-heading {
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    .site-form-heading .heading {
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+    }
+
+    form.site-form-wrap {
+      padding-top: 20px;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      h4 {
+        font-size: 40px;
+      }
+    }
+    .mobile-label {
+        display: none;
+    }
+    @media only screen and (max-width: 767px) {
+      h4 {
+        font-size: 30px;
+      }
+      .mobile-label {
+          display: block;
+      }
+      .form-control {
+        margin-bottom: 10px;
+      }
+      .desktop-label{
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container2">
-        <div class="row">
-            <div class="col-md-12 mx-auto">
-                <div class="card card-body text-left mt-5">
-                    <h4 class="heading display-5 pb-3">Input your employee details here</h4>
-                    <form>
-                        <div class="form-group row">
-                            <div class="form-check col-sm-3">
-                                <input class="form-check-input" type="checkbox" id="IsScotland">
-                                <label class="form-check-label" for="IsScotland">
-                                    Resident of Scotland
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="form-check col-sm-3">
-                                <input class="form-check-input" type="radio" id="IsNormal" name="type" checked="checked">
-                                <label class="form-check-label" for="IsNormal">
-                                    Employee and Yearly Gross Salary
-                                </label>
-                            </div>
-                            <div class="form-check col-sm-3">
-                                <input class="form-check-input" type="radio" id="IsHourlyRate" name="type">
-                                <label class="form-check-label" for="IsHourlyRate">
-                                    Salary based on hourly rate
-                                </label>
-                            </div>
-                            <div class="form-check col-sm-3">
-                                <input class="form-check-input" type="radio" id="IsDirector" name="type">
-                                <label class="form-check-label" for="IsDirector">
-                                    I'm a director
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="form-group row hourly">
-                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Hourly rate:</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="txtHourlyRate" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group row hourly">
-                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Number of hours worked per day:</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="txtHoursDay" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group row hourly">
-                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Number of days worked per week:</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="txtDaysWeek" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group row director">
-                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Director's annual gross salary:</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="txtDirGrossSalary" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group row director">
-                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Dividends:</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="txtDirDividend" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group row director">
-                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Calculation method:</label>
-                            <div class="col-sm-2">
-                                <select class="form-control" id="txtCalculationMethod">
-                                    <option value="Annually">Annually</option>
-                                    <option value="Monthly">Monthly</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row normal">
-                            <label for="txtSystemSize" class="col-sm-4 col-form-label">Employee's annual gross salary:</label>
-                            <div class="col-sm-2">
-                                <input type="number" class="form-control" id="txtAnualGrossSalary" placeholder="">
-
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="txtReadline" class="col-sm-4 col-form-label">National Insurance Category Letter:</label>
-                            <div class="col-sm-2">
-                                <select class="form-control" id="txtInsCategory">
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="C">C</option>
-                                    <option value="F">F</option>
-                                    <option value="H">H</option>
-                                    <option value="I">I</option>
-                                    <option value="J">J</option>
-                                    <option value="L">L</option>
-                                    <option value="M">M</option>
-                                    <option value="S">S</option>
-                                    <option value="V">V</option>
-                                    <option value="Z">Z</option>
-                                </select>
-                            </div>
-                            <div class="col-sm-6">
-                                <label><i>A is the most common letter</i> </label>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="txtFinance" class="col-sm-4 col-form-label">Student Loan:</label>
-                            <div class="col-sm-2">
-                                <select class="form-control" id="txtSTloan">
-                                    <option value="Plan 1">Plan 1</option>
-                                    <option value="Plan 2">Plan 2</option>
-                                    <option value="Plan 4">Plan 4</option>
-                                    <option value="Postgraduate">Postgraduate</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="txtPPW" class="col-sm-4 col-form-label">Employee Pension contribution (%):</label>
-                            <div class="col-sm-2">
-                                <input type="number" min="0" class="form-control" id="txtEmployeePC" placeholder="" value="5">
-                            </div>
-                            <div class="col-sm-6">
-                                <label><i> If no pension, input 0%</i> </label>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="txtPPW" class="col-sm-4 col-form-label">Employer Pension contribution (%):</label>
-                            <div class="col-sm-2">
-                                <input type="number" min="0" class="form-control" id="txtEmployerPC" placeholder="" value="3">
-                            </div>
-                            <div class="col-sm-6">
-                                <label><i> 3% is the minimum employer contribution for eligible jobholders pension and non-eligible jobholders who opted-in </i> </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="buttons">
-                                    <input type="button" class="col-3 btn mb-3 mr-2" id="btnCalculate" value="Calculate" />
-                                    <input type="button" class="col-3 btn mb-3 mr-2" id="btnReset" value="Reset" />
-                                </div>
-                            </div>
-                        </div>
-                        <h6>Take-home Pay Calculator</h6>
-                        <div class="form-group">
-                            <div class="col-12">
-                                <div class="row">
-                                    <label class="col-6 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>Yearly</b></label>
-                                    <label class="col-2 col-form-label"><b>Monthly</b></label>
-                                    <label class="col-2 col-form-label"><b>Weekly</b></label>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">Gross Salary</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="b18" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="c18" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="d18" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">Adjusted personal allowance</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="b19" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="c19" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="d19" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">Taxable income</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="b20" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="c20" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="d20" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-12">&nbsp;</label>
-                                </div>
-                                <div class="row">
-                                    <label class="col-6 col-form-label"><b>PAYE tax split</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                </div>
-                                <div class="row scotland">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">PAYE starter rate taxable income</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b231" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c231" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d231" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-                                <div class="row ">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">PAYE basic rate taxable income</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b23" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c23" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d23" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-                                <div class="row scotland">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-12 col-form-label">PAYE intermediate rate taxable income</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b232" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c232" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d232" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">PAYE higher tax rate</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b24" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c24" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d24" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                PAYE additional tax rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b25" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c25" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d25" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-12">&nbsp;</label>
-                                </div>
-                                <div class="row">
-                                    <label class="col-6 col-form-label"><b>PAYE deductions</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                </div>
-
-                                <div class="row scotland">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                PAYE charged at starter rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b281" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c281" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d281" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                PAYE charged at basic rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b28" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c28" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d28" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row scotland">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                PAYE charged at intermediate rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b282" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c282" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d282" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                PAYE charged at higher rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b29" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c29" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d29" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                PAYE charged at additional rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b30" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c30" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d30" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Total PAYE deducted
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="b31" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="c31" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="d31" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-12">&nbsp;</label>
-                                </div>
-                                <div class="row">
-                                    <label class="col-6 col-form-label"><b>NIC deductions</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                NIC taxed at PT to LEL
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b34" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c34" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d34" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                NIC taxed above UEL
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b35" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c35" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d35" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Employee NIC deducted
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="b36" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="c36" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="d36" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row director">
-                                    <label class="col-12">&nbsp;</label>
-                                </div>
-                                <div class="row director">
-                                    <label class="col-6 col-form-label"><b>Tax split Dividends</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                </div>
-
-                                <div class="row director">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Basic rate taxable income
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="db41" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dc41" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dd41" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row director">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Higher rate taxable income
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="db42" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dc42" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dd42" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row director">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Additional rate taxable income
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="db43" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dc43" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dd43" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-
-                                <div class="row director">
-                                    <label class="col-12">&nbsp;</label>
-                                </div>
-                                <div class="row">
-                                    <label class="col-6 col-form-label"><b>Dividends deductions</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                </div>
-
-                                <div class="row director">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Dividends taxed at basic rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="db46" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dc46" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dd46" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row director">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Dividends taxed at higher rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="db47" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dc47" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dd47" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row director">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Dividends taxed at additional rate
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="db48" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dc48" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="dd48" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row director">
-                                    <div class="col-6">
-                                        <div class="row ">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Tax deducted
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="db49" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="dc49" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="dd49" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-12">&nbsp;</label>
-                                </div>
-                                <div class="row">
-                                    <label class="col-6 col-form-label"><b>Student Loan Deductions</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Plan 1
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b39" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c39" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d39" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Plan 2
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b40" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c40" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d40" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Plan 4
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b41" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c41" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d41" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Postgraduate loan
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b42" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c42" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d42" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Total loan deductions
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="b43" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="c43" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="d43" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-12">&nbsp;</label>
-                                </div>
-                                <div class="row">
-                                    <label class="col-6 col-form-label"><b>Pension deductions</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>&nbsp;</b></label>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Pensionable earnings
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b46" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c46" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d46" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Employee pension contributions
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="b47" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="c47" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control " id="d47" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label class="col-12">&nbsp;</label>
-                                </div>
-                                <div class="row bg-light">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                <b>Take Home Pay</b>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="b49" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="c49" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="d49" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <h6>Cost to Employer calculator</h6>
-                        <div class="form-group">
-                            <div class="col-12">
-                                <div class="row">
-                                    <label class="col-6 col-form-label"><b>&nbsp;</b></label>
-                                    <label class="col-2 col-form-label"><b>Yearly</b></label>
-                                    <label class="col-2 col-form-label"><b>Monthly</b></label>
-                                    <label class="col-2 col-form-label"><b>Weekly</b></label>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">Gross Salary</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="g18" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="h18" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="i18" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Employer Pension contributions
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="g19" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="h19" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="i19" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                Employer NIC
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="g20" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="h20" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control" id="i20" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-
-                                <div class="row bg-light">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <label for="txtAdders" class="col-10 col-form-label">
-                                                <b>Total Cost to Employer</b>
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="g21" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="h21" placeholder="" readonly="readonly">
-                                    </div>
-                                    <div class="col-2">
-                                        <input type="number" min="0" class="form-control bold" id="i21" placeholder="" readonly="readonly">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="row">&nbsp;</div>
+  <div class="container2">
+    <div class="row">
+      <div class="col-md-12 mx-auto">
+        <div class="card card-body text-left mt-5 site-form-heading">
+          <h4 class="heading display-5 pb-3">Input your employee details here</h4>
+          <form class="site-form-wrap">
+            <div class="form-group row site-input-wrap flex-wrap">
+              <div class="form-check col-md-6 col-lg-12">
+                <input class="form-check-input" type="checkbox" id="IsScotland">
+                <label class="form-check-label" for="IsScotland">
+                  Resident of Scotland
+                </label>
+              </div>
+              <div class="form-check col-md-6 col-lg-4 ">
+                <input class="form-check-input" type="radio" id="IsNormal" name="type" checked="checked">
+                <label class="form-check-label" for="IsNormal">
+                  Employee and Yearly Gross Salary
+                </label>
+              </div>
+              <div class="form-check col-md-6 col-lg-4">
+                <input class="form-check-input" type="radio" id="IsHourlyRate" name="type">
+                <label class="form-check-label" for="IsHourlyRate">
+                  Salary based on hourly rate
+                </label>
+              </div>
+              <div class="form-check col-md-6 col-lg-4">
+                <input class="form-check-input" type="radio" id="IsDirector" name="type">
+                <label class="form-check-label" for="IsDirector">
+                  I'm a director
+                </label>
+              </div>
             </div>
+
+            <div class="form-group row hourly">
+              <label for="txtSystemSize" class="col-md-6 col-lg-4  col-form-label">Hourly rate:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <input type="number" class="form-control" id="txtHourlyRate" placeholder="">
+              </div>
+            </div>
+            <div class="form-group row hourly">
+              <label for="txtSystemSize" class="col-md-6 col-lg-4  col-form-label">Number of hours worked per day:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <input type="number" class="form-control" id="txtHoursDay" placeholder="">
+              </div>
+            </div>
+            <div class="form-group row hourly">
+              <label for="txtSystemSize" class="col-md-6 col-lg-4  col-form-label">Number of days worked per week:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <input type="number" class="form-control" id="txtDaysWeek" placeholder="">
+              </div>
+            </div>
+            <div class="form-group row director">
+              <label for="txtSystemSize" class="col-md-6 col-lg-4  col-form-label">Director's annual gross salary:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <input type="number" class="form-control" id="txtDirGrossSalary" placeholder="">
+              </div>
+            </div>
+            <div class="form-group row director">
+              <label for="txtSystemSize" class="col-md-6 col-lg-4  col-form-label">Dividends:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <input type="number" class="form-control" id="txtDirDividend" placeholder="">
+              </div>
+            </div>
+            <div class="form-group row director">
+              <label for="txtSystemSize" class="col-md-6 col-lg-4  col-form-label">Calculation method:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <select class="form-control" id="txtCalculationMethod">
+                  <option value="Annually">Annually</option>
+                  <option value="Monthly">Monthly</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row normal">
+              <label for="txtSystemSize" class="col-md-6 col-lg-4  col-form-label">Employee's annual gross salary:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <input type="number" class="form-control" id="txtAnualGrossSalary" placeholder="">
+
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="txtReadline" class="col-md-6 col-lg-4  col-form-label">National Insurance Category Letter:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <select class="form-control" id="txtInsCategory">
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="F">F</option>
+                  <option value="H">H</option>
+                  <option value="I">I</option>
+                  <option value="J">J</option>
+                  <option value="L">L</option>
+                  <option value="M">M</option>
+                  <option value="S">S</option>
+                  <option value="V">V</option>
+                  <option value="Z">Z</option>
+                </select>
+              </div>
+              <div class="col-md-6 col-lg-4 ">
+                <label><i>A is the most common letter</i> </label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="txtFinance" class="col-md-6 col-lg-4  col-form-label">Student Loan:</label>
+              <div class="col-md-6 col-lg-4 ">
+                <select class="form-control" id="txtSTloan">
+                  <option value="Plan 1">Plan 1</option>
+                  <option value="Plan 2">Plan 2</option>
+                  <option value="Plan 4">Plan 4</option>
+                  <option value="Postgraduate">Postgraduate</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="txtPPW" class="col-md-6 col-lg-4  col-form-label">Employee Pension contribution (%):</label>
+              <div class="col-md-6 col-lg-4 ">
+                <input type="number" min="0" class="form-control" id="txtEmployeePC" placeholder="" value="5">
+              </div>
+              <div class="col-md-6 col-lg-4 ">
+                <label><i> If no pension, input 0%</i> </label>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="txtPPW" class="col-md-6 col-lg-4  col-form-label">Employer Pension contribution (%):</label>
+              <div class="col-md-6 col-lg-4 ">
+                <input type="number" min="0" class="form-control" id="txtEmployerPC" placeholder="" value="3">
+              </div>
+              <div class="col-md-6 col-lg-4 ">
+                <label><i> 3% is the minimum employer contribution for eligible jobholders pension and non-eligible jobholders who opted-in </i> </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 buttons">
+                <div class="">
+                  <input type="button" class="col-5 col-md-3 btn mb-3 mr-2" id="btnCalculate" value="Calculate" />
+                  <input type="button" class="col-5 col-md-3 btn mb-3 mr-2" id="btnReset" value="Reset" />
+                </div>
+              </div>
+            </div>
+            <h6>Take-home Pay Calculator</h6>
+            <div class="form-group">
+              <div class="form-group-inner">
+                <div class="row mb-3">
+                  <label class="col-lg-6 col-form-label"><b>&nbsp;</b></label>
+                  <label class="col-8 col-md-4 col-lg-2 col-form-label desktop-label"><b>Yearly</b></label>
+                  <label class="col-8 col-md-4 col-lg-2 col-form-label desktop-label"><b>Monthly</b></label>
+
+                  <label class="col-8 col-md-4 col-lg-2 col-form-label desktop-label"><b>Weekly</b></label>
+
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">Gross Salary</label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="b18" placeholder="" readonly="readonly">
+                  </div>
+                    <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="c18" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="d18" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">Adjusted personal allowance</label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="b19" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="c19" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="d19" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">Taxable income</label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="b20" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="c20" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="d20" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-12 col-lg-6 col-form-label"><b>PAYE tax split</b></label>
+                </div>
+                <div class="row mb-3 scotland">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">PAYE starter rate taxable income</label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b231" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c231" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d231" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 ">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">PAYE basic rate taxable income</label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b23" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c23" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d23" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 scotland">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">PAYE intermediate rate taxable income</label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b232" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c232" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d232" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">PAYE higher tax rate</label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b24" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c24" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d24" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        PAYE additional tax rate
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b25" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c25" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d25" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-12 col-lg-6 col-form-label"><b>PAYE deductions</b></label>
+                </div>
+                <div class="row mb-3 scotland">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        PAYE charged at starter rate
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b281" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c281" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d281" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        PAYE charged at basic rate
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b28" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c28" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d28" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 scotland">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        PAYE charged at intermediate rate
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b282" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c282" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d282" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        PAYE charged at higher rate
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b29" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c29" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d29" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        PAYE charged at additional rate
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b30" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c30" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d30" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Total PAYE deducted
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="b31" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="c31" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="d31" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-12 col-lg-6 col-form-label"><b>NIC deductions</b></label>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        NIC taxed at PT to LEL
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b34" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c34" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d34" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        NIC taxed above UEL
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b35" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c35" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d35" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Employee NIC deducted
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="b36" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="c36" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="d36" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 director">
+                  <label class="col-12 col-lg-6 col-form-label"><b>Tax split Dividends</b></label>
+                </div>
+                <div class="row mb-3 director">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Basic rate taxable income
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="db41" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dc41" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dd41" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 director">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Higher rate taxable income
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="db42" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dc42" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dd42" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 director">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Additional rate taxable income
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="db43" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dc43" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dd43" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-12 col-lg-6 col-form-label"><b>Dividends deductions</b></label>
+                </div>
+                <div class="row mb-3 director">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Dividends taxed at basic rate
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="db46" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dc46" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dd46" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 director">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Dividends taxed at higher rate
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="db47" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dc47" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dd47" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 director">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Dividends taxed at additional rate
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="db48" placeholder="" readonly="readonly">
+                  </div>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dc48" placeholder="" readonly="readonly">
+                  </div>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="dd48" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 director">
+                  <div class="col-12 col-lg-6">
+                    <div class="row ">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Tax deducted
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="db49" placeholder="" readonly="readonly">
+                  </div>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="dc49" placeholder="" readonly="readonly">
+                  </div>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="dd49" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-12 col-lg-6 col-form-label"><b>Student Loan Deductions</b></label>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Plan 1
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b39" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c39" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d39" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Plan 2
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b40" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c40" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d40" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Plan 4
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b41" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c41" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d41" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Postgraduate loan
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b42" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c42" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d42" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Total loan deductions
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="b43" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="c43" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="d43" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label class="col-12 col-lg-6 col-form-label"><b>Pension deductions</b></label>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Pensionable earnings
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b46" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c46" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d46" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Employee pension contributions
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="b47" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="c47" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control " id="d47" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+                <div class="row mb-3 bg-light">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        <b>Take Home Pay</b>
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="b49" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="c49" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="d49" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <h6>Cost to Employer calculator</h6>
+            <div class="form-group">
+              <div class="form-group-inner">
+                <div class="row mb-3">
+                  <label class="col-12 col-lg-6 col-form-label desktop-label"><b>&nbsp;</b></label>
+                  <label class="col-8 col-md-4 col-lg-2 col-form-label desktop-label"><b>Yearly</b></label>
+                  <label class="col-8 col-md-4 col-lg-2 col-form-label desktop-label"><b>Monthly</b></label>
+                  <label class="col-8 col-md-4 col-lg-2 col-form-label desktop-label"><b>Weekly</b></label>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">Gross Salary</label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="g18" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="h18" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="i18" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Employer Pension contributions
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="g19" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="h19" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="i19" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        Employer NIC
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="g20" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="h20" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control" id="i20" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+
+                <div class="row mb-3 bg-light">
+                  <div class="col-12 col-lg-6">
+                    <div class="row">
+                      <label for="txtAdders" class="col-12 col-form-label">
+                        <b>Total Cost to Employer</b>
+                      </label>
+                    </div>
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Yearly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="g21" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Monthly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="h21" placeholder="" readonly="readonly">
+                  </div>
+                  <label class="col-4 col-md-2 col-form-label mobile-label"><b>Weekly</b></label>
+                  <div class="col-8 col-md-4 col-lg-2">
+                    <input type="number" min="0" class="form-control bold" id="i21" placeholder="" readonly="readonly">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
+        <div class="row">&nbsp;</div>
+      </div>
     </div>
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
-            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
-            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
-            crossorigin="anonymous"></script>
-    <script type="text/JavaScript">
-        $(".director").hide();
+  </div>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <script type="text/JavaScript">
+    $(".director").hide();
         $(".hourly").hide();
 
         var calculate = function () {
@@ -1056,9 +1134,9 @@
             var d18 = Math.ceil(b18 / 52);
 
             var isscotland = $("#IsScotland").is(":checked");
-            if (!isscotland)    // Non Scotland 
+            if (!isscotland)    // Non Scotland
             {
-                
+
                 var b19 = 12570.0;
 
                 if (b18 > 100000)
@@ -3414,4 +3492,5 @@
         });
     </script>
 </body>
+
 </html>
