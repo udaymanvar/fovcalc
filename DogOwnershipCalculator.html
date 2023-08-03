@@ -1,0 +1,347 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Dog Ownership Calculator
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: rgb(22, 22, 22);
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        fieldset {
+            background-color: #eeeeee;
+        }
+
+        legend {
+            background-color: #868e96 !important;
+            color: white;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container" id="calculator-wrap">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <h5 class="heading display-5 pb-3">Select the Following Value</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="">
+                                Size of dog:
+                            </label>
+                            <div class="input-group">
+                                <select class="form-control" id="dog-size">
+                                    <option value="small">Small</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="large">Large</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Grooming:</label>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-4"><input checked="checked" id="grooming" name="grooming" type="radio">Yes</div>
+                                <div class="col-sm-4 col-xs-4"><input name="grooming" type="radio">No</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">
+                                Pet Insurance:
+                            </label>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-4"><input checked="checked" id="pet-insurance" name="pet-insurance" type="radio">Yes</div>
+                                <div class="col-sm-4 col-xs-4"><input name="pet-insurance" type="radio">No</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Vaccination:</label>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-4"><input checked="checked" id="vaccination" name="vaccination" type="radio">Yes</div>
+                                <div class="col-sm-4 col-xs-4"><input name="vaccination" type="radio">No</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+                            <label for="">Neutering/Spaying:</label>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-4"><input checked="checked" id="neutering" name="neutering" type="radio">Yes</div>
+                                <div class="col-sm-4 col-xs-4"><input name="neutering" type="radio">No</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Flea/Tick Control:</label>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-4"><input checked="checked" id="flea" name="flea" type="radio">Yes</div>
+                                <div class="col-sm-4 col-xs-4"><input name="flea" type="radio">No</div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="">Heartworm Prevention:</label>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-4"><input checked="checked" id="heartworm" name="heartworm" type="radio">Yes</div>
+                                <div class="col-sm-4 col-xs-4"><input name="heartworm" type="radio">No</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">
+                                Training Classes:
+                            </label>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-4"><input checked="checked" id="training" name="training" type="radio">Yes</div>
+                                <div class="col-sm-4 col-xs-4"><input name="training" type="radio">No</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <label for=""># of days per month you’ll need a dog walker:</label>
+                            <div class="input-group">
+                                <div class="range-wrap row">
+                                    <div class="col-sm-3 col-xs-3"><span class="range-value">0</span></div>
+                                    <div class="col-sm-9 col-xs-9"><input min="0" max="30" default="30" value="0" id="dog-walking" type="range"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for=""># of days per month you’ll need dog boarding:</label>
+                            <div class="input-group">
+                                <div class="row range-wrap">
+                                    <div class="col-sm-3 col-md-3"><span class="range-value">0</span></div>
+                                    <div class="col-sm-9 col-md-9"><input min="0" max="30" default="30" value="0" id="dog-boarding" type="range"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="divPrintable">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <h5 class="heading display-5 pb-3">
+                        Rough Estimate of Dog Ownership
+                    </h5>
+                    <div class="container-fluid" id="divResult">
+                        <div class="row">
+                            <label class="control-label col-sm-5 hidden-sm"><strong>One-time expenses</strong></label>
+                            <h1 class="col-sm-3 col-sm-offset-2 text-right" data-label="oneTime">$805</h1>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="neutering">$200</label>
+                            <label class="control-label col-sm-4">Neutering/Spaying</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="vaccination">$105</label>
+                            <label class="control-label col-sm-4">Vaccination</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="equipment">$220</label>
+                            <label class="control-label col-sm-4">Equipment</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="training">$180</label>
+                            <label class="control-label col-sm-4">Training</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="others">$100</label>
+                            <label class="control-label col-sm-4">Others</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-5 hidden-sm"><strong>Monthly expenses</strong></label>
+                            <h1 class="col-sm-3 col-sm-offset-2 text-right" data-label="monthlyExpenses">$150</h1>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="food">$50</label>
+                            <label class="control-label col-sm-4">Food</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="petInsurance">$45</label>
+                            <label class="control-label col-sm-4">Pet Insurance</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="flea">$10</label>
+                            <label class="control-label col-sm-4">Flea/Tick Control</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="heartworm">$5</label>
+                            <label class="control-label col-sm-4">Heartworm Prevention</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="grooming">$20</label>
+                            <label class="control-label col-sm-4">Grooming</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="dogWalking">$0</label>
+                            <label class="control-label col-sm-4">Dog Walking</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="dogBoarding">$0</label>
+                            <label class="control-label col-sm-4">Dog Boarding</label>
+                        </div>
+                        <div class="row">
+                            <label class="control-label col-sm-3 col-sm-offset-2 text-right" data-label="equipmentToys">$20</label>
+                            <label class="control-label col-sm-4">Equipment &amp; Toys</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/JavaScript">
+
+        $(document).ready(function () {
+            var $parent = $("#calculator-wrap");
+            var $dogSize = $("#dog-size");
+            var $grooming = $("#grooming");
+            var $petInsurance = $("#pet-insurance");
+            var $vaccination = $("#vaccination");
+            var $neutering = $("#neutering");
+            var $flea = $("#flea");
+            var $heartworm = $("#heartworm");
+            var $training = $("#training");
+            var $dogWalker = $("#dog-walking");
+            var $dogBoarding = $("#dog-boarding");
+
+            // Small Medium Large order
+            var dogSizeMap = {
+                small: 0,
+                medium: 1,
+                large: 2
+            }
+            var oneTimeMap = {
+                totalEl: "oneTime",
+                neutering: { input: "#neutering", value: [200, 230, 350], output: "neutering" },
+                vaccination: { input: "#vaccination", value: [105, 105, 105], output: "vaccination" },
+                equipment: { value: [220, 270, 290], output: "equipment" },
+                training: { input: "#training", value: [180, 180, 180], output: "training" },
+                others: { value: [100, 100, 100], output: "others" }
+            }
+            var monthlyMap = {
+                totalEl: "monthlyExpenses",
+                food: { value: [50, 70, 90], output: "food" },
+                petInsurance: { input: "#pet-insurance", value: [45, 45, 45], output: "petInsurance" },
+                flea: { input: "#flea", value: [10, 17, 25], output: "flea" },
+                heartworm: { input: "#heartworm", value: [5, 10, 15], output: "heartworm" },
+                grooming: { input: "#grooming", value: [20, 30, 40], output: "grooming" },
+                dogWalking: { input: "#dog-walking", value: [25, 25, 25], output: "dogWalking", isSlider: true },
+                dogBoarding: { input: "#dog-boarding", value: [50, 50, 50], output: "dogBoarding", isSlider: true },
+                equipmentToys: { value: [20, 25, 30], output: "equipmentToys" }
+            }
+
+            calculate();
+
+            $parent.find("input[type=radio]").on("click", function () {
+                calculate();
+            });
+
+            $parent.find("select, input[type=range]").on("change", function () {
+                calculate();
+            });
+
+            function calculate() {
+                generateTotal(oneTimeMap);
+                generateTotal(monthlyMap);
+            }
+
+            function generateTotal(mapObject) {
+                var dogSize = $dogSize.val();
+                var total = 0;
+                for (var key in mapObject) {
+                    if (key != "totalEl") {
+                        var value;
+                        var item = mapObject[key];
+
+                        if (item.hasOwnProperty("input")) {
+                            if (item.input == "#dog-walking" || item.input == "#dog-boarding") {
+                                var slider = $parent.find(item.input).val();
+                                value = slider * item.value[dogSizeMap[dogSize]];
+
+                                var $rangeWrap = $parent.find(item.input).closest(".range-wrap");
+                                $rangeWrap.find(".range-value").html(slider);
+                            } else {
+                                var inputChecked = $parent.find(item.input).is(":checked");
+                                value = !inputChecked ? 0 : item.value[dogSizeMap[dogSize]];
+                            }
+                        } else {
+                            value = item.value[dogSizeMap[dogSize]];
+                        }
+
+                        $parent.find("[data-label=" + item.output + "]").html("$" + value);
+                        total += value;
+                    }
+                }
+
+                $parent.find("[data-label=" + mapObject.totalEl + "]").html("$" + total);
+                return total;
+            }
+        });
+    </script>
+</body>
+</html>
