@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Dog Ownership Calculator
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: rgb(22, 22, 22);
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        #divPrintable {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container" id="calculator-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-body text-left mt-5 ">
+                    <div class="row bg-light">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-12 mt-4">
+                                    <label for="">
+                                        <strong>Loan Amount</strong>
+                                    </label>
+                                    <input type="number" class="form-control" value="20000" id="loanAmount" name="loanAmount" />
+                                </div>
+                                <div class="col-md-12 mt-4">
+                                    <label for="">
+                                        <strong>Loan Term</strong> (in years)
+                                    </label>
+                                    <input type="number" class="form-control" value="5" id="loanTerm" name="loanTerm" />
+                                </div>
+                                <div class="col-md-12 mt-4">
+                                    <label for="">
+                                        <strong>Interest Rate</strong>
+                                    </label>
+                                    <input type="number" class="form-control" value="6" id="rate" name="rate" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row" id="divPrintable">
+                                <div class="col-md-12 mx-auto">
+                                    <div class="card card-body ">
+                                        <h5 class="heading display-5 pb-1">
+                                            Payment Details
+                                        </h5>
+                                        <div class="container-fluid" id="divResult">
+                                            <label>Monthly Payment</label>
+                                            <h3 id="monthlyPayment">$387</h3>
+
+                                            <label>Total Payment</label>
+                                            <h5 id="totalPayment">$23,199</h5>
+
+                                            <label>Total Interest</label>
+                                            <h5 id="totalInterest">$3,199</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/JavaScript">
+        var PMT = function (rate, nperiod, pv, fv, type) {
+            if (!fv) fv = 0;
+            if (!type) type = 0;
+
+            if (rate == 0) return -(pv + fv) / nperiod;
+
+            var pvif = Math.pow(1 + rate, nperiod);
+            var pmt = rate / (pvif - 1) * -(pv * pvif + fv);
+
+            if (type == 1) {
+                pmt /= (1 + rate);
+            };
+
+            return pmt * -1;
+        };
+
+        $(document).ready(function () {
+            var loanAmount = $("#loanAmount");
+            var loanTerm = $("#loanTerm");
+            var rate = $("#rate");
+
+            calculate();
+
+            $("select, input[type=number]").on("change", function () {
+                calculate();
+            });
+
+            function calculate() {
+                var P = parseFloat(loanAmount.val());
+                var R = parseFloat(rate.val());
+                var N = parseFloat(loanTerm.val());
+
+                N = N * 12;
+                R = R / 1200;
+                //var EMI =  (P * R * Math.pow(1+R,N)) / (Math.pow(1+R,N-1))
+                var EMI = PMT(R, N, P, 0, 0);
+                var Total = EMI * N;
+                var TotalInterest = Total - P;
+                $("#txtEMI").val(EMI.toFixed(0));
+
+                $("#monthlyPayment").html("" + EMI.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: "0" }));
+                $("#totalPayment").html("" + Total.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: "0" }));
+                $("#totalInterest").html("" + TotalInterest.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: "0" }));
+            }
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Dog Ownership Calculator
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: rgb(22, 22, 22);
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        fieldset {
+            background-color: #eeeeee;
+        }
+
+        legend {
+            background-color: #868e96 !important;
+            color: white;
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container" id="calculator-wrap">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <h5 class="heading display-5 pb-3">Select the Following Value</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="">
+                                Calculate
+                            </label>
+                            <div class="input-group">
+                                <select class="form-control" id="calculate">
+                                    <option value="priceAfterDiscount">Discounted price</option>
+                                    <option value="priceBase">Regular price</option>
+                                    <option value="discountInPercent">Discount as a precentage</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 priceAfterDiscount discountInPercent">
+                            <label for="">Regular price in $</label>
+                            <input type="number" class="form-control" value="" id="regularPrice" name="regularPrice">
+                        </div>
+                        <div class="col-md-4 priceAfterDiscount priceBase">
+                            <label for="">
+                                Discount as a precentage
+                            </label>
+                            <input type="number" class="form-control" value="" id="discount" name="discount">
+                        </div>
+                        <div class="col-md-4 priceBase discountInPercent">
+                            <label for="">
+                                Discounted price in $
+                            </label>
+                            <input type="number" class="form-control" value="" id="discountedPriceIn" name="discountedPriceIn">
+                        </div>
+
+                    </div>
+                    <div class="row">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="divPrintable">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <h3 class="heading display-5 pb-3">
+                        Result
+                    </h3>
+                    <div class="container-fluid" id="divResult">
+                        <div class="row priceAfterDiscount mt-3">
+                            <span class="caption col-md-4"><strong>Discounted Price</strong></span>
+                            <span class="caption col-md-6"><strong id="discountedPrice"></strong></span>
+                        </div>
+                        <div class="row priceBase mt-3">
+                            <span class="caption col-md-4"><strong>Regular price</strong></span>
+                            <span class="caption col-md-6"><strong id="regularPriceOut"></strong></span>
+                        </div>
+                        <div class="row discountInPercent mt-3">
+                            <span class="caption col-md-4"><strong>Discount as a precentage</strong></span>
+                            <span class="caption col-md-6"><strong id="discountPer"></strong></span>
+                        </div>
+                        <div class="row priceAfterDiscount priceBase discountInPercent mt-3">
+                            <span class="caption col-md-4"><strong>Discount</strong></span>
+                            <span class="caption col-md-6"><strong id="discountPrice"></strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/JavaScript">
+
+        $(document).ready(function () {
+
+            calculate();
+
+            $("select, input[type=number]").on("change", function () {
+                calculate();
+            });
+
+            function calculate() {
+                $regularPrice = parseFloat($("#regularPrice").val());
+                $discountPer = parseFloat($("#discount").val());
+                $discountedPriceIn = parseFloat($("#discountedPriceIn").val());
+                $calculate = $("#calculate").val()
+
+                if ($calculate == "priceAfterDiscount") {
+                    $(".priceBase").addClass("d-none");
+                    $(".discountInPercent").addClass("d-none");
+                    $(".priceAfterDiscount").removeClass("d-none");
+                    var discount = $regularPrice * ($discountPer / 100);
+                    var discountedPrice = $regularPrice - discount;
+
+                    if (!isNaN(discount)) {
+                        $("#discountedPrice").html("" + discountedPrice.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: "0" }));
+                        $("#discountPrice").html("" + discount.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: "0" }));
+                    }
+                }
+                else if ($calculate == "priceBase") {
+                    $(".priceAfterDiscount").addClass("d-none");
+                    $(".discountInPercent").addClass("d-none");
+                    $(".priceBase").removeClass("d-none");
+                    var discount = $discountedPriceIn / (1 - $discountPer) * -1;
+                    var regularPrice = $discountedPriceIn + discount;
+
+                    if (!isNaN(discount)) {
+                        $("#regularPriceOut").html("" + regularPrice.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: "0" }));
+                        $("#discountPrice").html("" + discount.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: "0" }));
+                    }
+                }
+                else if ($calculate == "discountInPercent") {
+                    $(".priceAfterDiscount").addClass("d-none");
+                    $(".priceBase").addClass("d-none");
+                    $(".discountInPercent").removeClass("d-none");
+                    var discountPer = (100 - (($discountedPriceIn * 100) / $regularPrice)) / 100;
+                    var discount = $regularPrice - $discountedPriceIn;
+
+                    if (!isNaN(discount)) {
+                        $("#discountPer").html("" + discountPer.toLocaleString("en-US", { style: "percent", currency: "USD", maximumFractionDigits: "2" }));
+                        $("#discountPrice").html("" + discount.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: "0" }));
+                    }
+                }
+            }
+
+        });
+    </script>
+</body>
+</html>
