@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Dog Crate Size Calculator
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: #19a7b1;
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        fieldset {
+            background-color: #eeeeee;
+        }
+
+        legend {
+            background-color: #868e96 !important;
+            color: white;
+            padding: 5px 10px;
+        }
+
+        .result {
+            margin: 0;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            color: #e69139;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .btn-calculate {
+            background-color: #e69139 !important;
+            background-color: #e69139 !important;
+            border-color: #e69139 !important;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container" id="calculator-wrap">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="">
+                                Dog's Length
+                            </label>
+                            <div class="input-group">
+                                <input type="number" name="length" id="length" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label for="">Dog's Height</label>
+                            <div class="input-group">
+                                <input type="number" name="height" id="height" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <label for="">
+                                Weight
+                            </label>
+                            <div class="input-group">
+                                <input type="number" name="weight" id="weight" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 class="result">
+                            </h4>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <button type="button" value="" class="btn btn-success btn-calculate" onclick="calculate();">Calculate</button>
+                        </div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/JavaScript">
+        function crateCalculator(dogLength, dogHeight, dogWeight) {
+            if (dogLength <= 20 && dogHeight <= 14 && dogWeight <= 25) {
+                return "Small Crate (24 inches)";
+            } else if (dogLength <= 30 && dogHeight <= 20 && dogWeight <= 40) {
+                return "Medium Crate (30 inches)";
+            } else if (dogLength <= 40 && dogHeight <= 28 && dogWeight <= 70) {
+                return "Large Crate (36 inches)";
+            } else {
+                return "X-Large Crate (42 inches or larger)";
+            }
+        }
+
+        function calculate() {
+            var dogLength = parseFloat(document.getElementById("length").value);
+            var dogHeight = parseFloat(document.getElementById("height").value);
+            var dogWeight = parseFloat(document.getElementById("weight").value);
+
+            var result = crateCalculator(dogLength, dogHeight, dogWeight)
+            $(".result").html(result);
+        }
+    </script>
+</body>
+</html>
