@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Dog Emergency Fund Calculator
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: rgb(22, 22, 22);
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        fieldset {
+            background-color: #eeeeee;
+        }
+
+        legend {
+            background-color: #868e96 !important;
+            color: white;
+            padding: 5px 10px;
+        }
+
+        .resultText p {
+            font-size: 1.25rem;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container" id="calculator-wrap">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <div class="row">
+                        <label class="col-10" for="food">HOW MANY MONTHS DO YOU WANT YOUR EMERGENCY FUND TO LAST?</label>
+                        <input type="number" class="form-control col-2" value="6" id="months" name="months">
+                    </div>
+                    <h5 class="heading display-5 pb-3">
+                        Please add per month's expenses in all fields.
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="food">Food</label>
+                            <input type="number" class="form-control" value="" id="food" name="food">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="treats">Treats</label>
+                            <input type="number" class="form-control" value="" id="treats" name="treats">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="flea_and_tick_prevention">Flea and tick prevention</label>
+                            <input type="number" class="form-control" value="" id="flea_and_tick_prevention" name="flea_and_tick_prevention">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="toys">Toys</label>
+                            <input type="number" class="form-control" value="" id="toys" name="toys">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="potty_pads">Potty pads</label>
+                            <input type="number" class="form-control" value="" id="potty_pads" name="potty_pads">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="dog_ramp">Dog ramp</label>
+                            <input type="number" class="form-control" value="" id="dog_ramp" name="dog_ramp">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="poop_bags">Poop bags</label>
+                            <input type="number" class="form-control" value="" id="poop_bags" name="poop_bags">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="vet_visits_medical_bills">Vet visits & medical bills</label>
+                            <input type="number" class="form-control" value="" id="vet_visits_medical_bills" name="vet_visits_medical_bills">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="dental_cleaning">Dental cleaning</label>
+                            <input type="number" class="form-control" value="" id="dental_cleaning" name="dental_cleaning">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="grooming">Grooming</label>
+                            <input type="number" class="form-control" value="" id="grooming" name="grooming">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="dog_boarding">Dog boarding</label>
+                            <input type="number" class="form-control" value="" id="dog_boarding" name="dog_boarding">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="dog_walking">Dog walking</label>
+                            <input type="number" class="form-control" value="" id="dog_walking" name="dog_walking">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="training_session">Training session</label>
+                            <input type="number" class="form-control" value="" id="training_session" name="training_session">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="pet_insurance">Pet insurance</label>
+                            <input type="number" class="form-control" value="" id="pet_insurance" name="pet_insurance">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="euthanasia">Euthanasia</label>
+                            <input type="number" class="form-control" value="" id="euthanasia" name="euthanasia">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="cremation">Cremation</label>
+                            <input type="number" class="form-control" value="" id="cremation" name="cremation">
+                        </div>
+
+                    </div>
+                    <div class="text-center mt-5">
+                        <p id="message">Total for 6 month's of transportation expenses</p>
+                        <h4 id="totalAmount">$ 450</h4>
+                    </div>
+                    <div class="text-center mt-5 resultText">
+                        <p id="resultText">Your answers indicate that your monthly expenses are $ 130. You want your emergency fund to last for 6 months. As a result, you will need to save $ 780 to do so.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/JavaScript">
+
+        $(document).ready(function () {
+            // Get all input elements
+            const monthInput = document.getElementById('months');
+            // Define other input elements similarly for other variables
+
+            // Get the totalAmount input
+            const totalAmountInput = document.getElementById('totalAmount');
+
+            calculate();
+
+            $("select, input[type=number]").on("change", function () {
+                calculate();
+            });
+
+            function calculate() {
+                // Get all input elements
+                const inputs = document.querySelectorAll('input[type="number"]');
+
+                let total = 0;
+                inputs.forEach(input => {
+                    if (input.id !== "months")
+                        total += parseFloat(input.value) || 0;
+                });
+                let monthTotal = total;
+                total = total * parseInt(monthInput.value);
+                document.getElementById('totalAmount').innerHTML = "$ " + total.toFixed(2);
+                document.getElementById('message').innerHTML = "Total for " + monthInput.value + " month's of expenses";
+                document.getElementById('resultText').innerHTML = "Your answers indicate that your monthly expenses are $ " + monthTotal + ". You want your emergency fund to last for " + monthInput.value + " months. As a result, you will need to save $ " + total + " to do so.";
+            }
+        });
+    </script>
+</body>
+</html>
