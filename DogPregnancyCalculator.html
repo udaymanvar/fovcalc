@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Dog Heat Cycle Calculator
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: rgb(22, 22, 22);
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        #divPrintable {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container" id="calculator-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-body text-left mt-5 ">
+                    <div class="row bg-light">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12 mt-4">
+                                    <label for="">
+                                        <strong>Mating Date</strong>
+                                    </label>
+                                    <input type="date" class="form-control" id="startDate" name="startDate" />
+                                </div>
+                                <div class="col-md-12 mt-4">
+                                    <label for="">
+                                        <strong>Due date</strong>
+                                    </label>
+                                    <input type="date" class="form-control" id="dueDate" name="dueDate" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row  d-none" id="divPrintable">
+                                <div class="col-md-12 mx-auto">
+                                    <div class="card card-body ">
+                                        <div class="container-fluid" id="divResult">
+                                            <div class="row">
+                                                <span id="result1">
+                                                    <i class="fas fa-calendar-days"></i>
+                                                </span>
+                                            </div>
+                                            <div class="row pt-3">
+                                                <span id="result2"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/JavaScript">
+        $(document).ready(function () {
+            const startDateInput = document.getElementById("startDate");
+            const dueDate = document.getElementById("dueDate");
+            const result1 = document.getElementById("result1");
+            const result2 = document.getElementById("result2");
+
+            // Set Vacation Start Date to current date + 1 year
+            const currentDate = new Date();
+            currentDate.setHours(0,0,0,0);
+            // startDateInput.valueAsDate = currentDate;
+
+            $("select, input").on("change", function () {
+                calculate();
+            });
+
+            function calculate() {
+                if (startDateInput.value == undefined || startDateInput.value == "")
+                    return;
+                const lengthvalue = parseInt(length.value);
+
+                const inputDate = new Date(startDateInput.value);
+
+                console.log(inputDate);
+                // Add 18 days to the input date
+                const newDate1 = new Date(inputDate);
+                newDate1.setHours(0,0,0,0);
+                console.log(currentDate);
+                newDate1.setDate(newDate1.getDate() + 64);
+                dueDate.valueAsDate = newDate1;
+                
+                console.log(newDate1);
+                //const dueDateValue = new Date(newDate1.getFullYear(), newDate1.getMonth(), newDate1.getDate());
+                //dueDate.valueAsDate = dueDateValue;
+
+                // Define locale options for long date format
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+                // Array of day names
+                const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+                // Get the day of the week for the new date
+                const dayIndex = newDate1.getDay();
+                console.log(dayIndex);
+                const dayName = daysOfWeek[dayIndex];
+                console.log(dayName);
+                result1.innerHTML = "Your dog's due date is on " + dayName + "! 🐕";
+
+                // Calculate the difference in milliseconds between newDate and currentDate
+                const timeDifferenceMillis = newDate1 - currentDate;
+                
+                // Convert milliseconds to days
+                const daysDifference = Math.floor(timeDifferenceMillis / (1000 * 60 * 60 * 24));
+                
+                console.log(daysDifference);
+                result2.innerHTML = "🐶 Your dog is going to give birth in " + (daysDifference+1) + " days!"
+                $("#divPrintable").removeClass("d-none");
+            }
+
+            calculate();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Dog Heat Cycle Calculator
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: rgb(22, 22, 22);
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        ul.summary li {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        ul.summary.currency li i::before {
+            content: "€ ";
+        }
+
+        ul.summary.currency li i.percentage::before {
+            content: "";
+        }
+
+        ul.summary.currency li i.percentage::after {
+            content: " \%";
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        #divPrintable {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container" id="calculator-wrap">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-body text-left mt-5 ">
+                    <div class="row bg-light">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12 mt-4">
+                                    <label for="">
+                                        <strong>First day of the cycle</strong>
+                                    </label>
+                                    <input type="date" class="form-control" id="startDate" name="startDate" />
+                                </div>
+                                <div class="col-md-12 mt-4">
+                                    <label for="">
+                                        <strong>Do you know your dog's cycle length?</strong>
+                                    </label>
+                                    <select class="form-control" id="dogCycle">
+                                        <option value="No" selected="selected">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-12 mt-4 d-none" id="divLength">
+                                    <label for="">
+                                        <strong>Length</strong>
+                                    </label>
+                                    <select class="form-control" id="length">
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6" selected="selected">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row  d-none" id="divPrintable">
+                                <div class="col-md-12 mx-auto">
+                                    <div class="card card-body ">
+                                        <div class="container-fluid" id="divResult">
+                                            <div class="row">
+                                                <span id="result1">
+                                                    <i class="fas fa-calendar-days"></i>
+                                                </span>
+                                            </div>
+                                            <div class="row pt-3">
+                                                <span id="result2"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/JavaScript">
+        $(document).ready(function () {
+            const startDateInput = document.getElementById("startDate");
+            const dogCycle = document.getElementById("dogCycle");
+            const length = document.getElementById("length");
+            const result1 = document.getElementById("result1");
+            const result2 = document.getElementById("result2");
+
+            // Set Vacation Start Date to current date + 1 year
+            const currentDate = new Date();
+            // startDateInput.valueAsDate = currentDate;
+
+            $("select, input").on("change", function () {
+                calculate();
+            });
+
+            $("#dogCycle").on("change", function () {
+                if (dogCycle.value == "No") {
+                    $("#divLength").addClass("d-none");
+                } else {
+                    $("#divLength").removeClass("d-none");
+                }
+            });
+            function calculate() {
+                if (startDateInput.value == undefined || startDateInput.value == "")
+                    return;
+                const lengthvalue = parseInt(length.value);
+
+                const inputDate = new Date(startDateInput.value);
+
+                // Add 18 days to the input date
+                const newDate1 = new Date(inputDate);
+                newDate1.setDate(newDate1.getDate() + 18);
+
+                // Add 22 days to the input date
+                const newDate2 = new Date(inputDate);
+                newDate2.setDate(newDate2.getDate() + 21);
+
+                // Define locale options for long date format
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+
+                const newDateString1 = newDate1.toLocaleDateString(undefined, options);
+                const newDateString2 = newDate2.toLocaleDateString(undefined, options);
+
+                result1.innerHTML = "<i class='fas fa-calendar-days' ></i> Your dog's cycle will last up to <b>" + newDateString1 + "</b> - <b>" + newDateString2 + "</b>.";
+
+                const newDate3 = new Date(inputDate);
+                newDate3.setMonth(newDate3.getMonth() + 5);
+                newDate3.setDate(newDate3.getDate() - 1);
+
+                const newDate4 = new Date(inputDate);
+                newDate4.setMonth(newDate4.getMonth() + 8);
+
+                const newDate5 = new Date(inputDate);
+                newDate5.setMonth(newDate5.getMonth() + lengthvalue);
+                newDate5.setDate(newDate5.getDate() - 1);
+
+                const newDateString3 = newDate3.toLocaleDateString(undefined, options);
+                const newDateString4 = newDate4.toLocaleDateString(undefined, options);
+                const newDateString5 = newDate5.toLocaleDateString(undefined, options);
+
+                if (dogCycle.value == "No") {
+                    result2.innerHTML = "<i class='fas fa-calendar-days' ></i> You can expect the next heat cycle in between <b>" + newDateString3 + "</b> and <b>" + newDateString4 + "</b>.";
+                } else {
+                    result2.innerHTML = "<i class='fas fa-calendar-days' ></i> You can expect the next heat cycle on <b>" + newDateString5 + "</b>.";
+                }
+                $("#divPrintable").removeClass("d-none");
+            }
+
+            calculate();
+        });
+    </script>
+</body>
+</html>

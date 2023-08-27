@@ -1,0 +1,608 @@
+﻿<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>
+        Dog Emergency Fund Calculator
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+          crossorigin="anonymous" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+          integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        h5 {
+            color: rgb(22, 22, 22);
+        }
+
+        .card-header {
+            background-color: #2d3e4f;
+            border-color: #2d3e4f;
+            color: #f7f8f9;
+        }
+
+        .d-done {
+            display: none;
+        }
+
+        .fc-day-grid-event .fc-content {
+            white-space: pre-wrap;
+        }
+
+        .fc-event, .fc-event-dot {
+            background-color: yellow !important;
+        }
+
+        fieldset {
+            background-color: #eeeeee;
+        }
+
+        legend {
+            background-color: #868e96 !important;
+            color: white;
+            padding: 5px 10px;
+        }
+
+        .resultText p {
+            font-size: 1.25rem;
+            line-height: 1.4;
+        }
+        /* Media query for mobile screens */
+        @media (max-width: 768px) {
+            .tabs ul {
+                flex-direction: column; /* Stack elements vertically */
+            }
+        }
+
+        @media all {
+
+            .tabs {
+                padding-top: 3%;
+            }
+
+                .tabs ul {
+                    display: flex;
+                    width: 100%;
+                    list-style: none; /* Remove default list bullet points */
+                    padding: 0;
+                    margin: 0;
+                }
+
+            .tab-list {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+                .tab-list > li {
+                    /* padding: 0 3%;*/
+                    border-left: 1px solid #6c6c6c;
+                    text-align: center;
+                    float: left;
+                    cursor: pointer;
+                    background: #e9ecef;
+                    flex: 1; /* Grow to take up equal space */
+                    padding: 10px; /* Optional: Add padding for spacing */
+                    border: 1px solid #ccc; /* Optional: Add a border for visual separation */
+                }
+
+                    .tab-list > li:first-child {
+                        border-left: none;
+                    }
+
+                    .tab-list > li:hover > h6,
+                    .tab-list > li.active > h6 {
+                        color: #212529;
+                        border-top: 3px solid #0cc;
+                    }
+
+                    .tab-list > li > h6 {
+                        /*font-weight: 100;
+                        display: block;
+                        transition: all 500ms ease;
+                        color: #212529;*/
+                        align-items: center;
+                        border-bottom: 1px solid transparent;
+                        color: #999;
+                        -moz-column-gap: .25em;
+                        column-gap: .25em;
+                        display: flex;
+                        font-size: .775rem;
+                        justify-content: center;
+                        padding: 10px 8px;
+                        transition: color .1s ease-in-out;
+                    }
+
+            .tabs-content {
+                opacity: 0;
+                display: none;
+                margin: 3em 0;
+                opacity 1s ease-out;
+            }
+
+                .tabs-content.active {
+                    opacity: 1;
+                    display: block;
+                }
+
+                .tabs-content > div > i {
+                    font-size: 65px;
+                    float: left;
+                    display: block;
+                    margin-top: 10px;
+                }
+
+                .tabs-content > div > article {
+                    float: right;
+                    width: 80%;
+                }
+
+                    .tabs-content > div > article h6 {
+                        font-weight: bold;
+                    }
+
+            /* Bar Set Style */
+            .tab-header {
+                margin: 0 0 1em;
+            }
+
+                .tab-header h6 {
+                    font-size: 20px;
+                    text-transform: uppercase;
+                }
+
+            .single-bar {
+                float: left;
+                text-align: center;
+                padding-right: 0;
+                padding-left: 0;
+            }
+
+                .single-bar p {
+                    text-align: center;
+                }
+
+                    .single-bar p.bar-place {
+                        margin: 1em 0;
+                    }
+
+            .bar-container {
+                border-bottom: 1px solid #fff;
+                padding: 0 1em;
+                min-height: 280px;
+                position: relative;
+            }
+
+            .bar {
+                position: absolute;
+                overflow: hidden;
+                bottom: 0;
+            }
+
+                .bar:first-child {
+                    padding-left: 0;
+                }
+
+            .bar-value {
+                border: 1px solid #fff;
+                border-bottom: none;
+            }
+
+            .bar1 {
+                height: 150px;
+            }
+
+            .bar2 {
+                height: 245px;
+            }
+
+            .bar3 {
+                height: 110px;
+            }
+
+            .bar4 {
+                height: 95px;
+            }
+
+            .bar5 {
+                height: 180px;
+            }
+
+            .bar6 {
+                height: 50px;
+            }
+
+            .bar-highlight {
+                background-color: #4ECDC4;
+                border-color: #4ECDC4;
+            }
+
+                .bar-highlight:hover {
+                    opacity: .9;
+                }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container" id="calculator-wrap">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="card card-body text-left mt-5">
+                    <section class="container-fluid">
+                        <!-- Tabs Start -->
+                        <div class="tabs">
+                            <ul class="list-inline tab-list">
+                                <li id="select-2" class="active">
+                                    <h6>Human years to Dog years calculator</h6>
+                                </li>
+                                <li id="select-1">
+                                    <h6>Dog years to Human years calculator</h6>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Tabs End -->
+                        <!-- Tabs Content Start -->
+                        <div class="container">
+                            <div class="tabs-content active" id="content-select-2">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="dogYears">Human Years</label>
+                                        <input type="number" class="form-control " value="44" id="humanYears" name="humanYears">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="dogSize2">What type of dog do you have?</label>
+                                        <select id="dogSize2" name="dogSize2" class="form-control">
+                                            <option value="1">Small breed(20 lbs or less)</option>
+                                            <option value="2">Medium breed(21 to 50 lbs)</option>
+                                            <option value="3">Larger breed(51 to 100 lbs)</option>
+                                            <option value="4">Giant breed(greater 100 lbs)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div class="text-center mt-5">
+                                    <p id="message">Dog years</p>
+                                    <h4 id="dogYearResult"></h4>
+                                </div>
+                            </div>
+                            <div class="tabs-content " id="content-select-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="dogYears">Dog Years</label>
+                                        <input type="number" class="form-control " value="7" id="dogYears" name="dogYears">
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="dogSize">What type of dog do you have?</label>
+                                        <select id="dogSize" name="dogSize" class="form-control">
+                                            <option value="1">Small breed(20 lbs or less)</option>
+                                            <option value="2">Medium breed(21 to 50 lbs)</option>
+                                            <option value="3">Larger breed(51 to 100 lbs)</option>
+                                            <option value="4">Giant breed(greater 100 lbs)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                </div>
+                                <div class="text-center mt-5">
+                                    <p id="message">Human years</p>
+                                    <h4 id="humanYearResult"></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tabs Content End -->
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+
+    <script type="text/JavaScript">
+
+        $(document).ready(function () {
+
+            //Top Content Tabs and Description
+            $(".tab-list li").on("click", function () {
+                var tabId = ".tab-list li#" + $(this).attr("id");
+                var tabDivId = ".tabs-content#content-" + $(this).attr("id");
+
+                if (!$(this).hasClass("active")) {
+                    $(".tab-list li").removeClass("active");
+                    $(this).addClass("active");
+
+                    $(".tabs-content").removeClass("active");
+                    $(tabDivId).addClass("active");
+                }
+            });
+
+            // Get all input elements
+            const dogYears = document.getElementById('dogYears');
+            const dogSize = document.getElementById('dogSize');
+            const humanYearResult = document.getElementById('humanYearResult');
+
+            const humanYears = document.getElementById('humanYears');
+            const dogSize2 = document.getElementById('dogSize2');
+            const dogYearResult = document.getElementById('dogYearResult');
+
+            calculate1();
+            calculate2();
+
+            $("#dogYears").on("change", function () { calculate1(); });
+            $("#dogSize").on("change", function () { calculate1(); });
+
+            $("#humanYears").on("change", function () { calculate2(); });
+            $("#dogSize2").on("change", function () { calculate2(); });
+
+            function calculate1() {
+                // Get all input elements
+                var dogSizeValue = dogSize.value;
+                var dogYearValue = parseInt(dogYears.value) || 0;
+
+                let total = 0;
+                if (dogSizeValue == "1") {
+                    for (var i = 1; i <= dogYearValue; i++) {
+                        if (i == 1) {
+                            total += 15;
+                        }
+                        else if (i == 2) {
+                            total += 9;
+                        }
+                        else if (i == 3) {
+                            total += 4;
+                        }
+                        else if (i >= 3) {
+                            total += 4;
+                        }
+                    }
+                }
+                else if (dogSizeValue == "2") {
+                    for (var i = 1; i <= dogYearValue; i++) {
+                        if (i == 1) {
+                            total += 15;
+                        }
+                        else if (i == 2) {
+                            total += 9;
+                        }
+                        else if (i == 3) {
+                            total += 4;
+                        }
+                        else if (i == 4) {
+                            total += 4;
+                        }
+                        else if (i == 5) {
+                            total += 4;
+                        }
+                        else if (i == 6) {
+                            total += 6;
+                        }
+                        else if (i >= 7) {
+                            if (i % 2 == 0)
+                                total += 4;
+                            else
+                                total += 5;
+                        }
+                    }
+                }
+                else if (dogSizeValue == "3") {
+                    for (var i = 1; i <= dogYearValue; i++) {
+                        if (i == 1) {
+                            total += 15;
+                        }
+                        else if (i == 2) {
+                            total += 9;
+                        }
+                        else if (i == 3) {
+                            total += 4;
+                        }
+                        else if (i == 4) {
+                            total += 4;
+                        }
+                        else if (i == 5) {
+                            total += 4;
+                        }
+                        else if (i == 6) {
+                            total += 9;
+                        }
+                        else if (i == 7) {
+                            total += 5;
+                        }
+                        else if (i >= 8) {
+                            if (i % 2 == 0)
+                                total += 5;
+                            else
+                                total += 6;
+                        }
+                    }
+                }
+                else if (dogSizeValue == "4") {
+                    for (var i = 1; i <= dogYearValue; i++) {
+                        if (i == 1) {
+                            total += 12;
+                        }
+                        else if (i == 2) {
+                            total += 10;
+                        }
+                        else if (i == 3) {
+                            total += 9;
+                        }
+                        else if (i == 4) {
+                            total += 7;
+                        }
+                        else if (i == 5) {
+                            total += 7;
+                        }
+                        else if (i == 6) {
+                            total += 4;
+                        }
+                        else if (i == 7) {
+                            total += 7;
+                        }
+                        else if (i == 8) {
+                            total += 8;
+                        }
+                        else if (i == 9) {
+                            total += 7;
+                        }
+                        else if (i == 10) {
+                            total += 8;
+                        }
+                        else if (i >= 11) {
+                            total += 7;
+                        }
+                    }
+                }
+                humanYearResult.innerHTML = total;
+            }
+
+            function calculate2() {
+                // Get all input elements
+                // Get all input elements
+                var dogSizeValue = dogSize2.value;
+                var humanYearsValue = parseInt(humanYears.value) || 0;
+
+                let total = 0;
+                var i = 1;
+                if (dogSizeValue == "1") {
+                    i = 1;
+                    for (total = 0; total < humanYearsValue;) {
+                        if (i == 1) {
+                            total += 15;
+                        }
+                        else if (i == 2) {
+                            total += 9;
+                        }
+                        else if (i == 3) {
+                            total += 4;
+                        }
+                        else if (i >= 3) {
+                            total += 4;
+                        }
+                        i += 1;
+                    }
+                }
+                else if (dogSizeValue == "2") {
+                    i = 1;
+                    for (total = 0; total < humanYearsValue;) {
+                        if (i == 1) {
+                            total += 15;
+                        }
+                        else if (i == 2) {
+                            total += 9;
+                        }
+                        else if (i == 3) {
+                            total += 4;
+                        }
+                        else if (i == 4) {
+                            total += 4;
+                        }
+                        else if (i == 5) {
+                            total += 4;
+                        }
+                        else if (i == 6) {
+                            total += 6;
+                        }
+                        else if (i >= 7) {
+                            if (i % 2 == 0)
+                                total += 4;
+                            else
+                                total += 5;
+                        }
+                        i += 1;
+                    }
+                }
+                else if (dogSizeValue == "3") {
+                    i = 1;
+                    for (total = 0; total < humanYearsValue;) {
+                        if (i == 1) {
+                            total += 15;
+                        }
+                        else if (i == 2) {
+                            total += 9;
+                        }
+                        else if (i == 3) {
+                            total += 4;
+                        }
+                        else if (i == 4) {
+                            total += 4;
+                        }
+                        else if (i == 5) {
+                            total += 4;
+                        }
+                        else if (i == 6) {
+                            total += 9;
+                        }
+                        else if (i == 7) {
+                            total += 5;
+                        }
+                        else if (i >= 8) {
+                            if (i % 2 == 0)
+                                total += 5;
+                            else
+                                total += 6;
+                        }
+                        i += 1;
+                    }
+                }
+                else if (dogSizeValue == "4") {
+                    i = 1;
+                    for (total = 0; total < humanYearsValue;) {
+                        if (i == 1) {
+                            total += 12;
+                        }
+                        else if (i == 2) {
+                            total += 10;
+                        }
+                        else if (i == 3) {
+                            total += 9;
+                        }
+                        else if (i == 4) {
+                            total += 7;
+                        }
+                        else if (i == 5) {
+                            total += 7;
+                        }
+                        else if (i == 6) {
+                            total += 4;
+                        }
+                        else if (i == 7) {
+                            total += 7;
+                        }
+                        else if (i == 8) {
+                            total += 8;
+                        }
+                        else if (i == 9) {
+                            total += 7;
+                        }
+                        else if (i == 10) {
+                            total += 8;
+                        }
+                        else if (i >= 11) {
+                            total += 7;
+                        }
+                        i += 1;
+                    }
+                }
+                dogYearResult.innerHTML = (i - 1);
+            }
+        });
+    </script>
+</body>
+</html>
