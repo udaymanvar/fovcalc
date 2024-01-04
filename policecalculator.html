@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Police Reports Calculator</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link
+      href="https://fonts.gstatic.com"
+      rel="preconnect"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"
+      type="text/javascript"
+    ></script>
+    <script type="text/javascript">
+      WebFont.load({
+        google: {
+          families: ["DM Sans:regular,500,700"],
+        },
+      });
+    </script>
+
+    <style>
+      body {
+        background-color: #f6f8ff;
+        color: #474b64;
+        font-family: Thicccboi, sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.667em;
+        overflow-x: hidden;
+      }
+
+      .calculator-container {
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+        width: 70%;
+        max-width: 1024px;
+        padding: 30px;
+        border: 2px solid #5167f6;
+        margin: auto;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 48px;
+        margin: 10px 0;
+        font-weight: 700;
+        line-height: 50px;
+      }
+
+      .slider-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .cost-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .slider-label {
+        margin: 20px;
+        flex: 1;
+        margin-right: 10px;
+      }
+
+      input[type="range"] {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 17px;
+        background: #d8e4ff;
+        margin: 20px 0;
+        border-radius: 8px;
+      }
+
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 47px;
+        height: 47px;
+        background-color: black;
+        border-radius: 100%;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        z-index: 2;
+        position: relative;
+        left: 0;
+        right: 0;
+        top: -14px; /* Adjust this value to move the thumb up or down */
+      }
+
+      input[type="range"]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 17px;
+        border-radius: 25px;
+        border: none;
+      }
+
+      input[type="range"]::-moz-range-track {
+        width: 100%;
+        height: 17px;
+        border-radius: 25px;
+        border: none;
+      }
+
+      input[type="range"]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 17px;
+        border-radius: 25px;
+        border: none;
+      }
+
+      input[type="range"]::-moz-range-track {
+        width: 100%;
+        height: 17px;
+        border-radius: 25px;
+        border: none;
+      }
+
+      .section {
+        margin-bottom: 20px;
+      }
+
+      .cost-column {
+        box-sizing: border-box;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 10px;
+        flex: 1;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 2px solid #5167f6;
+      }
+
+      .cost-column img {
+        width: 100%;
+      }
+
+      .cost-column h2 {
+        margin-bottom: 32px;
+        margin-top: 32px;
+      }
+
+      .cost-column:last-of-type h2 {
+        margin-bottom: 63px;
+        margin-top: 63px;
+      }
+
+      .cost-column2 h2 {
+        margin-bottom: 47px;
+        margin-top: 47px;
+      }
+      .cost-column span {
+        font-weight: bold;
+      }
+
+      .highlight-box {
+        box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+        border: 2px solid #5167f6;
+      }
+      .price-wrap {
+        background-color: #3354ff;
+        border: 1px solid #3354ff;
+        border-radius: 9px;
+        padding: 15px 20px;
+        line-height: 46px;
+        color: white;
+      }
+
+      .cost-column:last-of-type .price-wrap {
+        font-size: 2em;
+      }
+
+      .saved-container {
+        padding-top: 20px;
+      }
+
+      /* Responsive styles for smaller screens */
+
+      @media (max-width: 1440px) {
+        .cost-column:first-of-type img {
+          margin-bottom: 5px;
+          margin-top: 5px;
+        }
+      }
+
+      @media (max-width: 1240px) {
+        .cost-column:first-of-type img {
+          margin-bottom: 15px;
+          margin-top: 15px;
+        }
+      }
+
+      /* Responsive styles for smaller screens */
+      @media (max-width: 768px) {
+        .calculator-container {
+          width: 90%;
+          padding: 10px;
+        }
+        .slider-container {
+          flex-direction: column;
+        }
+        .cost-container {
+          flex-direction: column;
+        }
+
+        .slider-label {
+          margin: 10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .calculator-container {
+          width: 95%;
+          padding: 5px;
+          margin: unset;
+        }
+      }
+    </style>
+
+    <script>
+      function updateValues() {
+        var reportsValue = document.getElementById("reports").value;
+        var timePerReportValue = parseFloat(
+          document.getElementById("timePerReport").value
+        ).toFixed(2);
+
+        document.getElementById("reportsValue").innerText = reportsValue;
+        document.getElementById("timePerReportValue").innerText =
+          timePerReportValue;
+
+        calculateCost();
+      }
+
+      function calculateCost() {
+        var reports = parseInt(document.getElementById("reports").value) || 0;
+        var timePerReport =
+          parseFloat(document.getElementById("timePerReport").value) * 60 || 0;
+
+        var withSystemCost = 100 + reports * 5 + (reports * timePerReport) / 60;
+        document.getElementById("withSystemCost").innerText =
+          "$" + withSystemCost.toFixed(2);
+
+        var withoutSystemCost = (35 * reports * timePerReport) / 60;
+        document.getElementById("withoutSystemCost").innerText =
+          "$" + withoutSystemCost.toFixed(2);
+
+        var costDifference = withoutSystemCost - withSystemCost;
+        var savedElement = document.getElementById("costDifference");
+        savedElement.innerText = "$" + costDifference.toFixed(2);
+        //savedElement.style.color = costDifference >= 0 ? "#3354ff" : "#474b64";
+      }
+
+      function event() {
+        // Get the range input element
+        var rangeInput = this;
+
+        // Calculate the percentage of the selected range
+        var percentage = (
+          ((rangeInput.value - rangeInput.min) /
+            (rangeInput.max - rangeInput.min)) *
+          100
+        ).toFixed(0);
+
+        // Update the gradient color dynamically
+        var trackColor =
+          "linear-gradient(to right, #5167f6 0%, #5167f6 " +
+          percentage +
+          "%, #d8e4ff " +
+          percentage +
+          "%, #d8e4ff 100%)";
+        rangeInput.style.background = trackColor;
+      }
+
+      window.onload = function () {
+        updateValues();
+        document.getElementById("reports").value = 0;
+        document.getElementById("timePerReport").value = 0;
+
+        document.getElementById("reports").addEventListener("input", event);
+        document
+          .getElementById("timePerReport")
+          .addEventListener("input", event);
+      };
+    </script>
+  </head>
+
+  <body>
+    <div class="calculator-container">
+      <h1>Police Reports Calculator</h1>
+      <div class="section slider-container">
+        <div class="slider-label">
+          <label for="reports">Officer amount of reports per month:</label>
+          <input
+            type="range"
+            id="reports"
+            min="0"
+            max="100"
+            value="4"
+            oninput="updateValues()"
+          />
+          <span id="reportsValue">0</span>
+        </div>
+
+        <div class="slider-label">
+          <label for="timePerReport">AVG time spent per report (hours):</label>
+          <input
+            type="range"
+            id="timePerReport"
+            min="0"
+            max="10"
+            step="0.01"
+            value="2"
+            oninput="updateValues()"
+          />
+          <span id="timePerReportValue">0.00</span> hours
+        </div>
+      </div>
+
+      <div class="section cost-container">
+        <div class="cost-column highlight-box">
+          <img
+            src="https://assets-global.website-files.com/6553cfbae234e969459cf179/6555ddc5de139e07366229b8_police%20no%20bg-p-800.png"
+          />
+          <p class="price-wrap">
+            <span id="withSystemCost">$0.00</span> / Month
+          </p>
+        </div>
+
+        <div class="cost-column cost-column2">
+          <h2>Without policereports.ai</h2>
+          <p class="price-wrap">
+            <span id="withoutSystemCost">$0.00</span> / Month
+          </p>
+        </div>
+        <div class="cost-column">
+          <h2>Saved</h2>
+          <p class="price-wrap">
+            <span id="costDifference" style="font-weight: bold">$0.00</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
