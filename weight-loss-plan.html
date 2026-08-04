@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uday — Weight Loss Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F4EE;
+    --panel:#FFFFFF;
+    --ink:#1C2420;
+    --ink-soft:#5B665F;
+    --line:#E4E0D4;
+
+    --forest:#1F6F50;
+    --forest-deep:#153F32;
+    --amber:#C97A2B;
+    --cardio:#2E6E8E;
+
+    --spice:#B5432A;
+    --spice-deep:#7C2C1B;
+    --turmeric:#D9A441;
+
+    --accent:var(--forest);
+    --accent-deep:var(--forest-deep);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,sans-serif;
+    line-height:1.5;
+    padding-bottom:60px;
+  }
+
+  /* ---- top-level mode switch ---- */
+  .mode-bar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    background:var(--accent-deep);
+    padding:8px;
+    gap:8px;
+  }
+  .mode-bar button{
+    flex:1;
+    border:none;
+    background:rgba(255,255,255,.12);
+    color:#F6F4EE;
+    font-family:'Inter',sans-serif;
+    font-weight:700;
+    font-size:14px;
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    letter-spacing:.01em;
+    transition:background .15s;
+  }
+  .mode-bar button.active{
+    background:#F6F4EE;
+    color:var(--accent-deep);
+  }
+
+  header.hero{
+    color:#F6F4EE;
+    padding:32px 20px 26px;
+    transition:background .2s;
+  }
+  body.mode-exercise header.hero{background:linear-gradient(160deg,var(--forest-deep),var(--forest));}
+  body.mode-diet header.hero{background:linear-gradient(160deg,var(--spice-deep),var(--spice));}
+
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    opacity:.85;
+    margin:0 0 10px;
+  }
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:clamp(26px,7vw,38px);
+    margin:0 0 6px;
+    line-height:1.05;
+  }
+  .hero-sub{opacity:.92;font-size:14.5px;margin:0 0 18px;}
+  .stat-row{display:flex;flex-wrap:wrap;gap:10px;}
+  .stat{
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.2);
+    border-radius:10px;
+    padding:8px 12px;
+    font-size:13px;
+  }
+  .stat b{display:block;font-family:'JetBrains Mono',monospace;font-size:15px;}
+
+  nav.daynav{
+    position:sticky;
+    top:52px;
+    z-index:10;
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    background:var(--bg);
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    -webkit-overflow-scrolling:touch;
+  }
+  nav.daynav a{
+    flex:0 0 auto;
+    text-decoration:none;
+    color:var(--accent-deep);
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:8px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    white-space:nowrap;
+  }
+  nav.daynav a.rest{color:var(--amber);}
+
+  main{max-width:760px;margin:0 auto;padding:0 16px;}
+
+  section.day{
+    padding:32px 0 8px;
+    border-bottom:1px solid var(--line);
+    scroll-margin-top:112px;
+  }
+  section.day:last-of-type{border-bottom:none;}
+  .day-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--accent);
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  h2{font-family:'Fraunces',serif;font-size:24px;margin:4px 0 6px;}
+  .warmup{color:var(--ink-soft);font-size:14px;font-style:italic;margin:0 0 18px;}
+  h3{
+    font-size:13.5px;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    margin:26px 0 10px;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    background:var(--panel);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+    font-size:14px;
+  }
+  th{
+    background:var(--accent);
+    color:#fff;
+    text-align:left;
+    padding:10px 12px;
+    font-weight:600;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+  td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top;}
+  tr:nth-child(even) td{background:#FAF9F4;}
+  td.weight{font-family:'JetBrains Mono',monospace;color:var(--amber);font-weight:600;white-space:nowrap;}
+  .cardio-badge{
+    display:inline-block;background:var(--cardio);color:#fff;font-size:11px;
+    padding:2px 8px;border-radius:6px;margin-left:8px;vertical-align:middle;
+  }
+
+  .videos{list-style:none;margin:0;padding:0;display:grid;gap:8px;}
+  .videos li{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;display:flex;justify-content:space-between;align-items:center;
+    gap:10px;font-size:14px;
+  }
+  .videos li span.ex{font-weight:600;}
+  .videos a{
+    color:var(--accent);font-weight:600;text-decoration:none;font-size:13px;
+    display:flex;align-items:center;gap:4px;flex-shrink:0;
+  }
+  .videos a:hover{text-decoration:underline;}
+  .videos a::after{content:"▶";font-size:10px;}
+
+  .rules{margin:8px 0 0;padding-left:20px;}
+  .rules li{margin-bottom:8px;font-size:14px;}
+
+  .meals{display:grid;gap:10px;}
+  .meal{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:baseline;
+  }
+  .meal .label{
+    font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--turmeric);font-weight:600;
+  }
+  .meal .food{font-size:14.5px;}
+
+  .tip{
+    background:#FFF6E9;border:1px solid #F0DCB4;color:#7A5310;
+    padding:10px 14px;border-radius:10px;font-size:13px;margin-top:16px;
+  }
+  a.top-link{display:inline-block;margin-top:18px;font-size:12px;color:var(--ink-soft);text-decoration:none;}
+  footer{max-width:760px;margin:30px auto 0;padding:0 16px;color:var(--ink-soft);font-size:12px;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+</style>
+</head>
+<body class="mode-exercise" id="top">
+
+<div class="mode-bar">
+  <button id="btn-exercise" class="active" onclick="setMode('exercise')">🏋️ Exercise Plan</button>
+  <button id="btn-diet" onclick="setMode('diet')">🥗 Diet Plan</button>
+</div>
+
+<!-- ================= EXERCISE VIEW ================= -->
+<div id="view-exercise" class="view active">
+
+  <header class="hero">
+    <p class="eyebrow">Uday · Workout Program</p>
+    <h1>Exercise Plan</h1>
+    <p class="hero-sub">3 months in → gym, 6 days/week, gym's Weight Loss-Vol-1 split</p>
+    <div class="stat-row">
+      <div class="stat"><b>119 kg</b>Current</div>
+      <div class="stat"><b>&lt;100 kg</b>Target</div>
+      <div class="stat"><b>184 cm</b>Height</div>
+      <div class="stat"><b>36</b>Age</div>
+    </div>
+  </header>
+
+  <nav class="daynav">
+    <a href="#day1">Mon</a>
+    <a href="#day2">Tue</a>
+    <a href="#day3">Wed</a>
+    <a href="#day4">Thu</a>
+    <a href="#day5">Fri</a>
+    <a href="#day6">Sat</a>
+    <a href="#day7" class="rest">Sun</a>
+    <a href="#rules">Rules</a>
+  </nav>
+
+  <main>
+    <p style="background:#FFF6E9;border:1px solid #F0DCB4;color:#7A5310;padding:10px 14px;border-radius:10px;font-size:13px;margin-top:16px;">Rebuilt around your gym's actual "Weight Loss-Vol-1" split. You're 3 months in, so weights below are intermediate starting estimates — adjust up or down based on what you're already lifting.</p>
+
+
+    <section class="day" id="day1">
+      <p class="day-tag">Monday</p>
+      <h2>Cardio + Leg <span class="cardio-badge">Cardio</span></h2>
+      <p class="warmup">Warm-up: 5 min easy pace + bodyweight squats x10</p>
+      <table>
+        <tr><th>Exercise</th><th>Duration/Notes</th><th>Effort</th></tr>
+        <tr><td>Air Bike</td><td>8–10 min</td><td class="weight">Moderate-high, steady</td></tr>
+        <tr><td>Treadmill</td><td>15–20 min</td><td class="weight">Incline walk/light jog</td></tr>
+      </table>
+
+      <h3>Leg</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Weight</th></tr>
+        <tr><td>Squat (goblet)</td><td>3 × 12–15</td><td class="weight">14–18 kg dumbbell</td></tr>
+        <tr><td>Bodyweight walking lunge</td><td>3 × 12/leg</td><td class="weight">Bodyweight → 6–8 kg/hand</td></tr>
+        <tr><td>Bodyweight sumo squat</td><td>3 × 15</td><td class="weight">Bodyweight</td></tr>
+        <tr><td>Leg extension</td><td>3 × 12</td><td class="weight">30–40 kg</td></tr>
+        <tr><td>Leg curl</td><td>3 × 12</td><td class="weight">25–35 kg</td></tr>
+        <tr><td>Wall sit</td><td>3 × 40–60 sec</td><td class="weight">Bodyweight</td></tr>
+      </table>
+
+      <h3>Cool-down: Targeted Stretch</h3>
+      <table>
+        <tr><th>Move</th><th>Duration</th><th>Why</th></tr>
+        <tr><td>Standing quad stretch</td><td>20–30 sec/side</td><td>Releases quads after squats/extensions</td></tr>
+        <tr><td>Standing hamstring stretch</td><td>20–30 sec/side</td><td>Releases hamstrings after curls</td></tr>
+        <tr><td>Hip flexor lunge stretch</td><td>30 sec/side</td><td>Opens hips after lunges/wall sit</td></tr>
+        <tr><td>Calf stretch (wall lean)</td><td>20–30 sec/side</td><td>Releases calves after air bike/treadmill</td></tr>
+      </table>
+
+      <h3>Video Guide</h3>
+      <ul class="videos">
+        <li><span class="ex">Air Bike</span><a href="https://www.youtube.com/watch?v=H7LglMSGCzo" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Squat</span><a href="https://www.youtube.com/watch?v=PGFvWqAQRm8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Walking lunge</span><a href="https://www.youtube.com/watch?v=2MbSPOB24XQ" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Sumo squat</span><a href="https://www.youtube.com/watch?v=kjlfpqXnyL8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Leg extension</span><a href="https://www.youtube.com/watch?v=tTbJBUKnWU8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Leg curl</span><a href="https://www.youtube.com/watch?v=SbSNUXPRkc8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Wall sit</span><a href="https://www.youtube.com/watch?v=JaZNYM3zAP0" target="_blank" rel="noopener">Watch</a></li>
+      </ul>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="day2">
+      <p class="day-tag">Tuesday</p>
+      <h2>Cardio + Abs <span class="cardio-badge">Cardio</span></h2>
+      <p class="warmup">Warm-up: 5 min easy pace</p>
+      <table>
+        <tr><th>Exercise</th><th>Duration/Sets</th><th>Notes</th></tr>
+        <tr><td>Incline treadmill</td><td>20 min</td><td>Incline 4–6%, moderate pace</td></tr>
+        <tr><td>Elliptical machine</td><td>15 min</td><td>Moderate pace</td></tr>
+        <tr><td>Jumping jack</td><td>3 × 40 sec</td><td>Bodyweight</td></tr>
+        <tr><td>Butt kicks</td><td>3 × 40 sec</td><td>Bodyweight</td></tr>
+        <tr><td>Rowing machine</td><td>10 min</td><td>Steady pace</td></tr>
+      </table>
+
+      <h3>Abs</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+        <tr><td>Floor crunch</td><td>3 × 20</td><td>Bodyweight</td></tr>
+        <tr><td>Lying leg raise</td><td>3 × 15</td><td>Bodyweight, controlled</td></tr>
+      </table>
+
+      <h3>Cool-down: Targeted Stretch</h3>
+      <table>
+        <tr><th>Move</th><th>Duration</th><th>Why</th></tr>
+        <tr><td>Child's Pose</td><td>45–60 sec</td><td>Releases lower back after ab work</td></tr>
+        <tr><td>Seated spinal twist</td><td>30 sec/side</td><td>Releases core/lower back</td></tr>
+        <tr><td>Hip flexor lunge stretch</td><td>30 sec/side</td><td>Opens hips after cardio</td></tr>
+      </table>
+
+      <h3>Video Guide</h3>
+      <ul class="videos">
+        <li><span class="ex">Incline treadmill</span><a href="https://www.youtube.com/watch?v=K5n2vg3oZa4" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Elliptical machine</span><a href="https://www.youtube.com/watch?v=gxx68DtqLso" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Jumping jack</span><a href="https://www.youtube.com/watch?v=Q4QnlZs9PqI" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Butt kicks</span><a href="https://www.youtube.com/watch?v=oMW59TKZvaI" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Rowing machine</span><a href="https://www.youtube.com/watch?v=4zWu1yuJ0_g" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Floor crunch</span><a href="https://www.youtube.com/watch?v=GWIEON0VSaY" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Lying leg raise</span><a href="https://www.youtube.com/watch?v=sY2ZgV2Sj_s" target="_blank" rel="noopener">Watch</a></li>
+      </ul>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="day3">
+      <p class="day-tag">Wednesday</p>
+      <h2>Cardio + Back + Bicep <span class="cardio-badge">Cardio</span></h2>
+      <p class="warmup">Warm-up: 5 min easy pace + arm circles</p>
+      <table>
+        <tr><th>Exercise</th><th>Duration/Notes</th><th>Effort</th></tr>
+        <tr><td>Mountain climber</td><td>3 × 40 sec</td><td class="weight">Bodyweight</td></tr>
+        <tr><td>Treadmill</td><td>15–20 min</td><td class="weight">Moderate pace</td></tr>
+      </table>
+
+      <h3>Back</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Weight</th></tr>
+        <tr><td>Dumbbell row</td><td>3 × 12/side</td><td class="weight">12–16 kg</td></tr>
+        <tr><td>Pull up</td><td>3 × 6–8</td><td class="weight">Assisted if needed</td></tr>
+        <tr><td>Reverse lat pulldown</td><td>3 × 12</td><td class="weight">30–40 kg</td></tr>
+        <tr><td>Back extension</td><td>3 × 15</td><td class="weight">Bodyweight → add plate</td></tr>
+        <tr><td>Lat pulldown</td><td>3 × 12</td><td class="weight">35–45 kg</td></tr>
+      </table>
+
+      <h3>Bicep</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Weight</th></tr>
+        <tr><td>Dumbbell curl</td><td>3 × 12</td><td class="weight">10–12 kg</td></tr>
+        <tr><td>Hammer curl</td><td>3 × 12</td><td class="weight">10–12 kg</td></tr>
+      </table>
+
+      <h3>Cool-down: Targeted Stretch</h3>
+      <table>
+        <tr><th>Move</th><th>Duration</th><th>Why</th></tr>
+        <tr><td>Child's Pose</td><td>45–60 sec</td><td>Decompresses spine after pulling work</td></tr>
+        <tr><td>Overhead lat stretch</td><td>20–30 sec/side</td><td>Releases lats after rows/pulldowns</td></tr>
+        <tr><td>Doorway chest stretch</td><td>30 sec</td><td>Counters rounded posture from back day</td></tr>
+        <tr><td>Wrist/forearm stretch</td><td>20 sec/side</td><td>Releases forearms after curls</td></tr>
+      </table>
+
+      <h3>Video Guide</h3>
+      <ul class="videos">
+        <li><span class="ex">Mountain climber</span><a href="https://www.youtube.com/watch?v=hq_0YlyfqGM" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Dumbbell row</span><a href="https://www.youtube.com/watch?v=gfUg6qWohTk" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Pull up</span><a href="https://www.youtube.com/watch?v=4XorXm1lAOg" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Reverse lat pulldown</span><a href="https://www.youtube.com/watch?v=SNiwpA13ZLU" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Back extension</span><a href="https://www.youtube.com/watch?v=xIr3O7aT-cM" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Lat pulldown</span><a href="https://www.youtube.com/watch?v=Z_3xHwuO8Tk" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Dumbbell curl</span><a href="https://www.youtube.com/watch?v=in7PaeYlhrM" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Hammer curl</span><a href="https://www.youtube.com/watch?v=G7hy-AxQwcQ" target="_blank" rel="noopener">Watch</a></li>
+      </ul>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="day4">
+      <p class="day-tag">Thursday</p>
+      <h2>Cardio + Abs <span class="cardio-badge">Cardio</span></h2>
+      <p class="warmup">Warm-up: 5 min easy pace</p>
+      <table>
+        <tr><th>Exercise</th><th>Duration/Sets</th><th>Notes</th></tr>
+        <tr><td>Fast feet run</td><td>3 × 30 sec</td><td>Quick, light steps</td></tr>
+        <tr><td>Incline treadmill</td><td>15 min</td><td>Incline 4–6%</td></tr>
+        <tr><td>Jump squat</td><td>3 × 12</td><td>Bodyweight</td></tr>
+        <tr><td>Elliptical machine</td><td>10 min</td><td>Moderate pace</td></tr>
+        <tr><td>Burpees</td><td>3 × 10</td><td>Bodyweight</td></tr>
+      </table>
+
+      <h3>Abs</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+        <tr><td>Russian twist</td><td>3 × 20 (10/side)</td><td>Bodyweight or light plate</td></tr>
+        <tr><td>Heel touch</td><td>3 × 20 (10/side)</td><td>Bodyweight</td></tr>
+        <tr><td>Plank</td><td>3 × 40–60 sec</td><td>Bodyweight</td></tr>
+      </table>
+
+      <h3>Cool-down: Targeted Stretch</h3>
+      <table>
+        <tr><th>Move</th><th>Duration</th><th>Why</th></tr>
+        <tr><td>Standing hamstring stretch</td><td>20–30 sec/side</td><td>Releases hamstrings after jump squats</td></tr>
+        <tr><td>Hip flexor lunge stretch</td><td>30 sec/side</td><td>Opens hips after burpees/running</td></tr>
+        <tr><td>Child's Pose</td><td>45–60 sec</td><td>Releases core/lower back</td></tr>
+      </table>
+
+      <h3>Video Guide</h3>
+      <ul class="videos">
+        <li><span class="ex">Fast feet run</span><a href="https://www.youtube.com/watch?v=mP2zippJ4SQ" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Jump squat</span><a href="https://www.youtube.com/watch?v=tZjZxrAeVjg" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Burpees</span><a href="https://www.youtube.com/watch?v=bTh6KWfW-r8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Russian twist</span><a href="https://www.youtube.com/watch?v=JyUqwkVpsi8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Heel touch</span><a href="https://www.youtube.com/watch?v=fLajmFLpJ_w" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Plank</span><a href="https://www.youtube.com/watch?v=HaH4JvdBCfE" target="_blank" rel="noopener">Watch</a></li>
+      </ul>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="day5">
+      <p class="day-tag">Friday</p>
+      <h2>Cardio + Shoulder + Chest + Triceps <span class="cardio-badge">Cardio</span></h2>
+      <p class="warmup">Warm-up: 5 min easy pace + arm circles</p>
+      <table>
+        <tr><th>Exercise</th><th>Duration</th><th>Notes</th></tr>
+        <tr><td>Treadmill</td><td>15–20 min</td><td>Moderate pace</td></tr>
+      </table>
+
+      <h3>Shoulder</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Weight</th></tr>
+        <tr><td>Dumbbell shoulder press</td><td>3 × 12</td><td class="weight">10–12 kg/hand</td></tr>
+        <tr><td>Dumbbell lateral raise</td><td>3 × 12</td><td class="weight">5–7 kg/hand</td></tr>
+      </table>
+
+      <h3>Chest</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Weight</th></tr>
+        <tr><td>Dumbbell press (flat)</td><td>3 × 12</td><td class="weight">14–18 kg/hand</td></tr>
+        <tr><td>Chest press machine</td><td>3 × 12</td><td class="weight">35–45 kg</td></tr>
+        <tr><td>Dumbbell fly</td><td>3 × 12</td><td class="weight">8–10 kg/hand</td></tr>
+        <tr><td>Incline dumbbell press</td><td>3 × 12</td><td class="weight">12–16 kg/hand</td></tr>
+      </table>
+
+      <h3>Triceps</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Weight</th></tr>
+        <tr><td>Cable crossover tricep</td><td>3 × 12</td><td class="weight">15–20 kg</td></tr>
+      </table>
+
+      <h3>Cool-down: Targeted Stretch</h3>
+      <table>
+        <tr><th>Move</th><th>Duration</th><th>Why</th></tr>
+        <tr><td>Doorway chest stretch</td><td>30 sec</td><td>Opens chest after pressing/fly work</td></tr>
+        <tr><td>Cross-body shoulder stretch</td><td>20 sec/side</td><td>Releases shoulders after press/raise</td></tr>
+        <tr><td>Overhead triceps stretch</td><td>20 sec/side</td><td>Releases triceps after pushdowns</td></tr>
+      </table>
+
+      <h3>Video Guide</h3>
+      <ul class="videos">
+        <li><span class="ex">Dumbbell shoulder press</span><a href="https://www.youtube.com/watch?v=GFblCmuEE18" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Dumbbell lateral raise</span><a href="https://www.youtube.com/watch?v=ssAo_xwFt5c" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Dumbbell press (flat)</span><a href="https://www.youtube.com/watch?v=9y0_-g8nxSc" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Chest press machine</span><a href="https://www.youtube.com/watch?v=pLofEAcfsO8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Dumbbell fly</span><a href="https://www.youtube.com/watch?v=JSDpq14vCZ8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Incline dumbbell press</span><a href="https://www.youtube.com/watch?v=VDU5bzE2qOE" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Cable crossover tricep</span><a href="https://www.youtube.com/watch?v=mQKXj9cvEbA" target="_blank" rel="noopener">Watch</a></li>
+      </ul>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="day6">
+      <p class="day-tag">Saturday</p>
+      <h2>Cardio + Abs <span class="cardio-badge">Cardio</span></h2>
+      <p class="warmup">Warm-up: 5 min easy pace</p>
+      <table>
+        <tr><th>Exercise</th><th>Duration/Sets</th><th>Notes</th></tr>
+        <tr><td>Burpees</td><td>3 × 10</td><td>Bodyweight</td></tr>
+        <tr><td>Butt kicks</td><td>3 × 40 sec</td><td>Bodyweight</td></tr>
+        <tr><td>Elbow to knee twists</td><td>3 × 20 (10/side)</td><td>Bodyweight</td></tr>
+        <tr><td>Mountain climber</td><td>3 × 40 sec</td><td>Bodyweight</td></tr>
+        <tr><td>Elliptical machine</td><td>15 min</td><td>Moderate pace</td></tr>
+      </table>
+
+      <h3>Abs</h3>
+      <table>
+        <tr><th>Exercise</th><th>Sets × Reps</th><th>Notes</th></tr>
+        <tr><td>Floor crunch</td><td>3 × 20</td><td>Bodyweight</td></tr>
+      </table>
+
+      <h3>Cool-down: Full-Body Stretch</h3>
+      <table>
+        <tr><th>Move</th><th>Duration</th><th>Why</th></tr>
+        <tr><td>Seated forward fold</td><td>2 × 30 sec</td><td>Releases hamstrings/lower back</td></tr>
+        <tr><td>Hip flexor lunge stretch</td><td>30 sec/side</td><td>Opens hips after burpees/mountain climbers</td></tr>
+        <tr><td>Child's Pose</td><td>45–60 sec</td><td>Full recovery for the week</td></tr>
+      </table>
+
+      <h3>Video Guide</h3>
+      <ul class="videos">
+        <li><span class="ex">Burpees</span><a href="https://www.youtube.com/watch?v=bTh6KWfW-r8" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Butt kicks</span><a href="https://www.youtube.com/watch?v=oMW59TKZvaI" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Elbow to knee twists</span><a href="https://www.youtube.com/watch?v=IZ8_X5vK8Ug" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Mountain climber</span><a href="https://www.youtube.com/watch?v=hq_0YlyfqGM" target="_blank" rel="noopener">Watch</a></li>
+        <li><span class="ex">Floor crunch</span><a href="https://www.youtube.com/watch?v=GWIEON0VSaY" target="_blank" rel="noopener">Watch</a></li>
+      </ul>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="day7">
+      <p class="day-tag">Sunday</p>
+      <h2>Rest</h2>
+      <p>Full rest day. Light walking is fine but no structured training. Given your 6-day cardio + split schedule, this day matters for recovery — don't skip it even if you feel good.</p>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="rules">
+      <p class="day-tag">Reference</p>
+      <h2>Progression Rules</h2>
+      <ul class="rules">
+        <li>These are intermediate starting estimates for someone 3 months into training — if you already lift heavier than what's listed for any exercise, use your current working weight instead.</li>
+        <li>Progress when reps feel easy with good form for 2 consecutive sessions: add 2.5–5 kg on machines/cables, 1–2 kg on dumbbells.</li>
+        <li>Pull-ups: use assisted machine or resistance band if you can't yet do 6–8 clean bodyweight reps — reduce assistance as you get stronger.</li>
+        <li>If a joint aches, drop the weight — never push through pain.</li>
+        <li>Track weight/measurements weekly, not daily — daily fluctuation isn't meaningful.</li>
+        <li>Friday is your longest day (shoulder + chest + triceps + cardio) — if it feels rushed, the cardio can move to the start or end depending on gym crowding.</li>
+      </ul>
+      <div class="tip">Switch to the <b>🥗 Diet Plan</b> tab above for the full Gujarati meal plan.</div>
+    </section>
+
+  </main>
+
+  </main>
+
+  <footer>Prepared for Uday · Age 36 · Height 184 cm · 119 kg → &lt;100 kg goal</footer>
+</div>
+
+<!-- ================= DIET VIEW ================= -->
+<div id="view-diet" class="view">
+
+  <header class="hero">
+    <p class="eyebrow">Uday · Vegetarian Gujarati Diet</p>
+    <h1>Diet Plan</h1>
+    <p class="hero-sub">Fat-loss adjusted, high-protein, home-style Gujarati thali</p>
+    <div class="stat-row">
+      <div class="stat"><b>~2400–2500</b>kcal/day</div>
+      <div class="stat"><b>~150–160g</b>Protein/day</div>
+      <div class="stat"><b>0.7–1 kg</b>Loss/week</div>
+    </div>
+  </header>
+
+  <nav class="daynav">
+    <a href="#dday1">Day 1</a>
+    <a href="#dday2">Day 2</a>
+    <a href="#dday3">Day 3</a>
+    <a href="#dday4">Day 4</a>
+    <a href="#dday5">Day 5</a>
+    <a href="#swap">Swap List</a>
+    <a href="#drules">Rules</a>
+  </nav>
+
+  <main>
+
+    <section class="day" id="dday1">
+      <p class="day-tag">Sample Day 1</p>
+      <h2>Moong Dal & Curd Day</h2>
+      <div class="meals">
+        <div class="meal"><span class="label">Breakfast</span><span class="food">Moong dal chilla (2–3) + curd + sprouts salad</span></div>
+        <div class="meal"><span class="label">Mid-morning</span><span class="food">Buttermilk (chaas) + handful nuts</span></div>
+        <div class="meal"><span class="label">Lunch</span><span class="food">2 bajra rotla + dal + shaak (less oil) + kachumber salad + small bowl curd</span></div>
+        <div class="meal"><span class="label">Evening</span><span class="food">Roasted chana or sprouts bhel (no fried sev)</span></div>
+        <div class="meal"><span class="label">Dinner</span><span class="food">Paneer bhurji or tofu sabzi + 1–2 rotli + salad</span></div>
+      </div>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="dday2">
+      <p class="day-tag">Sample Day 2</p>
+      <h2>Besan Cheela Day</h2>
+      <div class="meals">
+        <div class="meal"><span class="label">Breakfast</span><span class="food">Besan/moong dal cheela (3) + mint chutney + 1 cup curd</span></div>
+        <div class="meal"><span class="label">Mid-morning</span><span class="food">1 fruit (apple/guava) + roasted chana (1 handful)</span></div>
+        <div class="meal"><span class="label">Lunch</span><span class="food">2 jowar rotla + toor dal + lauki/turai shaak (light oil) + kachumber + chaas</span></div>
+        <div class="meal"><span class="label">Evening</span><span class="food">Sprouts salad (moong + chana) with lemon and chaat masala</span></div>
+        <div class="meal"><span class="label">Dinner</span><span class="food">Paneer tikka (grilled, no cream) + 1–2 rotli + cucumber raita</span></div>
+      </div>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="dday3">
+      <p class="day-tag">Sample Day 3</p>
+      <h2>Oats & Rajma Day</h2>
+      <div class="meals">
+        <div class="meal"><span class="label">Breakfast</span><span class="food">Oats + milk + handful nuts + chopped fruit</span></div>
+        <div class="meal"><span class="label">Mid-morning</span><span class="food">Buttermilk + 5–6 almonds</span></div>
+        <div class="meal"><span class="label">Lunch</span><span class="food">2 bajra rotla + rajma or chana curry (less oil) + bhindi shaak + salad</span></div>
+        <div class="meal"><span class="label">Evening</span><span class="food">Steamed dhokla (2–3 pieces) + green chutney</span></div>
+        <div class="meal"><span class="label">Dinner</span><span class="food">Tofu/paneer bhurji + 1 rotli + moong dal soup</span></div>
+      </div>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="dday4">
+      <p class="day-tag">Sample Day 4</p>
+      <h2>Khichdi & Masoor Day</h2>
+      <div class="meals">
+        <div class="meal"><span class="label">Breakfast</span><span class="food">Sprouts + moong dal khichdi (small portion) + curd</span></div>
+        <div class="meal"><span class="label">Mid-morning</span><span class="food">Chaas + 1 fruit</span></div>
+        <div class="meal"><span class="label">Lunch</span><span class="food">2 rotli + masoor dal + tindora/dudhi shaak + salad + curd</span></div>
+        <div class="meal"><span class="label">Evening</span><span class="food">Roasted makhana (foxnuts) + green tea</span></div>
+        <div class="meal"><span class="label">Dinner</span><span class="food">Paneer + veg stir fry (minimal oil) + 1 rotli</span></div>
+      </div>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="dday5">
+      <p class="day-tag">Sample Day 5</p>
+      <h2>Handvo & Palak Paneer Day</h2>
+      <div class="meals">
+        <div class="meal"><span class="label">Breakfast</span><span class="food">Handvo (baked, not fried) + curd</span></div>
+        <div class="meal"><span class="label">Mid-morning</span><span class="food">Sprouts chaat</span></div>
+        <div class="meal"><span class="label">Lunch</span><span class="food">2 jowar rotla + chana dal + karela or cabbage shaak + kachumber + chaas</span></div>
+        <div class="meal"><span class="label">Evening</span><span class="food">Roasted chana + cucumber sticks</span></div>
+        <div class="meal"><span class="label">Dinner</span><span class="food">Palak paneer (light cream/no cream) + 1 rotli + salad</span></div>
+      </div>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="swap">
+      <p class="day-tag">Reference</p>
+      <h2>Diet Swap List — build any day</h2>
+      <ul class="rules">
+        <li><b>Dals to rotate:</b> toor, moong, chana, masoor, rajma</li>
+        <li><b>Shaak to rotate:</b> bhindi, lauki, turai, tindora, karela, cabbage, dudhi</li>
+        <li><b>Protein boosters:</b> paneer, tofu, sprouts, curd, chaas, roasted chana, moong dal</li>
+        <li><b>Avoid daily:</b> fried farsan, extra ghee, sugar in dal/kadhi, white rice at dinner</li>
+      </ul>
+      <a class="top-link" href="#top">↑ Back to top</a>
+    </section>
+
+    <section class="day" id="drules">
+      <p class="day-tag">Reference</p>
+      <h2>Diet Rules That Matter Most</h2>
+      <ul class="rules">
+        <li>Steam/roast farsan (dhokla, khandvi) instead of frying — occasional treat, not daily.</li>
+        <li>Use measured oil — 1–2 tsp per dish, not poured.</li>
+        <li>Swap white rice for smaller portions or skip at dinner.</li>
+        <li>Curd/chaas at most meals — cheap protein + digestion aid.</li>
+        <li>No added sugar in kadhi/dal/shaak — cook it plain.</li>
+      </ul>
+      <div class="tip">Switch to the <b>🏋️ Exercise Plan</b> tab above for sets, weights, and video guides.</div>
+    </section>
+
+  </main>
+
+  <footer>Prepared for Uday · Target intake ~2400–2500 kcal/day · Protein ~150–160g/day</footer>
+</div>
+
+<script>
+  function setMode(mode){
+    document.body.classList.remove('mode-exercise','mode-diet');
+    document.body.classList.add('mode-' + mode);
+    document.getElementById('view-exercise').classList.toggle('active', mode === 'exercise');
+    document.getElementById('view-diet').classList.toggle('active', mode === 'diet');
+    document.getElementById('btn-exercise').classList.toggle('active', mode === 'exercise');
+    document.getElementById('btn-diet').classList.toggle('active', mode === 'diet');
+    window.scrollTo(0,0);
+  }
+</script>
+
+</body>
+</html>
